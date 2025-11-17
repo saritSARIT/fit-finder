@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { client } from "../../../lib/mongo";
-import { findUserByEmail, createUser, UserType } from "../../../services/userService";
+import { client } from "../../../../lib/mongo";
+import { findUserByEmail, createUser, UserType } from "../../../../services/userService";
 
 export const authOptions = {
   providers: [
