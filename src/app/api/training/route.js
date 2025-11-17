@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { client } from "../../services/server/mongo";
-import { TrainingSchema } from "../../../models/Training";
+import { client } from "../../../lib/mongo";
+import { TrainingSchema } from "../../../lib/validation/Training";
 
 
 // שליפת כל האימונים

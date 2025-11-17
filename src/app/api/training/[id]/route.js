@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { client } from "../../../services/server/mongo";
+import { client } from "../../../../lib/mongo";
 import { ObjectId } from "mongodb";
-import { TrainingSchema } from "../../../../models/Training";
+import { TrainingSchema } from "../../../../lib/validation/Training";
 
 
 //שליפת אימון לפי מזהה (_id)

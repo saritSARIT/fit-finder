@@ -1,8 +1,7 @@
-// app/api/auth/[...nextauth]/route.ts
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { client } from "../../../services/server/mongo";
-import { findUserByEmail, createUser, UserType } from "../../../services/server/userService";
+import { client } from "../../../lib/mongo";
+import { findUserByEmail, createUser, UserType } from "../../../services/userService";
 
 export const authOptions = {
   providers: [

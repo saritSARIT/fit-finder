@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { client } from "@/app/services/server/mongo";
+import { client } from "@/lib/mongo";
 import bcrypt from "bcryptjs";
 
 export async function POST(req: Request) {
