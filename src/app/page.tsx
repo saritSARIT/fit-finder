@@ -35,6 +35,7 @@ const handlePrev = () => {
 
 
   return (
+<<<<<<< HEAD
     <div className="home-container">
       {/* --- HEADER --- */}
       <header className="header">
@@ -129,6 +130,11 @@ const handlePrev = () => {
       {/* --- MODALS (חלונות צד) --- */}
       {showLogin && <Login onClose={() => setShowLogin(false)} />}
       {showSignUp && <SignUp onClose={() => setShowSignUp(false)} />}
+=======
+    <div>
+
+      <h1>main</h1>
+>>>>>>> a5ad130919697f930a621356cc3b79c7dfb0c86e
     </div>
   );
 }
