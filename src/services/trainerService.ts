@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
-import { client } from "../server/mongo";
-import { TrainerSchema } from "@/models/Trainer";
+import { client } from "../lib/mongo";
+import { TrainerSchema } from "@/lib/validation/Trainer";
 
 // שליפת מאמן לפי מזהה (_id)
 export async function getTrainerById(id: string) {
@@ -32,7 +32,7 @@ export async function editTrainerDetails(id: string, updates: any) {
         // ולידציה עם Zod
         const parsed = TrainerSchema.safeParse(updates);
         if (!parsed.success) {
-            const errors = parsed.error.issues.map(e => e.message);
+            const errors = parsed.error.issues.map((e: any) => e.message);
             return NextResponse.json({ message: "Validation failed", errors }, { status: 400 });
         }
 
@@ -60,7 +60,7 @@ export async function getTrainerTrainings(trainerId: string) {
         const collection = db.collection("Training");
         const trainings = await collection.find({ trainerId: trainerId }).toArray();
         return NextResponse.json(trainings);
-        
+
     } catch (error) {
         console.error(error);
         return NextResponse.json({ message: "Server error" }, { status: 500 });

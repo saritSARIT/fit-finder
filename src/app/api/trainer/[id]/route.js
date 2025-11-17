@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-import { client } from "../../../services/server/mongo";
+import { client } from "../../../../lib/mongo";
 import { ObjectId } from "mongodb";
-import { TrainerSchema } from "../../../../models/Trainer";
-
+import { TrainerSchema } from "../../../../lib/validation/Trainer";
 
 //שליפת מאמן לפי מזהה (_id)
 export async function GET(request, { params }) {
