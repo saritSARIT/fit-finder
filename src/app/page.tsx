@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import Login from "@/components/Login";
 import SignUp from "@/components/Signup";
-// import { signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
@@ -11,27 +11,27 @@ export default function Home() {
 
 
   const reviews = [
-    { author: "נועה לוי", text: "אחד האתרים הכי מעוררי השראה שראיתי!" },
-    { author: "יוסי כהן", text: "מאז שהתחלתי לעקוב אחרי הטיפים כאן אני מתמידה באמת!" },
-    { author: "מיכל אברהם", text: "העיצוב פשוט מהמם — נותן חשק לזוז!" },
-    { author: "דוד ביטון", text: "יש פה שילוב מושלם בין השראה ומקצועיות." },
-    { author: "עומר גולן", text: "אני נהנה לקרוא כל טיפ חדש, תודה!" },
-    { author: "תמר רוזן", text: "איזה אנרגיות! האתר הזה פשוט נותן כוח." },
-  ];
+  {  author: "נועה לוי",text: "אחד האתרים הכי מעוררי השראה שראיתי!" },
+  { author: "יוסי כהן",text: "מאז שהתחלתי לעקוב אחרי הטיפים כאן אני מתמידה באמת!" },
+  {  author: "מיכל אברהם",text: "העיצוב פשוט מהמם — נותן חשק לזוז!"},
+  {  author: "דוד ביטון" ,text: "יש פה שילוב מושלם בין השראה ומקצועיות."},
+  {  author: "עומר גולן",text: "אני נהנה לקרוא כל טיפ חדש, תודה!"},
+  {  author: "תמר רוזן" ,text: "איזה אנרגיות! האתר הזה פשוט נותן כוח." },
+];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleNext = () => {
-    if (currentIndex < reviews.length - 3) {
-      setCurrentIndex(currentIndex + 1);
-    }
-  };
+const handleNext = () => {
+  if (currentIndex < reviews.length - 3) {
+    setCurrentIndex(currentIndex + 1);
+  }
+};
 
-  const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
-  };
+const handlePrev = () => {
+  if (currentIndex > 0) {
+    setCurrentIndex(currentIndex - 1);
+  }
+};
 
 
   return (
@@ -95,30 +95,30 @@ export default function Home() {
       </main>
 
       {/* --- REVIEWS SECTION --- */}
-      <div className="reviews-section">
-        <h2 className="reviews-title">מה אנשים אומרים עלינו</h2>
+<div className="reviews-section">
+  <h2 className="reviews-title">מה אנשים אומרים עלינו</h2>
 
-        <div className="reviews-wrapper">
-          <button className="arrow-btn left" onClick={handlePrev}>
-            ❮
-          </button>
+  <div className="reviews-wrapper">
+    <button className="arrow-btn left" onClick={handlePrev}>
+      ❮
+    </button>
 
-          <div className="reviews-container">
-            {reviews
-              .slice(currentIndex, currentIndex + 3)
-              .map((review, index) => (
-                <div key={index} className="review-card">
-                  <p className="review-text">{review.text}</p>
-                  <p className="review-author">— {review.author}</p>
-                </div>
-              ))}
+    <div className="reviews-container">
+      {reviews
+        .slice(currentIndex, currentIndex + 3)
+        .map((review, index) => (
+          <div key={index} className="review-card">
+            <p className="review-text">"{review.text}"</p>
+            <p className="review-author">— {review.author}</p>
           </div>
+        ))}
+    </div>
 
-          <button className="arrow-btn right" onClick={handleNext}>
-            ❯
-          </button>
-        </div>
-      </div>
+    <button className="arrow-btn right" onClick={handleNext}>
+      ❯
+    </button>
+  </div>
+</div>
 
 
       {/* --- FOOTER --- */}
