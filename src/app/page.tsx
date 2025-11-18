@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import { Header, Footer, Login, Signup } from "@/components/index";
+import { header, Footer, Login, Signup } from "@/components/index";
 import { reviews } from "@/lib/lang";
 
 export default function Home() {
