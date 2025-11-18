@@ -5,48 +5,30 @@ import { TrainerSchema } from "@/lib/validation/Trainer";
 
 // שליפת מאמן לפי מזהה (_id)
 export async function getTrainerById(id: string) {
+
     try {
-        const db = client.db("FitFinder");
-        const collection = db.collection("Trainer");
-
-        const objectId = new ObjectId(id);
-        const trainer = await collection.findOne({ _id: objectId });
-
-        if (!trainer) {
-            return NextResponse.json({ message: "Trainer not found" }, { status: 404 });
-        }
-
-        return NextResponse.json(trainer);
+        const res = await fetch(`http://localhost:3000/api/trainer/${id}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        });
+        const data = await res.json();
+        return NextResponse.json(data);
     } catch (error) {
         console.error(error);
         return NextResponse.json({ message: "Server error" }, { status: 500 });
     }
 }
 
-// עריכת פרטי מאמן (עבור עמוד אישי או ניהול)
+// עריכת פרטי מאמן
 export async function editTrainerDetails(id: string, updates: any) {
     try {
-        const db = client.db("FitFinder");
-        const collection = db.collection("Trainer");
-
-        // ולידציה עם Zod
-        const parsed = TrainerSchema.safeParse(updates);
-        if (!parsed.success) {
-            const errors = parsed.error.issues.map((e: any) => e.message);
-            return NextResponse.json({ message: "Validation failed", errors }, { status: 400 });
-        }
-
-        const objectId = new ObjectId(id);
-        const result = await collection.updateOne(
-            { _id: objectId },
-            { $set: parsed.data }
-        );
-
-        if (result.matchedCount === 0) {
-            return NextResponse.json({ message: "Trainer not found" }, { status: 404 });
-        }
-
-        return NextResponse.json({ message: "Trainer updated successfully" });
+        const res = await fetch(`http://localhost:3000/api/trainer/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updates)
+        });
+        const data = await res.json();
+        return NextResponse.json(data);
     } catch (error) {
         console.error(error);
         return NextResponse.json({ message: "Server error" }, { status: 500 });
@@ -56,9 +38,12 @@ export async function editTrainerDetails(id: string, updates: any) {
 // שליפת כל האימונים של מאמן
 export async function getTrainerTrainings(trainerId: string) {
     try {
-        const db = client.db("FitFinder");
-        const collection = db.collection("Training");
-        const trainings = await collection.find({ trainerId: trainerId }).toArray();
+        const res = await fetch(`http://localhost:3000/api/training`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+        const data = await res.json();
+        const trainings = data.filter((training: any) => training.trainerId === trainerId);
         return NextResponse.json(trainings);
 
     } catch (error) {
@@ -70,24 +55,13 @@ export async function getTrainerTrainings(trainerId: string) {
 // אישור או דחיית אימון על ידי מאמן
 export async function approveOrReject(trainingId: string, status: "approved" | "rejected") {
     try {
-        const db = client.db("FitFinder");
-        const trainingsCollection = db.collection("Training");
-
-        if (!["approved", "rejected"].includes(status)) {
-            return NextResponse.json({ message: "Invalid status" }, { status: 400 });
-        }
-
-        const objectId = new ObjectId(trainingId);
-        const result = await trainingsCollection.updateOne(
-            { _id: objectId },
-            { $set: { status } }
-        );
-
-        if (result.matchedCount === 0) {
-            return NextResponse.json({ message: "Training not found" }, { status: 404 });
-        }
-
-        return NextResponse.json({ message: `Training ${status}` });
+        const res = await fetch(`http://localhost:3000/api/training/${trainingId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status })
+        });
+        const data = await res.json();
+        return NextResponse.json(data);
     } catch (error) {
         console.error(error);
         return NextResponse.json({ message: "Server error" }, { status: 500 });
@@ -96,20 +70,14 @@ export async function approveOrReject(trainingId: string, status: "approved" | "
 
 // שליפת כל התגובות על מאמן
 export async function getCommentsTrainer(trainerId: string) {
+
     try {
-        const db = client.db("FitFinder");
-        const collection = db.collection("Trainer");
-
-        const trainer = await collection.findOne(
-            { _id: new ObjectId(trainerId) },
-            { projection: { comments: 1, _id: 0 } }
-        );
-
-        if (!trainer) {
-            return NextResponse.json({ message: "Trainer not found" }, { status: 404 });
-        }
-
-        return NextResponse.json(trainer.comments || []);
+        const res = await fetch(`http://localhost:3000/api/trainer/${trainerId}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+        const data = await res.json();
+        return NextResponse.json(data.comments);
     } catch (error) {
         console.error(error);
         return NextResponse.json({ message: "Server error" }, { status: 500 });
