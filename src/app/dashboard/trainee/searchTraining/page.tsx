@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { FaFilter } from "react-icons/fa";
+import { UniversalHeader } from "@/components/index";
 import "./style.css";
 
 export default function SearchTrainingPage() {
@@ -23,31 +24,7 @@ export default function SearchTrainingPage() {
   return (
     <div className="search-page">
       {/* תפריט עליון */}
-      <header className="top-bar">
-        {/* לוגו */}
-        <div className="logo-container">
-          <img
-            src="/images/logo.png"
-            alt="FitFinder Logo"
-            className="logo-img"
-          />
-          <span className="logo-text">FitFinder</span>
-        </div>
-
-        {/* ניווט */}
-        <nav className="nav-links">
-          <a href="#" className="active">חיפוש אימון</a>
-          <span>|</span>
-          <a href="#">האימונים שלי</a>
-          <span>|</span>
-          <a href="#">היסטוריית אימונים</a>
-          <span>|</span>
-          <a href="#">רשימת מועדפים</a>
-        </nav>
-
-        {/* כפתור פרופיל */}
-        <button className="profile-btn">מעבר לפרופיל מאמן</button>
-      </header>
+      <UniversalHeader role="trainee" />
 
       {/* אזור חיפוש */}
       <div className="search-container">

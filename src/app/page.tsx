@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import { header, Footer, Login, Signup } from "@/components/index";
-import { reviews } from "@/lib/lang";
+import {UniversalHeader, Footer, Login, Signup } from "@/components/index";
+import { reviews,blocks } from "@/lib/lang";
+
 
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
@@ -16,23 +17,11 @@ export default function Home() {
   return (
     <div className="home-container">
       {/* --- HEADER --- */}
-      <header className="header">
-
-
-        <div className="logo-section">
-          <Image src="/images/logo.png" alt="FitFinder Logo" width={100} height={100} />
-        </div>
-
-        <div className="buttons-section">
-          <button className="btn-yellow" onClick={() => setShowSignUp(true)}>
-            Sign Up
-          </button>
-          <button className="btn-yellow" onClick={() => setShowLogin(true)}>
-            Log In
-          </button>
-        </div>
-
-      </header>
+     <UniversalHeader
+  role="guest"
+  onLogin={() => setShowLogin(true)}
+  onSignUp={() => setShowSignUp(true)}
+/>
       {/* --- IMAGE SLIDER (fade effect) --- */}
       <div className="image-slider">
         {[
@@ -51,17 +40,8 @@ export default function Home() {
       <main className="main-grid">
 
         {/* Move this object to lib */}
-        {[
-          { type: "image", src: "/images/gym8.png" },
-          { type: "text", text: "הצלחה מתחילה בהחלטה." },
-          { type: "image", src: "/images/gym2.png" },
-          { type: "text", text: "אין קיצורי דרך — יש התמדה." },
-          { type: "image", src: "/images/gym6.png" },
-          { type: "text", text: "כל יום טוב יותר מאתמול." },
-          { type: "image", src: "/images/gym2.png" },
-          { type: "text", text: "הגוף שלך שומע כל מחשבה שלך." },
-          { type: "image", src: "/images/gym7.png" },
-        ].map((item, i) => (
+        {
+          blocks.map((item, i) => (
           <div key={i} className={`grid-item ${item.type}`}>
             {item.type === "image" ? (
               <Image src={item.src || ""} alt={`gym ${i + 1}`} width={400} height={300} className="grid-image" unoptimized />
