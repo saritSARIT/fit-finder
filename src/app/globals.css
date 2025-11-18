@@ -1,6 +1,6 @@
 /* --- עיצוב כללי --- */
 .home-container {
-  direction: ltr;
+  /* direction: ltr; */
   font-family: "Assistant", sans-serif;
   min-height: 100vh;
   display: flex;
@@ -10,23 +10,20 @@
 
 /* --- HEADER --- */
 .header {
-  width: 100%;
-  background-color: white;
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  background-color: white;
   position: sticky;
-  top: 0;
   z-index: 20;
   box-shadow: 0 2px 4px rgba(76, 10, 232, 0.1);
 }
 
-.logo-section {
-  order: 1; /* לוגו בצד ימין */
-}
+
 
 .buttons-section {
-  order: 2; /* כפתורים בצד שמאל */
   display: flex;
   gap: 1rem;
 }
@@ -216,15 +213,7 @@
 }
 
 
-/* --- FOOTER --- */
-.footer {
-  background-color: #4209ed;
-  text-align: center;
-  font-weight: bold;
-  color:#facc15;
-  margin-top: auto;
-  bottom: 0;
-}
+
 
 /* --- חלון צד --- */
 .side-modal {
