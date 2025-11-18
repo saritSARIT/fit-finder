@@ -1,38 +1,32 @@
 import { NextResponse } from "next/server";
 import { client } from "@/lib/mongo";
 import bcrypt from "bcryptjs";
+import { TraineeSchema } from "../../../../lib/validation/Trainee";
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const { name, email, password } = await req.json();
-
-    if (!name || !email || !password) {
-      return NextResponse.json({ error: "Missing fields" }, { status: 400 });
-    }
-
-    const db = await client.db("FitFinder");
-    const users = db.collection("Trainee");
-
-    // בדיקה אם המשתמש כבר קיים
-    const existingUser = await users.findOne({ email });
-    if (existingUser) {
-      return NextResponse.json({ error: "User already exists" }, { status: 400 });
-    }
-
+    const db = client.db("FitFinder");
+    const collection = db.collection("Trainee");
+    const data = await request.json();
     // הצפנת סיסמה
-    const hashedPassword = await bcrypt.hash(password, 10);
+    data.password = await bcrypt.hash(data.password, 10);
 
-    // יצירת משתמש חדש
-    await users.insertOne({
-      name,
-      email,
-      password: hashedPassword,
-      createdAt: new Date(),
-    });
+    // שלב הולידציה
+    const parsed = TraineeSchema.safeParse(data);
+    if (!parsed.success) {
+      const errors = parsed.error.issues.map(e => e.message);
+      return NextResponse.json({ message: "Validation failed", errors }, { status: 400 });
+    }
 
-    return NextResponse.json({ message: "User registered successfully!" });
-  } catch (err) {
-    console.error("Register error:", err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    const existing = await collection.findOne({ email: parsed.data.email });
+    if (existing) {
+      return NextResponse.json({ message: "Email already exists" }, { status: 400 });
+    }
+
+    await collection.insertOne(parsed.data);
+    return NextResponse.json({ message: "Trainee added successfully" });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }

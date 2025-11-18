@@ -10,7 +10,7 @@ export default function SearchTrainingPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   useEffect(() => {
-    fetch("/api/trainers")
+    fetch("/api/trainer")
       .then((res) => res.json())
       .then((data) => setTrainers(data))
       .catch((err) => console.error("שגיאה בטעינת מאמנים:", err));

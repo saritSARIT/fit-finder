@@ -21,7 +21,7 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
 
   const handleSubmit = async () => {
     try {
-      const res = await fetch("/api/trainee", {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)
@@ -30,7 +30,7 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.message || "Error");
+        alert(`${data.message}: \n${data.errors.map((err: any) => err).join("\n")}`);
       } else {
         router.push("/dashboard/trainee/searchTraining");
         onClose();

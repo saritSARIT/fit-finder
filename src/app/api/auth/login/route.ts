@@ -10,7 +10,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing email or password" }, { status: 400 });
     }
 
-    const db = await client.db("FitFinder");
+    const db = client.db("FitFinder");
     const users = db.collection("Trainee");
 
     // חיפוש המשתמש לפי אימייל
