@@ -24,7 +24,7 @@ export default function SearchTrainingPage() {
   return (
     <div className="search-page">
       {/* תפריט עליון */}
-     <UniversalHeader role="trainee" />
+      <UniversalHeader role="trainee" />
 
       {/* אזור חיפוש */}
       <div className="search-container">
