@@ -36,7 +36,7 @@ export async function PUT(request, { params }) {
         const updates = await request.json();
 
         // ולידציה עם Zod
-        const parsed = TraineeSchema.safeParse(updates);
+        const parsed = TraineeSchema.partial().safeParse(updates);
         if (!parsed.success) {
             const errors = parsed.error.issues.map(e => e.message);
             return NextResponse.json({ message: "Validation failed", errors }, { status: 400 });
