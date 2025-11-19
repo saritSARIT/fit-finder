@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { moveToTrainer } from "@/services/trainerService";
 import { useRouter } from "next/navigation";
+import { userStore } from "@/store/userStore";
+
 
 interface Props {
   role: "guest" | "trainee" | "trainer";
@@ -12,7 +14,12 @@ interface Props {
   onSignUp?: () => void;
 }
 
+
+
 export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
+
+  const user = userStore((state) => state.user);
+
   const router = useRouter();
 
   const changeProfile = () => {
@@ -51,7 +58,7 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
         <span>|</span>
         <Link href="#">רשימת מועדפים</Link>
       </nav>
-
+<span>הי,{user?.name}</span>
       <button className={styles.profileBtn}>מעבר לפרופיל מאמן</button>
     </header>
   );
@@ -69,7 +76,7 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
         <span>|</span>
         <Link href="#">ביקורות</Link>
       </nav>
-
+      <span>הי,{user?.name}</span>
       <button
         className={styles.profileBtn}
         //onClick={() => changeProfile()}
