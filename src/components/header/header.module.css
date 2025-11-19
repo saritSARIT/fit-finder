@@ -1,0 +1,78 @@
+
+
+.header {
+  direction: ltr;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+  position: sticky;
+  z-index: 20;
+  box-shadow: 0 2px 4px rgba(76, 10, 232, 0.1);
+}
+
+.buttonsSection {
+  display: flex;
+  gap: 1rem;
+}
+
+.btnYellow {
+  background-color: #facc15;
+  color: #4209ed;
+  font-weight: bold;
+  padding: 0.6rem 1.4rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btnYellow:hover {
+  background-color: #eab308;
+  transform: scale(1.05);
+}
+
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: #0046a5;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.navLinks a.active {
+  color: #f5c000;
+  font-weight: 700;
+}
+
+.navLinks span {
+  color: #0046a5;
+}
+
+.profileBtn {
+  background-color: #f5c000;
+  border: none;
+  border-radius: 50%;
+  padding: 15px;
+  width: 80px;
+  height: 80px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #0046a5;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.profileBtn:hover {
+  background-color: #ffde4d;
+}

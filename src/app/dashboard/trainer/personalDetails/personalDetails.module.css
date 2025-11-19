@@ -1,0 +1,72 @@
+.pdContainer {
+  direction: rtl;
+  font-family: "Assistant", sans-serif;
+}
+
+
+/* ===== FILTERS ===== */
+
+.pdFilters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.pdFilter-box {
+  width: 200px;
+  background: #eee;
+  padding: 12px;
+  text-align: center;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* ===== TABLE ===== */
+.pdTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.pdTable th,
+.pdTable td {
+  border: 1px solid #ccc;
+  text-align: center;
+  padding: 15px;
+  min-height: 80px;
+}
+
+.pdCell {
+  vertical-align: top;
+}
+
+.pdTraining-box {
+  text-align: right;
+  padding: 5px;
+  line-height: 1.3;
+}
+
+/* ===== BUTTONS ===== */
+
+.pdAdd-btn {
+  background: #eee;
+  border: none;
+  padding: 12px 25px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 15px;
+  margin-bottom: 35px;
+}
+
+.pdSave-wrapper {
+  text-align: center;
+}
+
+.pdSave-btn {
+  background: #eee;
+  border: none;
+  padding: 12px 30px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+}
