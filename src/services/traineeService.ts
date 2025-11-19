@@ -23,8 +23,8 @@ export async function getTraineeTrainings(traineeId: string) {
     }
 }
 
-// עריכת פרטי מתאמן (עבור עמוד אישי או ניהול)
-export async function editTrainerDetails(id: string, updates: any) {
+// עריכת פרטי מאמן (עבור עמוד אישי או ניהול)
+export async function editTraineeDetails(id: string, updates: any) {
     try {
         const db = client.db("FitFinder");
         const collection = db.collection("Trainee");
