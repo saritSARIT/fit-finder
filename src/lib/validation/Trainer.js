@@ -2,7 +2,8 @@ import { z } from "zod";
 
 export const TrainerSchema = z.object({
   email: z.string().email("Invalid email format"),
-  trainigTypes: z
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  /*trainigTypes: z
     .array(z.string().min(1, "Training type cannot be empty"))
     .min(1, "At least one training type is required"),
   address: z.string().min(2, "Address must be at least 2 characters"),
@@ -20,5 +21,5 @@ export const TrainerSchema = z.object({
         comment: z.string().min(1, "Comment cannot be empty"),
       })
     )
-    .default([]),
+    .default([]),*/
 });

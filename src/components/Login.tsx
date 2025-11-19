@@ -30,6 +30,9 @@ export default function Login({ onClose }: { onClose: () => void }) {
       if (!res.ok) {
         alert(`${data.error}`);
       } else {
+        localStorage.setItem("id", data.id);
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("name", data.name);
         router.push("/dashboard/trainee/searchTraining");
         onClose();
       }
