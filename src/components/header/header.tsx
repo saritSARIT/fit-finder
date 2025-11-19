@@ -3,6 +3,8 @@
 import styles from "./header.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { moveToTrainer } from "@/services/trainerService";
+import { useRouter } from "next/navigation";
 
 interface Props {
   role: "guest" | "trainee" | "trainer";
@@ -11,6 +13,15 @@ interface Props {
 }
 
 export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
+  const router = useRouter();
+
+  const changeProfile = () => {
+    moveToTrainer(
+      JSON.stringify(localStorage.getItem("id")),
+      JSON.stringify(localStorage.getItem("email")),
+      JSON.stringify(localStorage.getItem("name")));
+    router.push("/dashboard/trainer/personalDetails");
+  };
 
   const renderGuest = () => (
     <header className={styles.header}>
@@ -28,7 +39,7 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
   const renderTrainee = () => (
     <header className={styles.header}>
       <div className={styles.logoSection}>
-        <img src="/images/logo.png" alt="FitFinder Logo" width={100} height={100}/>
+        <img src="/images/logo.png" alt="FitFinder Logo" width={100} height={100} />
       </div>
 
       <nav className={styles.navLinks}>
@@ -48,7 +59,7 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
   const renderTrainer = () => (
     <header className={styles.header}>
       <div className={styles.logoSection}>
-        <img src="/images/logo.png" alt="FitFinder Logo" width={100} height={100}/>
+        <img src="/images/logo.png" alt="FitFinder Logo" width={100} height={100} />
       </div>
 
       <nav className={styles.navLinks}>
@@ -59,7 +70,12 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
         <Link href="#">ביקורות</Link>
       </nav>
 
-      <button className={styles.profileBtn}>מעבר לפרופיל מתאמן</button>
+      <button
+        className={styles.profileBtn}
+        //onClick={() => changeProfile()}
+      >
+        מעבר לפרופיל מתאמן
+      </button>
     </header>
   );
 

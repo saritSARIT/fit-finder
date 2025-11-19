@@ -32,6 +32,9 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
       if (!res.ok) {
         alert(`${data.message}: \n${data.errors.map((err: any) => err).join("\n")}`);
       } else {
+        localStorage.setItem("id", data.id);
+        localStorage.setItem("email", form.email);
+        localStorage.setItem("name", form.name);
         router.push("/dashboard/trainee/searchTraining");
         onClose();
       }

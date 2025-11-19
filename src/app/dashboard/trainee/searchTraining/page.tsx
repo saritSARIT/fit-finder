@@ -13,7 +13,10 @@ export default function SearchTrainingPage() {
   useEffect(() => {
     fetch("/api/trainer")
       .then((res) => res.json())
-      .then((data) => setTrainers(data))
+      .then((data) => {
+        setTrainers(data);
+        return data;
+      })
       .catch((err) => console.error("שגיאה בטעינת מאמנים:", err));
   }, []);
 
@@ -71,7 +74,7 @@ export default function SearchTrainingPage() {
             <p>מאמנים של אותו יום מהשעה {t.time || "—"}</p>
             <p>שהוא נכנס ואילך</p>
             <p className="trainer-name">מאמן: {t.name}</p>
-            <p className="trainer-location">מיקום: {t.location || "—"}</p>
+            <p className="trainer-location">מיקום: {t.address || "—"}</p>
           </div>
         ))}
       </div>

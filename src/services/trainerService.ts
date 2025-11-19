@@ -1,11 +1,37 @@
 import { NextResponse } from "next/server";
-import { ObjectId } from "mongodb";
-import { client } from "../lib/mongo";
-import { TrainerSchema } from "@/lib/validation/Trainer";
+
+
+//מעבר לפרופיל מאמן
+export async function moveToTrainer(id: string, email: string, name: string) {
+    try {
+        const res = await fetch(`http://localhost:3000/api/trainer/${id}`);
+        if (res.status === 404) {
+            try {
+                const res = await fetch(`http://localhost:3000/api/trainer`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, name })
+                });
+                const data = await res.json();
+                return NextResponse.json(data);
+            } catch (error) {
+                console.error(error);
+                return NextResponse.json({ message: "Server error" }, { status: 500 });
+            }
+        }
+        else {
+            const data = await res.json();
+            return NextResponse.json(data);
+        }
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ message: "Server error" }, { status: 500 });
+    }
+}
+
 
 // שליפת מאמן לפי מזהה (_id)
 export async function getTrainerById(id: string) {
-
     try {
         const res = await fetch(`http://localhost:3000/api/trainer/${id}`, {
             method: "GET",
