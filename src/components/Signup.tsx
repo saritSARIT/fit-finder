@@ -4,8 +4,11 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
+import { userStore } from "@/store/userStore";
 
 export default function SignUp({ onClose }: { onClose: () => void }) {
+  
+  const setUser = userStore((state) => state.setUser);
 
   const router = useRouter();
   const [form, setForm] = useState({
@@ -19,28 +22,39 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+
   const handleSubmit = async () => {
-    try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form)
-      });
+  try {
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (!res.ok) {
-        alert(`${data.message}: \n${data.errors.map((err: any) => err).join("\n")}`);
-      } else {
-        router.push("/dashboard/trainee/searchTraining");
-        onClose();
-      }
-
-    } catch (err) {
-      console.error(err);
-      alert("Server error");
+    if (!res.ok) {
+      const errors = data.errors ?? [];
+      alert(
+        `${data.message}${errors.length ? ":\n" + errors.join("\n") : ""}`
+      );
+      return;
     }
-  };
+
+    setUser({
+      name: form.name,
+      email: form.email,
+    });
+
+    router.push("/dashboard/trainee/searchTraining");
+
+    onClose();
+  } catch (err) {
+    console.error("Server error:", err);
+    alert("Server error");
+  }
+};
+
 
   return (
     <motion.div

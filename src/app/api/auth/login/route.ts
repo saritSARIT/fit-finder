@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     // בדיקת סיסמה
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return NextResponse.json({ error: "Invalid password" }, { status: 401 });
+      return NextResponse.json({ error: "Invalid password" }, { status: 401 });      
     }
 
     // התחברות מוצלחת

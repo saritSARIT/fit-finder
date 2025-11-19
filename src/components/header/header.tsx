@@ -1,5 +1,6 @@
 "use client";
 
+import { userStore } from "@/store/userStore";
 import styles from "./header.module.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,6 +12,8 @@ interface Props {
 }
 
 export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
+  const user = userStore((state) => state.user);
+
 
   const renderGuest = () => (
     <header className={styles.header}>
@@ -28,7 +31,7 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
   const renderTrainee = () => (
     <header className={styles.header}>
       <div className={styles.logoSection}>
-        <img src="/images/logo.png" alt="FitFinder Logo" width={100} height={100}/>
+        <img src="/images/logo.png" alt="FitFinder Logo" width={100} height={100} />
       </div>
 
       <nav className={styles.navLinks}>
@@ -40,7 +43,7 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
         <span>|</span>
         <Link href="#">רשימת מועדפים</Link>
       </nav>
-
+      <span>הי, {user?.name}</span>
       <button className={styles.profileBtn}>מעבר לפרופיל מאמן</button>
     </header>
   );
@@ -48,7 +51,7 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
   const renderTrainer = () => (
     <header className={styles.header}>
       <div className={styles.logoSection}>
-        <img src="/images/logo.png" alt="FitFinder Logo" width={100} height={100}/>
+        <img src="/images/logo.png" alt="FitFinder Logo" width={100} height={100} />
       </div>
 
       <nav className={styles.navLinks}>
@@ -57,6 +60,7 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
         <Link href="#">האימונים שלי</Link>
         <span>|</span>
         <Link href="#">ביקורות</Link>
+        <span>הי, {user?.name}</span>
       </nav>
 
       <button className={styles.profileBtn}>מעבר לפרופיל מתאמן</button>
