@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/index";
+import { SessionProviderWrapper } from "./providers/SessionProviderWrapper";
+import AuthListener from "@/components/AuthListener";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +30,10 @@ export default function RootLayout({
       <body
         className="layout"
       >
-        {children}
+        <SessionProviderWrapper>
+          <AuthListener />
+          {children}
+        </SessionProviderWrapper>
         <Footer />
       </body>
     </html>
