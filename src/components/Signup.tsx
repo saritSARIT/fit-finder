@@ -39,6 +39,7 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
     }
 
    setUser({
+    id: data.user.id,
     name: data.user.name,
     email: data.user.email,
    })

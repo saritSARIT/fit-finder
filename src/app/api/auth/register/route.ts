@@ -23,8 +23,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Email already exists" }, { status: 400 });
     }
 
-    await collection.insertOne(parsed.data);
-    return NextResponse.json({ message: "Trainee added successfully" });
+    const id = await collection.insertOne(parsed.data);
+    return NextResponse.json({ message: "Trainee added successfully", id: id });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { moveToTrainer } from "@/services/trainerService";
 import { useRouter } from "next/navigation";
 import { userStore } from "@/store/userStore";
+import { use } from "react";
 
 
 interface Props {
@@ -22,13 +23,17 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
 
   const router = useRouter();
 
-  const changeProfile = () => {
+  const goToTrainer = () => {
     moveToTrainer(
-      JSON.stringify(localStorage.getItem("id")),
-      JSON.stringify(localStorage.getItem("email")),
-      JSON.stringify(localStorage.getItem("name")));
+      user?.id || "",
+      user?.email || "",
+      user?.name || "");
     router.push("/dashboard/trainer/personalDetails");
   };
+
+  const goToTrainee = () => {
+    router.push("/dashboard/trainee/searchTraining");
+  }
 
   const renderGuest = () => (
     <header className={styles.header}>
@@ -58,8 +63,12 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
         <span>|</span>
         <Link href="#">רשימת מועדפים</Link>
       </nav>
-<span>הי,{user?.name}</span>
-      <button className={styles.profileBtn}>מעבר לפרופיל מאמן</button>
+      <span>הי,{user?.name}</span>
+      <button className={styles.profileBtn}
+        onClick={() => goToTrainer()}
+      >
+        מעבר לפרופיל מאמן
+      </button>
     </header>
   );
 
@@ -79,7 +88,7 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
       <span>הי,{user?.name}</span>
       <button
         className={styles.profileBtn}
-        //onClick={() => changeProfile()}
+        onClick={() => goToTrainee()}
       >
         מעבר לפרופיל מתאמן
       </button>

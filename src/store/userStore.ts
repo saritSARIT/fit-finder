@@ -1,13 +1,14 @@
 import { create } from "zustand";
 
 interface User {
+  id: string;
   name: string;
   email: string;
 }
 
 interface UserState {
-  user: { name: string; email: string } | null;
-  setUser: (user: { name: string; email: string }) => void;
+  user: User | null;
+  setUser: (user: User) => void;
   logout: () => void;
 }
 

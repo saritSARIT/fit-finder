@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     // התחברות מוצלחת
     return NextResponse.json({
       message: "Login successful!",
-      user: { name: user.name, email: user.email },
+      user: { id: user._id, name: user.name, email: user.email },
     });
   } catch (err) {
     console.error("Login error:", err);
