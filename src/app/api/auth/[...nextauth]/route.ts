@@ -34,16 +34,21 @@ export const authOptions = {
       }
     },
 
-    async session({ session }: any) {
+    async session({ session, token }: any) {
       try {
         const db = client.db("FitFinder");
-
-        // סוג המשתמש צריך להתאים למה שנשמר במסד
         const type: UserType = "Trainee";
 
-        const dbUser = await findUserByEmail(session.user?.email, db, type);
-        if (dbUser) {
-          session.user.id = dbUser._id.toString();
+        // נטען את המשתמש מה-DB כדי לקבל את השם המעודכן
+        const email = token?.email || session.user?.email;
+        if (email) {
+          const dbUser = await findUserByEmail(email, db, type);
+          if (dbUser) {
+            session.user.id = dbUser._id.toString();
+            // ⭐ עדכון השם מה-DB כדי להבטיח שהוא תמיד מעודכן
+            session.user.name = dbUser.name;
+            session.user.email = dbUser.email;
+          }
         }
       } catch (err) {
         console.error("❌ session callback error:", err);

@@ -29,6 +29,8 @@ export default function Login({ onClose }: { onClose: () => void }) {
       });
 
       const data = await res.json();
+console.log(data);
+
 
       if (!res.ok) {
         const errors = Array.isArray(data.errors) ? data.errors.join("\n") : "";
