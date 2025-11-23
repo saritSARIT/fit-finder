@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import UniversalHeader from "@/components/header/header";
 import styles from "./trainerSession.module.css";
-import { useRouter } from "next/navigation";   // ← תיקון חשוב!
+import { useRouter } from "next/navigation"; 
 
 type Session = {
   id: string;
@@ -19,7 +19,7 @@ type Session = {
 
 export default function TrainerSessionPage({ params }: any) {
   const { id } = params;
-  const router = useRouter();                  // ← מוסיפים כאן
+  const router = useRouter();               
 
   const [session, setSession] = useState<Session | null>(null);
 

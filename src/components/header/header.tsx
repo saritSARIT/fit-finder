@@ -6,7 +6,7 @@ import Link from "next/link";
 import { moveToTrainer } from "@/services/trainerService";
 import { useRouter } from "next/navigation";
 import { userStore } from "@/store/userStore";
-import { use } from "react";
+import { usePathname } from "next/navigation";
 
 
 interface Props {
@@ -16,12 +16,11 @@ interface Props {
 }
 
 
-
 export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
 
   const user = userStore((state) => state.user);
-
   const router = useRouter();
+  const pathname = usePathname();
 
   const goToTrainer = () => {
     moveToTrainer(
@@ -55,13 +54,33 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
       </div>
 
       <nav className={styles.navLinks}>
-        <Link href="#" className={styles.active}>חיפוש אימון</Link>
+        <Link
+          href="/dashboard/trainee/searchTraining"
+          className={pathname.includes("searchTraining") ? styles.active : ""}
+        >
+          חיפוש אימון
+        </Link>
         <span>|</span>
-        <Link href="#">האימונים שלי</Link>
+        <Link
+          href="/dashboard/trainee/myTrainings"
+          className={pathname.includes("myTrainings") ? styles.active : ""}
+        >
+          האימונים שלי
+        </Link>
         <span>|</span>
-        <Link href="#">היסטוריית אימונים</Link>
+        <Link
+          href="/dashboard/trainee/trainingsHistory"
+          className={pathname.includes("trainingsHistory") ? styles.active : ""}
+        >
+          היסטוריית אימונים
+        </Link>
         <span>|</span>
-        <Link href="#">רשימת מועדפים</Link>
+        <Link
+          href="/dashboard/trainee/favorites"
+          className={pathname.includes("favorites") ? styles.active : ""}
+        >
+          רשימת מועדפים
+        </Link>
       </nav>
       <span>הי,{user?.name}</span>
       <button className={styles.profileBtn}
@@ -79,11 +98,26 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
       </div>
 
       <nav className={styles.navLinks}>
-        <Link href="#" className={styles.active}>פרטים אישיים</Link>
+        <Link
+          href="/dashboard/trainer/comments"
+          className={pathname.includes("comments") ? styles.active : ""}
+        >
+          פרטים אישיים
+        </Link>
         <span>|</span>
-        <Link href="#">האימונים שלי</Link>
+        <Link
+          href="/dashboard/trainer/myTrainings"
+          className={pathname.includes("myTrainings") ? styles.active : ""}
+        >
+          האימונים שלי
+        </Link>
         <span>|</span>
-        <Link href="#">ביקורות</Link>
+        <Link
+          href="/dashboard/trainer/personalDetails"
+          className={pathname.includes("personalDetails") ? styles.active : ""}
+        >
+          ביקורות
+        </Link>
       </nav>
       <span>הי,{user?.name}</span>
       <button

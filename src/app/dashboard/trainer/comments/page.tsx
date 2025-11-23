@@ -1,7 +1,9 @@
+import UniversalHeader from "@/components/header/header";
+
 export default function CommentsPage() {
   return (
     <div>
-      <h1>Comments Page</h1>
+      <UniversalHeader role="trainer" />
     </div>
   );
 }
