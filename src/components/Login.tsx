@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
 import { userStore } from "@/store/userStore";
@@ -22,31 +22,31 @@ export default function Login({ onClose }: { onClose: () => void }) {
 
   const handleSubmit = async () => {
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form)
+      // שימוש ב-NextAuth במקום API route נפרד
+      const result = await signIn("credentials", {
+        email: form.email,
+        password: form.password,
+        redirect: false,
       });
 
-      const data = await res.json();
-console.log(data);
-
-
-      if (!res.ok) {
-        const errors = Array.isArray(data.errors) ? data.errors.join("\n") : "";
-        alert(`${data.error || data.message || "Error"}${errors ? ":\n" + errors : ""}`);
+      if (result?.error) {
+        alert("אימייל או סיסמה שגויים");
         return;
       }
 
-      setUser({
-        id: data.user.id,
-        name: data.user.name,
-        email: data.user.email,
-      })
-      router.push("/dashboard/trainee/searchTraining");
-
-      onClose();
-
+      // אחרי signIn מוצלח, נטען את ה-session המעודכן
+      if (result?.ok) {
+        const updatedSession = await getSession();
+        if (updatedSession?.user) {
+          setUser({ 
+            id: updatedSession.user.id || "", 
+            name: updatedSession.user.name || "", 
+            email: updatedSession.user.email || "" 
+          });
+        }
+        router.push("/dashboard/trainee/searchTraining");
+        onClose();
+      }
     } catch (err) {
       console.error(err);
       alert("Server error");

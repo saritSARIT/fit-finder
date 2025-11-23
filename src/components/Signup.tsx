@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { userStore } from "@/store/userStore";
 
@@ -38,14 +38,39 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
         return;
       }
 
-      setUser({
-        id: data.user.id.insertedId,
-        name: data.user.name,
-        email: data.user.email,
-      })
-      router.push("/dashboard/trainee/searchTraining");
+      // אחרי הרשמה מוצלחת, מבצעים signIn עם NextAuth
+      const result = await signIn("credentials", {
+        email: form.email,
+        password: form.password,
+        redirect: false,
+      });
 
-      onClose();
+      if (result?.error) {
+        alert("ההתחברות נכשלה. נסה להתחבר ידנית.");
+        return;
+      }
+
+      // אחרי signIn מוצלח, נטען את ה-session המעודכן מה-DB
+      if (result?.ok) {
+        const session = await getSession();
+        if (session?.user) {
+          // השם יגיע מה-DB דרך ה-session callback
+          setUser({
+            id: session.user.id || "",
+            name: session.user.name || form.name,
+            email: session.user.email || form.email,
+          });
+        } else {
+          // fallback לנתונים מהטופס
+          setUser({
+            id: data.user.id.insertedId || "",
+            name: form.name,
+            email: form.email,
+          });
+        }
+        router.push("/dashboard/trainee/searchTraining");
+        onClose();
+      }
 
     } catch (err) {
       console.error(err);
