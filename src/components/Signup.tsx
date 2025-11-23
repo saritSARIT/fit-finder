@@ -23,35 +23,35 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
   };
 
   const handleSubmit = async () => {
-  try {
-    const res = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form)
-    });
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form)
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (!res.ok) {
-      const errors = Array.isArray(data.errors) ? data.errors.join("\n") : "";
-      alert(`${data.message}${errors ? ":\n" + errors : ""}`);
-      return;
+      if (!res.ok) {
+        const errors = Array.isArray(data.errors) ? data.errors.join("\n") : "";
+        alert(`${data.message}${errors ? ":\n" + errors : ""}`);
+        return;
+      }
+
+      setUser({
+        id: data.user.id.insertedId,
+        name: data.user.name,
+        email: data.user.email,
+      })
+      router.push("/dashboard/trainee/searchTraining");
+
+      onClose();
+
+    } catch (err) {
+      console.error(err);
+      alert("Server error");
     }
-
-   setUser({
-    id: data.user.id,
-    name: data.user.name,
-    email: data.user.email,
-   })
-
-    router.push("/dashboard/trainee/searchTraining");
-    onClose();
-
-  } catch (err) {
-    console.error(err);
-    alert("Server error");
-  }
-};
+  };
 
   return (
     <motion.div

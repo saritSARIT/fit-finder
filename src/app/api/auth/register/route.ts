@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     }
 
     const id = await collection.insertOne(parsed.data);
-    return NextResponse.json({ message: "Trainee added successfully", id: id });
+    return NextResponse.json({ message: "Trainee added successfully", user: { id: id, email: parsed.data.email, name: parsed.data.name } });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
