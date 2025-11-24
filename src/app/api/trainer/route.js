@@ -36,6 +36,9 @@ export async function POST(request) {
     if (existing) {
       return NextResponse.json({ message: "Email already exists" }, { status: 400 });
     }
+    parsed.data.trainigTypes = [];
+    parsed.data.address = "";
+    parsed.data.comments = [];
 
     await collection.insertOne(parsed.data);
     return NextResponse.json({ message: "Trainer added successfully" }, { status: 201 });
