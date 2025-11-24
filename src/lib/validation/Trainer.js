@@ -3,17 +3,9 @@ import { z } from "zod";
 export const TrainerSchema = z.object({
   email: z.string().email("Invalid email format"),
   name: z.string().min(2, "Name must be at least 2 characters"),
-  /*trainigTypes: z
-    .array(z.string().min(1, "Training type cannot be empty"))
-    .min(1, "At least one training type is required"),
-  address: z.string().min(2, "Address must be at least 2 characters"),
-  trainings: z
-    .array(
-      z.object({
-        trainingId: z.string().min(1, "trainingId cannot be empty"),
-      })
-    )
-    .default([]),
+});
+
+export const CommentsSchema = z.object({
   comments: z
     .array(
       z.object({
@@ -21,5 +13,5 @@ export const TrainerSchema = z.object({
         comment: z.string().min(1, "Comment cannot be empty"),
       })
     )
-    .default([]),*/
+    .default([])
 });

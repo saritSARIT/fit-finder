@@ -99,8 +99,8 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
 
       <nav className={styles.navLinks}>
         <Link
-          href="/dashboard/trainer/comments"
-          className={pathname.includes("comments") ? styles.active : ""}
+          href="/dashboard/trainer/personalDetails"
+          className={pathname.includes("personalDetails") ? styles.active : ""}
         >
           פרטים אישיים
         </Link>
@@ -113,8 +113,8 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
         </Link>
         <span>|</span>
         <Link
-          href="/dashboard/trainer/personalDetails"
-          className={pathname.includes("personalDetails") ? styles.active : ""}
+          href="/dashboard/trainer/comments"
+          className={pathname.includes("comments") ? styles.active : ""}
         >
           ביקורות
         </Link>
