@@ -14,7 +14,6 @@ export const ActiveTrainingSchema = z.object({
   to: z.string().min(1, "End time is required"),
   trainerId: z.string().min(1, "Trainer ID is required"),
   type: z.string().min(1, "Type is required"),
-  address: z.string().min(2, "Address must be at least 2 characters"),
   classType: z.enum(["personal", "group"], "classType must be 'personal' or 'group'"),
 
 });
@@ -25,7 +24,6 @@ export const TrainingSchema = z.object({
   from: z.string().min(1, "Start time is required"),
   to: z.string().min(1, "End time is required"),
   trainerId: z.string().min(1, "Trainer ID is required"),
-  type: z.string().min(1, "Type is required"),
-  address: z.string().min(2, "Address must be at least 2 characters"),
+  type: z.string().min(1, "Type is required").optional(),
   classType: z.enum(["personal", "group"], "classType must be 'personal' or 'group'"),
 });
