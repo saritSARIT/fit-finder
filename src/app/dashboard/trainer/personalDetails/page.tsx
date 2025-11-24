@@ -116,16 +116,41 @@ export default function PersonalDetailsPage() {
 
         <label>סוגי אימון:</label>
         <div>
-          {trainingOptions.map((type) => (
-            <label key={type}>
-              <input
-                type="checkbox"
-                checked={trainerTypes.includes(type)}
-                onChange={() => toggleTrainerType(type)}
-              />
-              {type}
-            </label>
-          ))}
+          {/* select לבחירה מרובה */}
+          <select
+            onChange={(e) => {
+              const selected = e.target.value;
+              if (selected && !trainerTypes.includes(selected)) {
+                setTrainerTypes([...trainerTypes, selected]);
+              }
+              e.target.value = ""; // לאפס את ה-select
+            }}
+            defaultValue=""
+          >
+            <option value="" disabled>בחר סוג אימון</option>
+            {trainingOptions
+              .filter((t) => !trainerTypes.includes(t)) // להראות רק את מה שלא נבחר עדיין
+              .map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+          </select>
+
+          {/* רשימת סוגי האימון שנבחרו עם אפשרות למחיקה */}
+          <ul className={styles.selectedTypes}>
+            {trainerTypes.map((type) => (
+              <li key={type} className={styles.selectedType}>
+                {type}{" "}
+                <button
+                  type="button"
+                  onClick={() => setTrainerTypes(trainerTypes.filter((t) => t !== type))}
+                >
+                  הסר
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
@@ -214,14 +239,16 @@ export default function PersonalDetailsPage() {
                         {t.classType === "group" && (
                           <>
                             <label>סוג אימון:</label>
-                            <input
-                              type="text"
+                            <select
                               value={t.type}
-                              onChange={(e) =>
-                                updateTraining(globalIndex, "type", e.target.value)
-                              }
-                              placeholder="למשל: יוגה / HIIT / אירובי"
-                            />
+                              onChange={(e) => updateTraining(globalIndex, "type", e.target.value)}
+                            >
+                              {trainingOptions.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
                           </>
                         )}
                       </div>
