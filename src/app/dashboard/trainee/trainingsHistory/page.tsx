@@ -1,7 +1,9 @@
 "use client";
 
 import UniversalHeader from "@/components/header/header";
-import { userStore } from "@/store/userStore";
+// import { userStore } from "@/store/userStore";
+import { traineeStore } from "@/store/traineeStore";
+import { trainerStore } from "@/store/trainerStore";
 import { useEffect, useMemo, useState } from "react";
 
 interface TrainingSummary {
@@ -13,7 +15,7 @@ interface TrainingSummary {
 }
 
 export default function TrainingsHistoryPage() {
-  const user = userStore((state) => state.user);
+  const user = traineeStore((state) => state.trainee);
   const [history, setHistory] = useState<TrainingSummary[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

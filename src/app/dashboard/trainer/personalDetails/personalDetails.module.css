@@ -1,72 +1,150 @@
-.pdContainer {
-  direction: rtl;
-  font-family: "Assistant", sans-serif;
+/* === אזור המאמן === */
+.trainerWrapper {
+  background: #fff8d1;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #f4d67a;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  margin-top: 20px;
 }
 
 
-/* ===== FILTERS ===== */
 
-.pdFilters {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+.inputCommon {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fffef6;
+  margin-bottom: 15px;
 }
 
-.pdFilter-box {
-  width: 200px;
-  background: #eee;
-  padding: 12px;
-  text-align: center;
-  border-radius: 4px;
+/* === כפתור סוגי אימון === */
+.typesBtn {
+  background: #ffd54c;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
   font-weight: bold;
+  margin-top: 8px;
+  transition: 0.2s ease;
 }
 
-/* ===== TABLE ===== */
+.typesBtn:hover {
+  background: #ffc12c;
+}
+
+/* === תפריט סוגי אימון === */
+.typesDropdown {
+  margin-top: 10px;
+  background: #fffef4;
+  border: 1px solid #f0d98b;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  animation: fadeIn 0.2s ease;
+}
+
+/* === כל Row של צ'קבוקס === */
+.typeCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #fff8da;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.typeCheckbox:hover {
+  background: #ffe8a3;
+}
+
+.checkInput {
+  width: 18px;
+  height: 18px;
+}
+
+/* אנימציה */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === הטבלה === */
 .pdTable {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 30px;
+  margin-top: 20px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.pdTable th,
+.pdTable th {
+  background: #ffe37e;
+  padding: 15px;
+  border-bottom: 2px solid #f4c438;
+}
+
 .pdTable td {
-  border: 1px solid #ccc;
+  border: 1px solid #eee;
+  background: #fffef6;
   text-align: center;
   padding: 15px;
-  min-height: 80px;
 }
 
-.pdCell {
-  vertical-align: top;
+.pdTrainingBox {
+  background: #fff4c7;
+  border: 1px solid #f2cd6c;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.06);
 }
 
-.pdTraining-box {
-  text-align: right;
-  padding: 5px;
-  line-height: 1.3;
-}
-
-/* ===== BUTTONS ===== */
-
-.pdAdd-btn {
-  background: #eee;
+/* === כפתורים === */
+.pdAddBtnSmall {
+  background: #ffe086;
   border: none;
-  padding: 12px 25px;
+  padding: 8px 14px;
+  border-radius: 6px;
   cursor: pointer;
-  border-radius: 4px;
-  font-size: 15px;
-  margin-bottom: 35px;
+  transition: 0.2s ease;
 }
 
-.pdSave-wrapper {
+.pdAddBtnSmall:hover {
+  background: #ffd050;
+}
+
+.pdTrainingBox button {
+  background: #ffb84d;
+  border: none;
+  padding: 6px 12px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.pdSaveWrapper {
   text-align: center;
+  margin-top: 20px;
 }
 
-.pdSave-btn {
-  background: #eee;
+.pdSaveBtn {
+  background: #ffda6a;
   border: none;
-  padding: 12px 30px;
-  cursor: pointer;
-  border-radius: 4px;
+  padding: 12px 22px;
   font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.pdSaveBtn:hover {
+  background: #ffc944;
 }

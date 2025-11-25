@@ -5,9 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { moveToTrainer } from "@/services/trainerService";
 import { useRouter } from "next/navigation";
-import { userStore } from "@/store/userStore";
+import { traineeStore } from "@/store/traineeStore";
 import { usePathname } from "next/navigation";
-
 
 interface Props {
   role: "guest" | "trainee" | "trainer";
@@ -18,15 +17,15 @@ interface Props {
 
 export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
 
-  const user = userStore((state) => state.user);
+  const trainee = traineeStore((state) => state.trainee);
   const router = useRouter();
   const pathname = usePathname();
 
   const goToTrainer = () => {
     moveToTrainer(
-      user?.id || "",
-      user?.email || "",
-      user?.name || "");
+      trainee?.id || "",
+      trainee?.email || "",
+      trainee?.name || "");
     router.push("/dashboard/trainer/personalDetails");
   };
 
@@ -82,7 +81,7 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
           רשימת מועדפים
         </Link>
       </nav>
-      <span>הי,{user?.name}</span>
+      <span>הי,{trainee?.name}</span>
       <button className={styles.profileBtn}
         onClick={() => goToTrainer()}
       >
@@ -99,8 +98,8 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
 
       <nav className={styles.navLinks}>
         <Link
-          href="/dashboard/trainer/comments"
-          className={pathname.includes("comments") ? styles.active : ""}
+          href="/dashboard/trainer/personalDetails"
+          className={pathname.includes("personalDetails") ? styles.active : ""}
         >
           פרטים אישיים
         </Link>
@@ -113,13 +112,13 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
         </Link>
         <span>|</span>
         <Link
-          href="/dashboard/trainer/personalDetails"
-          className={pathname.includes("personalDetails") ? styles.active : ""}
+          href="/dashboard/trainer/comments"
+          className={pathname.includes("comments") ? styles.active : ""}
         >
           ביקורות
         </Link>
       </nav>
-      <span>הי,{user?.name}</span>
+      <span>הי,{trainee?.name}</span>
       <button
         className={styles.profileBtn}
         onClick={() => goToTrainee()}
