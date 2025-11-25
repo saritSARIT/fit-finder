@@ -28,10 +28,11 @@
 /* === תפריט סוגי אימון === */
 .typesDropdown {
   margin-top: 10px;
-  background: #fffef4;
-  border: 1px solid #facc15;
+  background: #facc15;
+  border: 3px solid #0046a5;
   padding: 15px;
   border-radius: 12px;
+  width: 20%;
 }
 
 /* === כל Row של צ'קבוקס === */
@@ -42,7 +43,6 @@
   padding: 8px 10px;
   border-radius: 8px;
   cursor: pointer;
-  transition: 0.2s ease;
 }
 
 
@@ -57,9 +57,9 @@
 }
 
 .pdTable th {
-  background: #ffe37e;
+  background: #facc15;
   padding: 15px;
-  border-bottom: 2px solid #f4c438;
+  border-bottom: 2px solid #facc15;
 }
 
 .pdTable td {
