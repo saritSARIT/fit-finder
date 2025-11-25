@@ -3,7 +3,8 @@
 import { useState } from "react";
 import UniversalHeader from "@/components/header/header";
 import styles from "./personalDetails.module.css";
-import { userStore } from "@/store/userStore";
+import { trainerStore } from "@/store/trainerStore";
+import { useEffect } from "react";
 
 type Training = {
   day: number;
@@ -15,12 +16,36 @@ type Training = {
 };
 
 export default function PersonalDetailsPage() {
-  const trainer = userStore((state) => state.user);
-
+  const trainer = trainerStore((state) => state.trainer);
   const [trainings, setTrainings] = useState<Training[]>([]);
   const [trainerAddress, setTrainerAddress] = useState("");
   const [trainerTypes, setTrainerTypes] = useState<string[]>([]);
   const [showTypes, setShowTypes] = useState(false);
+
+  useEffect(() => {
+    if (!trainer) return;
+
+    const fetchTrainerData = async () => {
+      try {
+        const res = await fetch(`/api/trainer/${trainer.id}`);
+        if (!res.ok) throw new Error("Failed to fetch trainer data");
+        const data = await res.json();
+
+        // הגדרת הנתונים ב-state
+        setTrainerAddress(data.address || "");
+        setTrainerTypes(data.types || []);
+
+        // אם יש לך אימונים שמורים
+        if (data.trainings && Array.isArray(data.trainings)) {
+          setTrainings(data.trainings);
+        }
+      } catch (err) {
+        console.error("Error fetching trainer data:", err);
+      }
+    };
+
+    fetchTrainerData();
+  }, [trainer]);
 
   const trainingOptions = ["יוגה", "HIIT", "אירובי", "פילאטיס"];
 
@@ -65,20 +90,39 @@ export default function PersonalDetailsPage() {
     if (!trainer) return;
 
     try {
-      for (const training of trainings) {
+      /*for (const training of trainings) {
         await fetch("/api/training", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(training),
         });
+      }*/
+
+      // שמירה בפרטי המאמן ב-Trainer
+
+      const res = await fetch(`/api/trainer/${trainer.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          address: trainerAddress,
+          types: trainerTypes,
+        }),
+      });
+
+      if (res.status === 200) {
+        alert("הפרטים עודכנו בהצלחה");
+      }
+      else {
+        alert("res");
       }
 
-      alert("כל השינויים נשמרו בהצלחה!");
     } catch (err) {
       console.error("Save error:", err);
       alert("שגיאה בשמירת הנתונים");
     }
   };
+
+
 
   const days = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
 

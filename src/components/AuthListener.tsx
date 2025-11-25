@@ -1,22 +1,22 @@
 "use client";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { userStore } from "@/store/userStore";
+import { traineeStore } from "@/store/traineeStore";
 
 export default function AuthListener() {
   const { data: session, status } = useSession();
-  const setUser = userStore((state) => state.setUser);
+  const setTrainee = traineeStore((state) => state.setTrainee);
 
   useEffect(() => {
     // אחרי רענון, אם יש session, נטען את המידע ל-store
     if (status === "authenticated" && session?.user?.email) {
-      setUser({
+      setTrainee({
         id: session.user.id || "",
         name: session.user.name || "",
         email: session.user.email,
       });
     }
-  }, [status, session, setUser]);
+  }, [status, session, setTrainee]);
 
   return null; // לא מציג כלום, רק מאזין
 }

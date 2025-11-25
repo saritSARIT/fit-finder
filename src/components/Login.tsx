@@ -4,11 +4,11 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
-import { userStore } from "@/store/userStore";
+import { traineeStore } from "@/store/traineeStore";
 
 export default function Login({ onClose }: { onClose: () => void }) {
 
-  const setUser = userStore((state) => state.setUser);
+  const setTrainee = traineeStore((state) => state.setTrainee);
 
   const router = useRouter();
   const [form, setForm] = useState({
@@ -29,8 +29,6 @@ export default function Login({ onClose }: { onClose: () => void }) {
       });
 
       const data = await res.json();
-console.log(data);
-
 
       if (!res.ok) {
         const errors = Array.isArray(data.errors) ? data.errors.join("\n") : "";
@@ -38,7 +36,7 @@ console.log(data);
         return;
       }
 
-      setUser({
+      setTrainee({
         id: data.user.id,
         name: data.user.name,
         email: data.user.email,

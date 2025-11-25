@@ -4,11 +4,11 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
-import { userStore } from "@/store/userStore";
+import { traineeStore } from "@/store/traineeStore";
 
 export default function SignUp({ onClose }: { onClose: () => void }) {
 
-  const setUser = userStore((state) => state.setUser);
+  const setTrainee = traineeStore((state) => state.setTrainee);
 
   const router = useRouter();
   const [form, setForm] = useState({
@@ -38,7 +38,7 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
         return;
       }
 
-      setUser({
+      setTrainee({
         id: data.user.id.insertedId,
         name: data.user.name,
         email: data.user.email,
