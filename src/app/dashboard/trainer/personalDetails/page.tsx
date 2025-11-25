@@ -17,16 +17,13 @@ type Training = {
 export default function PersonalDetailsPage() {
   const trainer = userStore((state) => state.user);
 
-  // אימונים לפי ימים
   const [trainings, setTrainings] = useState<Training[]>([]);
-
-  // כתובת וסוגי אימון של המאמן
   const [trainerAddress, setTrainerAddress] = useState("");
   const [trainerTypes, setTrainerTypes] = useState<string[]>([]);
+  const [showTypes, setShowTypes] = useState(false);
 
   const trainingOptions = ["יוגה", "HIIT", "אירובי", "פילאטיס"];
 
-  // הוספת אימון חדש ליום מסוים
   const addTrainingForDay = (dayIndex: number) => {
     if (!trainer) return;
     setTrainings((prev) => [
@@ -42,7 +39,6 @@ export default function PersonalDetailsPage() {
     ]);
   };
 
-  // עדכון שדה של אימון
   const updateTraining = <K extends keyof Training>(
     index: number,
     field: K,
@@ -53,12 +49,10 @@ export default function PersonalDetailsPage() {
     setTrainings(updated);
   };
 
-  // מחיקת אימון
   const deleteTraining = (index: number) => {
     setTrainings((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // טיפול בבחירת סוג אימון של המאמן
   const toggleTrainerType = (type: string) => {
     if (trainerTypes.includes(type)) {
       setTrainerTypes(trainerTypes.filter((t) => t !== type));
@@ -67,12 +61,10 @@ export default function PersonalDetailsPage() {
     }
   };
 
-  // שמירה של כל השינויים
   const saveAllChanges = async () => {
     if (!trainer) return;
 
     try {
-      // שמירה ב-Training
       for (const training of trainings) {
         await fetch("/api/training", {
           method: "POST",
@@ -80,16 +72,6 @@ export default function PersonalDetailsPage() {
           body: JSON.stringify(training),
         });
       }
-
-      // שמירה בפרטי המאמן ב-Trainer
-      /*await fetch(`/api/trainer/${trainer.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          address: trainerAddress,
-          types: trainerTypes,
-        }),
-      });*/
 
       alert("כל השינויים נשמרו בהצלחה!");
     } catch (err) {
@@ -104,54 +86,42 @@ export default function PersonalDetailsPage() {
     <div>
       <UniversalHeader role="trainer" />
 
-      <div className={styles.trainerSection}>
-        <h3>פרטי המאמן</h3>
+      <div className={styles.trainerWrapper}>
+        <h3 className={styles.trainerHeader}>פרטי המאמן</h3>
 
         <label>כתובת:</label>
         <input
           type="text"
+          className={styles.inputCommon}
           value={trainerAddress}
           onChange={(e) => setTrainerAddress(e.target.value)}
         />
 
         <label>סוגי אימון:</label>
-        <div>
-          {/* select לבחירה מרובה */}
-          <select
-            onChange={(e) => {
-              const selected = e.target.value;
-              if (selected && !trainerTypes.includes(selected)) {
-                setTrainerTypes([...trainerTypes, selected]);
-              }
-              e.target.value = ""; // לאפס את ה-select
-            }}
-            defaultValue=""
-          >
-            <option value="" disabled>בחר סוג אימון</option>
-            {trainingOptions
-              .filter((t) => !trainerTypes.includes(t)) // להראות רק את מה שלא נבחר עדיין
-              .map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-          </select>
 
-          {/* רשימת סוגי האימון שנבחרו עם אפשרות למחיקה */}
-          <ul className={styles.selectedTypes}>
-            {trainerTypes.map((type) => (
-              <li key={type} className={styles.selectedType}>
-                {type}{" "}
-                <button
-                  type="button"
-                  onClick={() => setTrainerTypes(trainerTypes.filter((t) => t !== type))}
-                >
-                  הסר
-                </button>
-              </li>
+        <button
+          type="button"
+          className={styles.typesBtn}
+          onClick={() => setShowTypes(!showTypes)}
+        >
+          בחר סוגי אימון
+        </button>
+
+        {showTypes && (
+          <div className={styles.typesDropdown}>
+            {trainingOptions.map((option) => (
+              <label key={option} className={styles.typeCheckbox}>
+                <input
+                  type="checkbox"
+                  className={styles.checkInput}
+                  checked={trainerTypes.includes(option)}
+                  onChange={() => toggleTrainerType(option)}
+                />
+                <span>{option}</span>
+              </label>
             ))}
-          </ul>
-        </div>
+          </div>
+        )}
       </div>
 
       <table className={styles.pdTable}>
@@ -235,13 +205,14 @@ export default function PersonalDetailsPage() {
                           </label>
                         </div>
 
-                        {/* סוג אימון רק אם קבוצתי */}
                         {t.classType === "group" && (
                           <>
                             <label>סוג אימון:</label>
                             <select
                               value={t.type}
-                              onChange={(e) => updateTraining(globalIndex, "type", e.target.value)}
+                              onChange={(e) =>
+                                updateTraining(globalIndex, "type", e.target.value)
+                              }
                             >
                               {trainingOptions.map((option) => (
                                 <option key={option} value={option}>
