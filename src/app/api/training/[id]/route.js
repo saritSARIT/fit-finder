@@ -24,24 +24,24 @@ export async function GET(request, { params }) {
     }
 }
 
-//שליפת רשימת אימונים של מתאמן לפי מזהה (_id)
-export async function GET(request, { params }) {
-    const { id } = await params;
+// //שליפת רשימת אימונים של מתאמן לפי מזהה (_id)
+// export async function GET(request, { params }) {
+//     const { id } = await params;
 
-    try {
-        const db = client.db("FitFinder");
-        const collection = db.collection("Training");
-        const trainings = await collection
-            .find({ traineeId: id })
-            .sort({ date: -1 })
-            .toArray();
+//     try {
+//         const db = client.db("FitFinder");
+//         const collection = db.collection("Training");
+//         const trainings = await collection
+//             .find({ traineeId: id })
+//             .sort({ date: -1 })
+//             .toArray();
 
-        return NextResponse.json(trainings);
-    } catch (error) {
-        console.error(error);
-        return NextResponse.json({ message: "Invalid ID or server error" }, { status: 500 });
-    }
-}
+//         return NextResponse.json(trainings);
+//     } catch (error) {
+//         console.error(error);
+//         return NextResponse.json({ message: "Invalid ID or server error" }, { status: 500 });
+//     }
+// }
 
 
 // עדכון אימון לפי מזהה (_id)
