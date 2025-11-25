@@ -2,9 +2,9 @@
 
 import UniversalHeader from "@/components/header/header";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, Suspense, useMemo, useState } from "react";
 
-export default function AddCommentPage() {
+function AddCommentForm() {
   const searchParams = useSearchParams();
   const trainingId = useMemo(
     () => searchParams.get("trainingId") ?? "",
@@ -60,9 +60,7 @@ export default function AddCommentPage() {
   };
 
   return (
-    <>
-      <UniversalHeader role="trainee" />
-      <div style={{ padding: "2rem" }}>
+    <div style={{ padding: "2rem" }}>
         <h2>השארת ביקורת על אימון</h2>
         {!trainingId && (
           <p style={{ color: "red" }}>
@@ -130,6 +128,16 @@ export default function AddCommentPage() {
           </form>
         )}
       </div>
+  );
+}
+
+export default function AddCommentPage() {
+  return (
+    <>
+      <UniversalHeader role="trainee" />
+      <Suspense fallback={<div style={{ padding: "2rem" }}>טוען...</div>}>
+        <AddCommentForm />
+      </Suspense>
     </>
   );
 }
