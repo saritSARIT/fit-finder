@@ -127,11 +127,11 @@ export default function PersonalDetailsPage() {
   const days = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
 
   return (
-    <div>
+    <div className={styles.container}>
       <UniversalHeader role="trainer" />
 
       <div className={styles.trainerWrapper}>
-        <h3 className={styles.trainerHeader}>פרטי המאמן</h3>
+        <h3>פרטי המאמן</h3>
 
         <label>כתובת:</label>
         <input
