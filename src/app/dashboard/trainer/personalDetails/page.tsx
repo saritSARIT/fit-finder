@@ -275,8 +275,10 @@ export default function PersonalDetailsPage() {
                               type="radio"
                               name={`classType-${globalIndex}`}
                               checked={t.classType === "personal"}
-                              onChange={() =>
-                                updateTraining(globalIndex, "classType", "personal")
+                              onChange={() => {
+                                updateTraining(globalIndex, "classType", "personal");
+                                updateTraining(globalIndex, "type", "");
+                              }
                               }
                             />
                             אישי
