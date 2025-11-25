@@ -24,6 +24,6 @@ export const TrainingSchema = z.object({
   from: z.string().min(1, "Start time is required"),
   to: z.string().min(1, "End time is required"),
   trainerId: z.string().min(1, "Trainer ID is required"),
-  type: z.string().min(1, "Type is required").optional(),
+  type: z.string(),
   classType: z.enum(["personal", "group"], "classType must be 'personal' or 'group'"),
 });

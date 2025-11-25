@@ -5,6 +5,7 @@ import UniversalHeader from "@/components/header/header";
 import styles from "./personalDetails.module.css";
 import { trainerStore } from "@/store/trainerStore";
 import { useEffect } from "react";
+import { getTrainerTrainings } from "@/services/trainerService"
 
 type Training = {
   day: number;
@@ -36,9 +37,8 @@ export default function PersonalDetailsPage() {
         setTrainerTypes(data.types || []);
 
         // אם יש לך אימונים שמורים
-        if (data.trainings && Array.isArray(data.trainings)) {
-          setTrainings(data.trainings);
-        }
+        const existingTrainings = await getTrainerTrainings(trainer.id);
+        setTrainings(existingTrainings);
       } catch (err) {
         console.error("Error fetching trainer data:", err);
       }
@@ -58,7 +58,7 @@ export default function PersonalDetailsPage() {
         from: "",
         to: "",
         trainerId: trainer.id,
-        type: "",
+        type: trainerTypes[0],
         classType: "",
       },
     ]);
@@ -90,16 +90,62 @@ export default function PersonalDetailsPage() {
     if (!trainer) return;
 
     try {
-      /*for (const training of trainings) {
-        await fetch("/api/training", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(training),
-        });
-      }*/
+      const existingTrainings = await getTrainerTrainings(trainer.id);
+
+      for (const t of trainings) {
+        // לבדוק אם האימון כבר קיים במונגו
+        const exists = existingTrainings.find((et: any) =>
+          et.day === t.day &&
+          et.from === t.from &&
+          et.to === t.to &&
+          et.classType === t.classType &&
+          et.type === t.type
+        );
+
+        if (exists) {
+          // עדכון האימון הקיים לפי מה ששונה
+          const res = await fetch(`/api/training/${exists._id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(t),
+          });
+          if (res.status !== 200 && res.status !== 201) {
+            alert("שגיאה");
+            return;
+          }
+        } else {
+          // הוספת אימון חדש
+          const res = await fetch("/api/training", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(t),
+          });
+          if (res.status !== 200 && res.status !== 201) {
+            alert("שגיאה");
+            return;
+          }
+        }
+      }
+
+      // מחיקת אימונים שנמחקו מה-state אבל קיימים במונגו
+      for (const et of existingTrainings) {
+        const stillExists = trainings.find(t =>
+          t.day === et.day &&
+          t.from === et.from &&
+          t.to === et.to &&
+          t.classType === et.classType &&
+          t.type === et.type
+        );
+        if (!stillExists) {
+          const res = await fetch(`/api/training/${et._id}`, { method: "DELETE" });
+          if (res.status !== 200 && res.status !== 201) {
+            alert("שגיאה");
+            return;
+          }
+        }
+      }
 
       // שמירה בפרטי המאמן ב-Trainer
-
       const res = await fetch(`/api/trainer/${trainer.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -109,11 +155,11 @@ export default function PersonalDetailsPage() {
         }),
       });
 
-      if (res.status === 200) {
+      if (res.status === 200 || res.status === 201) {
         alert("הפרטים עודכנו בהצלחה");
       }
       else {
-        alert("res");
+        alert("שגיאה");
       }
 
     } catch (err) {
@@ -258,7 +304,7 @@ export default function PersonalDetailsPage() {
                                 updateTraining(globalIndex, "type", e.target.value)
                               }
                             >
-                              {trainingOptions.map((option) => (
+                              {trainerTypes.map((option) => (
                                 <option key={option} value={option}>
                                   {option}
                                 </option>
