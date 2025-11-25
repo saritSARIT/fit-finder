@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "FitFinder",
+   icons: {
+    icon: "/logo.svg",
+  },
   description: "Find the perfect gym for you with FitFinder.",
 };
 
