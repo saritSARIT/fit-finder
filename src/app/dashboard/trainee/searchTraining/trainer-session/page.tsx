@@ -21,70 +21,41 @@ export default function TrainerSessionPage({ params }: any) {
   const { id } = params;
   const router = useRouter();
 
-  const [session, setSession] = useState<Session | null>(null);
+  const [trainer, setTrainer] = useState<any>(null);
 
   useEffect(() => {
-    const fetchSession = async () => {
-      const fakeData: Session = {
-        id,
-        trainerName: "שם המאמן לדוגמה",
-        location: "דיזנגוף 200, תל אביב",
-        date: "2025-01-12",
-        from: "18:00",
-        to: "19:00",
-        types: ["יוגה", "פילאטיס"],
-        personal: true,
-        group: false,
-      };
+    const saved = localStorage.getItem("selectedTrainer");
+    if (saved) setTrainer(JSON.parse(saved));
+  }, []);
 
-      setSession(fakeData);
-    };
+  if (!trainer) return <p>טוען...</p>;
 
-    fetchSession();
-  }, [id]);
-
-  if (!session) return <div>טוען…</div>;
 
   return (
     <div className={styles.page}>
       <UniversalHeader role="trainee" />
 
       <div className={styles.card}>
-        <h2 className={styles.title}>פרטי אימון</h2>
+        <h2 className={styles.title}>פרטי המאמן</h2>
 
         <div className={styles.row}>
           <span className={styles.label}>שם המאמן:</span>
-          <span>{session.trainerName}</span>
+          <span>{trainer.name}</span>
+        </div>
+
+        <div className={styles.row}>
+          <span className={styles.label}>אימייל:</span>
+          <span>{trainer.email}</span>
         </div>
 
         <div className={styles.row}>
           <span className={styles.label}>מיקום אימון:</span>
-          <span>{session.location}</span>
-        </div>
-
-        <div className={styles.row}>
-          <span className={styles.label}>תאריך:</span>
-          <span>{session.date}</span>
-        </div>
-
-        <div className={styles.row}>
-          <span className={styles.label}>שעות:</span>
-          <span>
-            {session.from} - {session.to}
-          </span>
+          <span>{trainer.address}</span>
         </div>
 
         <div className={styles.row}>
           <span className={styles.label}>סוגי אימון:</span>
-          <span>{session.types.join(", ")}</span>
-        </div>
-
-        <div className={styles.row}>
-          <span className={styles.label}>אופי אימון:</span>
-          <span>
-            {session.personal && "אישי "}
-            {session.group && "קבוצתי "}
-          </span>
+          <span>{trainer.types.join(", ")}</span>
         </div>
 
         <button

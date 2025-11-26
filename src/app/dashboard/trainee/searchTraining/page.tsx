@@ -26,8 +26,9 @@ export default function SearchTrainingPage() {
     ? trainers.filter((t) => t.name?.includes(selectedTrainer))
     : trainers;
 
-  const goToTrainerSession = () => {
-    router.push("searchTraining/trainer-session")
+  const goToTrainerSession = (trainer: any) => {
+    localStorage.setItem("selectedTrainer", JSON.stringify(trainer));
+    router.push("searchTraining/trainer-session");
   }
 
 
@@ -80,7 +81,7 @@ export default function SearchTrainingPage() {
           <div
             key={t._id}
             className="trainer-card"
-            onClick={() => goToTrainerSession()}
+            onClick={() => goToTrainerSession(t)}
           >
             <p>מאמנים של אותו יום מהשעה {t.time || "—"}</p>
             <p>שהוא נכנס ואילך</p>
