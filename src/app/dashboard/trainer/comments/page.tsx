@@ -3,6 +3,8 @@ import UniversalHeader from "@/components/header/header";
 import { getCommentsTrainer } from "@/services/trainerService";
 import { trainerStore } from "@/store/trainerStore";
 import { useState, useEffect } from "react";
+import styles from "./comments.module.css";
+
 export default function CommentsPage() {
   const trainer = trainerStore(state => state.trainer);
   const [comments, setComments] = useState([]);
@@ -12,30 +14,27 @@ export default function CommentsPage() {
       if (!trainer?.id) return;
       const comments = await getCommentsTrainer(trainer.id);
       setComments(comments);
-      console.log(comments);
 
     };
     fetchComments();
   }, [])
 
   return (
-    <div>
-      <UniversalHeader role="trainer" />
+   <div className={styles.container}>
+  <UniversalHeader role="trainer" />
 
-      <h2>ביקורות</h2>
+  <div className={styles.commentsList}>
+    {comments.length === 0 && (
+      <p className={styles.noComments}>אין עדיין ביקורות</p>
+    )}
 
-      <div>
-        {comments.length === 0 && (
-          <p>אין עדיין ביקורות</p>
-        )}
-
-        {comments.map((c: any, i) => (
-          <div key={i}>
-            <p>{c.traineeName}</p>
-            <p>{c.comment}</p>
-          </div>
-        ))}
+    {comments.map((c: any, i) => (
+      <div key={i} className={styles.commentCard}>
+        <p className={styles.commentName}>{c.traineeName}</p>
+        <p className={styles.commentText}>{c.comment}</p>
       </div>
-    </div>
+    ))}
+  </div>
+</div>
   );
 }

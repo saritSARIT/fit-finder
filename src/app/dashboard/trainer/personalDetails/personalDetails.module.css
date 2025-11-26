@@ -41,7 +41,6 @@
 
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  /* לשנות ל-5 אם רוצים */
   gap: 10px;
 }
 
