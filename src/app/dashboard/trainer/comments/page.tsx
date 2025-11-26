@@ -20,21 +20,31 @@ export default function CommentsPage() {
   }, [])
 
   return (
-   <div className={styles.container}>
-  <UniversalHeader role="trainer" />
+    <div className={styles.container}>
+      <UniversalHeader role="trainer" />
 
-  <div className={styles.commentsList}>
-    {comments.length === 0 && (
-      <p className={styles.noComments}>אין עדיין ביקורות</p>
-    )}
+      <div className={styles.commentsList}>
+        {comments.length === 0 && (
+          <p className={styles.noComments}>אין עדיין ביקורות</p>
+        )}
 
-    {comments.map((c: any, i) => (
-      <div key={i} className={styles.commentCard}>
-        <p className={styles.commentName}>{c.traineeName}</p>
-        <p className={styles.commentText}>{c.comment}</p>
+        {comments.map((c: any, i) => (
+          <div key={i} className={styles.commentCard}>
+            <p className={styles.commentName}>{c.traineeName}</p>
+            <p className={styles.commentText}>{c.comment}</p>
+            <p className={styles.commentRating}>
+              {[1, 2, 3, 4, 5].map((star) => (
+                <span
+                  key={star}
+                  className={star <= c.rating ? styles.starFilled : styles.starEmpty}
+                >
+                  {star <= c.rating ? '★' : '✰'}
+                </span>
+              ))}
+            </p>
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-</div>
+    </div>
   );
 }
