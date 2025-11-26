@@ -47,7 +47,7 @@ export default function PersonalDetailsPage() {
     fetchTrainerData();
   }, [trainer]);
 
-  const trainingOptions = ["יוגה", "HIIT", "אירובי", "פילאטיס"];
+  const trainingOptions = ["יוגה", "HIIT", "אירובי", "פילאטיס", "קרוספיט", "אימון כוח", "אימון משקל גוף", "שחייה", "ריצה", "טבטה", "קיקבוקס", "איגרוף", " TRX", "מתיחות", "פילאטיס מכשירים", "Core", "אליפטיקל", "קפיצות בחבל", "אימון פונקציונלי", "זומבה"];
 
   const addTrainingForDay = (dayIndex: number) => {
     if (!trainer) return;
@@ -177,7 +177,6 @@ export default function PersonalDetailsPage() {
       <UniversalHeader role="trainer" />
 
       <div className={styles.trainerWrapper}>
-        <h3>פרטי המאמן</h3>
 
         <label>כתובת:</label>
         <input
@@ -186,6 +185,7 @@ export default function PersonalDetailsPage() {
           value={trainerAddress}
           onChange={(e) => setTrainerAddress(e.target.value)}
         />
+        <br />
 
         <label>סוגי אימון:</label>
 
@@ -227,12 +227,6 @@ export default function PersonalDetailsPage() {
           <tr>
             {days.map((_, dayIndex) => (
               <td key={dayIndex} className={styles.pdCell}>
-                <button
-                  className={styles.pdAddBtnSmall}
-                  onClick={() => addTrainingForDay(dayIndex)}
-                >
-                  + הוספת אימון
-                </button>
 
                 {trainings
                   .filter((t) => t.day === dayIndex)
@@ -242,14 +236,8 @@ export default function PersonalDetailsPage() {
                     return (
                       <div key={i} className={styles.pdTrainingBox}>
                         <hr />
-                        <strong>אימון #{i + 1}</strong>
-
-                        <button
-                          type="button"
-                          onClick={() => deleteTraining(globalIndex)}
-                        >
-                          מחק אימון
-                        </button>
+                        <strong>אימון {i + 1}</strong>
+                        <br />
 
                         <label>משעה:</label>
                         <input
@@ -259,7 +247,7 @@ export default function PersonalDetailsPage() {
                             updateTraining(globalIndex, "from", e.target.value)
                           }
                         />
-
+                         <br />
                         <label>עד שעה:</label>
                         <input
                           type="time"
@@ -268,6 +256,7 @@ export default function PersonalDetailsPage() {
                             updateTraining(globalIndex, "to", e.target.value)
                           }
                         />
+                        <br />
 
                         <div>
                           <label>
@@ -296,7 +285,6 @@ export default function PersonalDetailsPage() {
                             קבוצתי
                           </label>
                         </div>
-
                         {t.classType === "group" && (
                           <>
                             <label>סוג אימון:</label>
@@ -314,9 +302,23 @@ export default function PersonalDetailsPage() {
                             </select>
                           </>
                         )}
+                        <br />
+                        
+                        <button className={styles.deleteBtn}
+                          type="button"
+                          onClick={() => deleteTraining(globalIndex)}
+                        >
+                          🗑️
+                        </button>
                       </div>
                     );
                   })}
+                <button
+                  className={styles.pdAddBtnSmall}
+                  onClick={() => addTrainingForDay(dayIndex)}
+                >
+                  +
+                </button>
               </td>
             ))}
           </tr>
