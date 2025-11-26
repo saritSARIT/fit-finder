@@ -35,3 +35,14 @@
   color: #0046a5;
   line-height: 1.5;
 }
+
+.starFilled {
+  color: #0046a5; 
+  font-size: 40px;
+  
+}
+
+.starEmpty {
+  color: #0046a5;
+  font-size: 39px;
+}
