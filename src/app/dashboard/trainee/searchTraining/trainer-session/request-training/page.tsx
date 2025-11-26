@@ -37,7 +37,7 @@ export default function RequestTrainingPage({ params }: any) {
 
   const sendRequest = () => {
     alert("הבקשה נשלחה!");
-    router.push("/");
+    router.push("/dashboard/trainee/myTrainings");
   };
 
   return (
