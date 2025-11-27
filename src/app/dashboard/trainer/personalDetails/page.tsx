@@ -22,6 +22,7 @@ export default function PersonalDetailsPage() {
   const [trainerAddress, setTrainerAddress] = useState("");
   const [trainerTypes, setTrainerTypes] = useState<string[]>([]);
   const [showTypes, setShowTypes] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!trainer) return;
@@ -41,6 +42,9 @@ export default function PersonalDetailsPage() {
         setTrainings(existingTrainings);
       } catch (err) {
         console.error("Error fetching trainer data:", err);
+      }
+      finally {
+        setLoading(false);
       }
     };
 
@@ -172,6 +176,15 @@ export default function PersonalDetailsPage() {
 
   const days = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
 
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <UniversalHeader role="trainer" />
+        <h2>טוען...</h2>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <UniversalHeader role="trainer" />
@@ -247,7 +260,7 @@ export default function PersonalDetailsPage() {
                             updateTraining(globalIndex, "from", e.target.value)
                           }
                         />
-                         <br />
+                        <br />
                         <label>עד שעה:</label>
                         <input
                           type="time"
@@ -303,7 +316,7 @@ export default function PersonalDetailsPage() {
                           </>
                         )}
                         <br />
-                        
+
                         <button className={styles.deleteBtn}
                           type="button"
                           onClick={() => deleteTraining(globalIndex)}
