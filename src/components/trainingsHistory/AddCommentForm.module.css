@@ -1,0 +1,77 @@
+.container {
+  direction: rtl;
+  font-family: "Assistant", sans-serif;
+  
+}
+
+.label {
+  color: #0046a5;  
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: bold;
+
+}
+
+.stars {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.3rem;
+}
+
+.star {
+  font-size: 1.9rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #ccc;
+}
+
+.starActive {
+  color: #facc15;
+}
+
+.textarea {
+  width: 93%;
+  margin-top: 1.5rem;
+  resize: none;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 2px solid #facc15;
+}
+
+.error {
+  color: #0046a5;
+  margin-bottom: 1rem;
+  margin-right: 32%;
+}
+
+.success {
+  color: #0046a5;
+  margin-bottom: 1rem;
+  margin-right: 32%;
+}
+
+
+
+.submitBtn {
+  padding: 0.6rem 1rem;
+  background: #facc15;
+  color: #0046a5;
+  border: 2px solid #0046a5;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  margin-right: 35%;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #0046a5 ; 
+  margin-right: 95%;
+}
+
+
