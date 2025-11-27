@@ -4,38 +4,54 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import UniversalHeader from "@/components/header/header";
 import styles from "./requestTraining.module.css";
+import { traineeStore } from "@/store/traineeStore";
 
-type SessionData = {
-  trainerName: string;
-  address: string;
-  from: string;
-  to: string;
-  types: string[];
-};
-
-export default function RequestTrainingPage({ params }: any) {
-  const { id } = params;
+export default function RequestTrainingPage() {
   const router = useRouter();
-
-  const [session, setSession] = useState<SessionData | null>(null);
+  const trainee = traineeStore(state => state.trainee)
+  const [training, setTraining] = useState<any>(null);
   const [selectedType, setSelectedType] = useState("");
+  const [trainer, setTrainer] = useState<any>(null)
   const [note, setNote] = useState("");
 
   useEffect(() => {
-    // כאן לחבר ל־API שלך
-    const fake = {
-      trainerName: "שם המאמן לדוגמה",
-      address: "רחוב החשמונאים 91, תל אביב",
-      from: "18:00",
-      to: "19:00",
-      types: ["יוגה", "קרוספיט", "אישי"],
-    };
-    setSession(fake);
-  }, [id]);
+    const trainer = localStorage.getItem("selectedTrainer");
+    if (!trainer) return;
+    const parsedTrainer = JSON.parse(trainer);
+    setTrainer(parsedTrainer)
 
-  if (!session) return <div>טוען…</div>;
+    const training = localStorage.getItem("selectedTraining");
+    if (!training) return;
+    const parsedTraining = JSON.parse(training);
+    setTraining(parsedTraining);
 
-  const sendRequest = () => {
+    setSelectedType(parsedTraining.type || parsedTrainer.types[0])
+  }, []);
+
+  if (!training) return <div>טוען…</div>;
+
+  const sendRequest = async () => {
+    let updatedTraineeIds;
+    const exist = training.traineeId.find((x: any) => x === trainee?.id)
+    if (exist) {
+      updatedTraineeIds = [...training.traineeId];
+    }
+    else {
+      updatedTraineeIds = training.traineeId ? [...training.traineeId, trainee?.id] : [trainee?.id];
+    }
+    const res = await fetch(`/api/training/${training._id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        //date: ,
+        traineeId: updatedTraineeIds,
+        type: selectedType,
+        //note: note,
+        status: "sent"
+      }),
+    });
+
+
     alert("הבקשה נשלחה!");
     router.push("/dashboard/trainee/myTrainings");
   };
@@ -49,33 +65,55 @@ export default function RequestTrainingPage({ params }: any) {
 
         <div className={styles.row}>
           <span className={styles.label}>שם המאמן:</span>
-          <span>{session.trainerName}</span>
+          <span>{trainer.name}</span>
         </div>
 
         <div className={styles.row}>
-          <span className={styles.label}>כתובת:</span>
-          <span>{session.address}</span>
+          <span className={styles.label}>תאריך:</span>
+          <span></span>
         </div>
 
         <div className={styles.row}>
           <span className={styles.label}>משעה עד שעה:</span>
-          <span>{session.from} - {session.to}</span>
+          <span>{training.from} - {training.to}</span>
         </div>
 
         <div className={styles.row}>
-          <span className={styles.label}>סוג אימון:</span>
-
-          <select
-            className={styles.select}
-            value={selectedType}
-            onChange={(e) => setSelectedType(e.target.value)}
-          >
-            <option value="">בחר סוג אימון</option>
-            {session.types.map((t, i) => (
-              <option key={i} value={t}>{t}</option>
-            ))}
-          </select>
+          <span className={styles.label}>כתובת:</span>
+          <span>{trainer.address}</span>
         </div>
+
+        {training.type ?
+          <>
+            <div className={styles.row}>
+              <span className={styles.label}>סוג אימון:</span>
+              <span>{training.type}</span>
+            </div>
+
+            <div className={styles.row}>
+              <span>קבוצתי</span>
+            </div>
+          </>
+
+          :
+          <>
+            <div className={styles.row}>
+              <span className={styles.label}>בחר סוג אימון</span>
+              <select
+                value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value)}
+              >
+                {trainer.types.map((t: string, index: number) => (
+                  <option key={index} value={t}>{t}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className={styles.row}>
+              <span>אישי</span>
+            </div>
+          </>
+        }
 
         <div className={styles.column}>
           <span className={styles.label}>הערות:</span>

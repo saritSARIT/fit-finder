@@ -119,10 +119,11 @@ export default function PersonalDetailsPage() {
           }
         } else {
           // הוספת אימון חדש
+          const payload = { ...t, status: "empty" };
           const res = await fetch("/api/training", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(t),
+            body: JSON.stringify(payload),
           });
           if (res.status !== 200 && res.status !== 201) {
             alert("שגיאה");
