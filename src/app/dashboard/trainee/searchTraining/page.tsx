@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { FaFilter } from "react-icons/fa";
 import { UniversalHeader } from "@/components/index";
+import { useRouter } from "next/navigation";
 import "./style.css";
 
 export default function SearchTrainingPage() {
@@ -9,6 +10,7 @@ export default function SearchTrainingPage() {
   const [selectedTrainer, setSelectedTrainer] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     fetch("/api/trainer")
@@ -23,6 +25,12 @@ export default function SearchTrainingPage() {
   const filtered = selectedTrainer
     ? trainers.filter((t) => t.name?.includes(selectedTrainer))
     : trainers;
+
+  const goToTrainerSession = (trainer: any) => {
+    localStorage.setItem("selectedTrainer", JSON.stringify(trainer));
+    router.push("searchTraining/trainer-session");
+  }
+
 
   return (
     <div className="search-page">
@@ -70,7 +78,11 @@ export default function SearchTrainingPage() {
       {/* רשימת מאמנים */}
       <div className="trainers-grid">
         {filtered.map((t) => (
-          <div key={t._id} className="trainer-card">
+          <div
+            key={t._id}
+            className="trainer-card"
+            onClick={() => goToTrainerSession(t)}
+          >
             <p>מאמנים של אותו יום מהשעה {t.time || "—"}</p>
             <p>שהוא נכנס ואילך</p>
             <p className="trainer-name">מאמן: {t.name}</p>
@@ -113,4 +125,4 @@ export default function SearchTrainingPage() {
       )}
     </div>
   );
-}
+};

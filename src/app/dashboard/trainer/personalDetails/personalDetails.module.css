@@ -1,15 +1,19 @@
-
 .container {
   min-height: 100vh;
   font-family: "Assistant", sans-serif;
   color: #0046a5;
 }
 
-.inputCommon {
+.trainerWrapper {
+  margin-top: 15px;
   padding: 10px;
+}
+
+.inputCommon {
+  padding: 9px;
   border-radius: 8px;
-  border: 1px solid #facc15;
-  background:  #facc15;
+  border: 0.1px solid #facc15;
+  background: #facc15;
 }
 
 /* === כפתור סוגי אימון === */
@@ -20,9 +24,10 @@
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
-  margin-top: 8px;
+  margin-top: 10px;
   transition: 0.2s ease;
   color: #0046a5;
+  width: 163px;
 }
 
 /* === תפריט סוגי אימון === */
@@ -32,19 +37,26 @@
   border: 3px solid #0046a5;
   padding: 15px;
   border-radius: 12px;
-  width: 20%;
+  width: 97%;
+
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
 }
 
 /* === כל Row של צ'קבוקס === */
 .typeCheckbox {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   padding: 8px 10px;
   border-radius: 8px;
   cursor: pointer;
 }
 
+.checkInput {
+  transform: scale(1.1);
+}
 
 /* === הטבלה === */
 .pdTable {
@@ -52,7 +64,7 @@
   border-collapse: collapse;
   margin-top: 20px;
   background: white;
-  border-radius: 10px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -63,60 +75,70 @@
 }
 
 .pdTable td {
-  border: 1px solid #eee;
+  border: 2px solid #0046a5;
   background: #fffef6;
   text-align: center;
   padding: 15px;
 }
 
 .pdTrainingBox {
-  background: #fff4c7;
-  border: 1px solid #f2cd6c;
+  background: #facc15;
+  border: 2px solid #0046a5;
   padding: 12px;
   margin-top: 12px;
+  margin-bottom: 12px;
   border-radius: 10px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.06);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 35px;
 }
+
+
 
 /* === כפתורים === */
 .pdAddBtnSmall {
-  background: #ffe086;
+  background: #facc15;
   border: none;
   padding: 8px 14px;
-  border-radius: 6px;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
   transition: 0.2s ease;
+  color: #0046a5;
 }
 
-.pdAddBtnSmall:hover {
-  background: #ffd050;
-}
-
-.pdTrainingBox button {
-  background: #ffb84d;
-  border: none;
+.deleteBtn {
+  border:none;
   padding: 6px 12px;
-  color: white;
+  color: #0046a5;
   border-radius: 6px;
   cursor: pointer;
   margin-bottom: 10px;
+  background-color: #facc15;
+  width: fit-content;
+  font-size: 18px;
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  
 }
 
 .pdSaveWrapper {
   text-align: center;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .pdSaveBtn {
-  background: #ffda6a;
+  background: #facc15;
+  color: #0046a5;
   border: none;
   padding: 12px 22px;
   font-size: 16px;
   border-radius: 10px;
   cursor: pointer;
   transition: 0.2s ease;
-}
-
-.pdSaveBtn:hover {
-  background: #ffc944;
+  font-weight: bold;
 }

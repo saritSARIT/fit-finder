@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "src/app/api/trainee/[id]/trainings/route.js"  ],
+, "src/app/api/trainee/[id]/trainings/route.js", "src/app/api/trainer/[id]/comment/route.ts"  ],
   "exclude": ["node_modules"]
 }

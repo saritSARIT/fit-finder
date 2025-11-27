@@ -6,18 +6,18 @@ import { Comment } from "@/types/comment";
 
 export async function POST(
   req: NextRequest, 
-  { params }: { params: Promise<{ trainerId: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { trainerId } = await params;
-    console.log("Received trainerId:", trainerId);
+    const { id } = await params;
+    console.log("Received trainerId:", id);
 
     const body = await req.json();
     console.log("Request body:", body);
 
     const { rating, comment, traineeId } = body;
 
-    if (!trainerId) {
+    if (!id) {
       console.error("trainerId is missing!");
       return NextResponse.json({ error: "Missing trainerId" }, { status: 400 });
     }
@@ -40,14 +40,14 @@ export async function POST(
     console.log("Pushing comment to DB:", newComment);
 
     const result = await collection.updateOne(
-      { _id: new ObjectId(trainerId) },
+      { _id: new ObjectId(id) },
       { $push: { comments: newComment } }
     );
 
     console.log("Mongo update result:", result);
 
     if (result.modifiedCount === 0) {
-      console.error("Trainer not found in DB with id:", trainerId);
+      console.error("Trainer not found in DB with id:", id);
       return NextResponse.json({ error: "Trainer not found" }, { status: 404 });
     }
 
