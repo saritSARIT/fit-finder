@@ -82,6 +82,7 @@ export default function TrainerSessionPage() {
                       .filter((t) => t.day === dayIndex)
                       .map((t, i) => (
                         <div key={i} className={styles.trainingCard}>
+                          <p>{t.date}</p>
                           <p>{t.from} - {t.to}</p>
                           {t.classType === "personal" && t.trainees ?
                             (() => {

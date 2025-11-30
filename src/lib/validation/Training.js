@@ -8,11 +8,9 @@ export const TrainingSchema = z.object({
   trainerId: z.string().min(1, "Trainer ID is required"),
   type: z.string(),
   classType: z.enum(["personal", "group"], "classType must be 'personal' or 'group'"),
-
   date: z
     .string()
-    .refine((val) => !isNaN(Date.parse(val)), "Invalid date format")
-    .optional(),
+    .refine((val) => !isNaN(Date.parse(val)), "Invalid date format"),
   trainees: z
     .array(
       z.object({

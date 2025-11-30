@@ -92,7 +92,7 @@ export default function RequestTrainingPage() {
 
         <div className={styles.row}>
           <span className={styles.label}>תאריך:</span>
-          <span></span>
+          <span>{training.date}</span>
         </div>
 
         <div className={styles.row}>
