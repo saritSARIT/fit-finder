@@ -89,7 +89,7 @@ export default function TrainerSessionPage() {
                               return (
                                 <>
                                   <p>אישי- </p>
-                                  {myRequest ? <span>{t.status}</span> : <span>תפוס</span>}
+                                  {myRequest ? <span>{myRequest.status}</span> : <span>תפוס</span>}
                                 </>
                               )
 

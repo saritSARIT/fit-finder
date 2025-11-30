@@ -31,51 +31,51 @@ export default function RequestTrainingPage() {
   if (!training) return <div>טוען…</div>;
 
   const sendRequest = async () => {
-  // המערך הקיים ממונגו
-  const traineeArray = training.trainees || [];
+    // המערך הקיים ממונגו
+    const traineeArray = training.trainees || [];
 
-  // למצוא אם המתאמן כבר נמצא ברשימה
-  const exist = traineeArray.find((x: any) => x.id === trainee?.id);
+    // למצוא אם המתאמן כבר נמצא ברשימה
+    const exist = traineeArray.find((x: any) => x.id === trainee?.id);
 
-  let updatedTraineeArray;
+    let updatedTraineeArray;
 
-  if (exist) {
-    // אם קיים - נוסיף הערה
-    const updated = traineeArray.map((item: any) => {
-      if (item.id === trainee?.id) {
-        return {
-          ...item,
-          notes: item.notes ? [...item.notes, note] : [note],
-        };
-      }
-      return item;
+    if (exist) {
+      // אם קיים - נוסיף הערה
+      const updated = traineeArray.map((item: any) => {
+        if (item.id === trainee?.id) {
+          return {
+            ...item,
+            notes: item.notes ? [...item.notes, note] : [note],
+          };
+        }
+        return item;
+      });
+
+      updatedTraineeArray = updated;
+    } else {
+      // אם לא קיים - מוסיפים אובייקט חדש
+      updatedTraineeArray = [
+        ...traineeArray,
+        {
+          id: trainee?.id,
+          notes: note ? [note] : [],
+          status: "sent",
+        },
+      ];
+    }
+
+    const res = await fetch(`/api/training/${training._id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        trainees: updatedTraineeArray,
+        type: selectedType,
+      }),
     });
 
-    updatedTraineeArray = updated;
-  } else {
-    // אם לא קיים - מוסיפים אובייקט חדש
-    updatedTraineeArray = [
-      ...traineeArray,
-      {
-        id: trainee?.id,
-        notes: note ? [note] : [],
-      },
-    ];
-  }
-
-  const res = await fetch(`/api/training/${training._id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      trainees: updatedTraineeArray,
-      type: selectedType,
-      status: "sent",
-    }),
-  });
-
-  alert("הבקשה נשלחה!");
-  router.push("/dashboard/trainee/myTrainings");
-};
+    alert("הבקשה נשלחה!");
+    router.push("/dashboard/trainee/myTrainings");
+  };
 
 
   return (
