@@ -31,30 +31,52 @@ export default function RequestTrainingPage() {
   if (!training) return <div>טוען…</div>;
 
   const sendRequest = async () => {
-    let updatedTraineeIds;
-    const exist = training.traineeId.find((x: any) => x === trainee?.id)
+    // המערך הקיים ממונגו
+    const traineeArray = training.trainees || [];
+
+    // למצוא אם המתאמן כבר נמצא ברשימה
+    const exist = traineeArray.find((x: any) => x.id === trainee?.id);
+
+    let updatedTraineeArray;
+
     if (exist) {
-      updatedTraineeIds = [...training.traineeId];
+      // אם קיים - נוסיף הערה
+      const updated = traineeArray.map((item: any) => {
+        if (item.id === trainee?.id) {
+          return {
+            ...item,
+            notes: item.notes ? [...item.notes, note] : [note],
+          };
+        }
+        return item;
+      });
+
+      updatedTraineeArray = updated;
+    } else {
+      // אם לא קיים - מוסיפים אובייקט חדש
+      updatedTraineeArray = [
+        ...traineeArray,
+        {
+          id: trainee?.id,
+          notes: note ? [note] : [],
+          status: "sent",
+        },
+      ];
     }
-    else {
-      updatedTraineeIds = training.traineeId ? [...training.traineeId, trainee?.id] : [trainee?.id];
-    }
+
     const res = await fetch(`/api/training/${training._id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        //date: ,
-        traineeId: updatedTraineeIds,
+        trainees: updatedTraineeArray,
         type: selectedType,
-        //note: note,
-        status: "sent"
       }),
     });
-
 
     alert("הבקשה נשלחה!");
     router.push("/dashboard/trainee/myTrainings");
   };
+
 
   return (
     <div className={styles.page}>
