@@ -115,11 +115,15 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
         <button
           type="button"
           className="btn-google"
-          onClick={() => signIn("google")}
+          onClick={() => signIn("google", {
+            callbackUrl: "/dashboard/trainee/searchTraining",
+            redirect: true
+          })}
         >
           <FcGoogle className="text-xl" />
           sign up with Google
         </button>
+
       </form>
     </motion.div>
   );

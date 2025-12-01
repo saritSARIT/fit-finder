@@ -96,10 +96,13 @@ export default function Login({ onClose }: { onClose: () => void }) {
         <button
           type="button"
           className="btn-google"
-          onClick={() => signIn("google")}
+          onClick={() => signIn("google", {
+            callbackUrl: "/dashboard/trainee/searchTraining",
+            redirect: true
+          })}
         >
           <FcGoogle className="text-xl" />
-          logIn with Google
+          log in with Google
         </button>
       </form>
     </motion.div>
