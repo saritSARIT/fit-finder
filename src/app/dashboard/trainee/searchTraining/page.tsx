@@ -30,10 +30,13 @@ export default function SearchTrainingPage() {
   };
 
   return (
-    <div className="search-page">
+    <div className={styles["search-page"]}>
       <UniversalHeader role="trainee" />
-      <div className="search-container">
-        <div className="trainer-dropdown">
+
+      {/* אזור חיפוש */}
+      <div className={styles["search-container"]}>
+        {/* dropdown */}
+        <div className={styles["trainer-dropdown"]}>
           <button
             className={styles["dropdown-btn"]}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -58,6 +61,7 @@ export default function SearchTrainingPage() {
           )}
         </div>
 
+        {/* אייקון סינון */}
         <button
           className={styles["filter-button"]}
           onClick={() => setIsFilterOpen(true)}
@@ -67,7 +71,8 @@ export default function SearchTrainingPage() {
         </button>
       </div>
 
-      <div className="trainers-grid">
+      {/* רשימת מאמנים */}
+      <div className={styles["trainers-grid"]}>
         {filtered.map((t) => (
           <div
             key={t._id}
@@ -82,6 +87,7 @@ export default function SearchTrainingPage() {
         ))}
       </div>
 
+      {/* חלון סינון */}
       {isFilterOpen && (
         <div className={styles["filter-popup"]}>
           <div className={styles["filter-header"]}>
@@ -115,5 +121,4 @@ export default function SearchTrainingPage() {
       )}
     </div>
   );
-};
-
+}
