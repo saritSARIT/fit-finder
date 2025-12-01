@@ -64,7 +64,6 @@ export default function TrainerSessionPage() {
           <span >סוגי אימון:</span>
           <span>{trainer.types.join(", ")}</span>
         </div>
-        <h3>מערכת שעות</h3>
         {trainings.length === 0 ? <p>אין אימונים זמינים</p> :
           <table className={styles.table}>
             <thead>
@@ -106,7 +105,7 @@ export default function TrainerSessionPage() {
                               <>
                                 <p>קבוצתי</p>
                                 <p>{t.type}</p>
-                                <button
+                                <button className={styles.trainingBtn}
                                   onClick={() => goToRequestTraining(t)}
                                 >
                                   בקשת אימון
