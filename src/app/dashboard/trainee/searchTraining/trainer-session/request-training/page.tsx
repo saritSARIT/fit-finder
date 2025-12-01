@@ -96,7 +96,7 @@ export default function RequestTrainingPage() {
         </div>
 
         <div className={styles.row}>
-          <span className={styles.label}>משעה עד שעה:</span>
+          <span className={styles.label}>  שעה:</span>
           <span>{training.from} - {training.to}</span>
         </div>
 
@@ -113,6 +113,7 @@ export default function RequestTrainingPage() {
             </div>
 
             <div className={styles.row}>
+                <span className={styles.label}></span>
               <span>קבוצתי</span>
             </div>
           </>
@@ -120,7 +121,7 @@ export default function RequestTrainingPage() {
           :
           <>
             <div className={styles.row}>
-              <span className={styles.label}>בחר סוג אימון</span>
+              <span className={styles.label}>בחר סוג אימון:</span>
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
@@ -132,6 +133,7 @@ export default function RequestTrainingPage() {
             </div>
 
             <div className={styles.row}>
+                 <span className={styles.label}></span>
               <span>אישי</span>
             </div>
           </>
