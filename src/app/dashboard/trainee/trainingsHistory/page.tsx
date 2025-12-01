@@ -9,11 +9,17 @@ import styles from "./trainingsHistory.module.css";
 
 interface TrainingSummary {
   _id: string;
-  date?: string;
-  type?: string;
-  status?: string;
-  notes?: string;
+  date: string;
+  from: string;
+  to: string;
   trainerId: string;
+  type: string;
+  classType: string;
+  trainees?: [{
+    id: string;
+    notes?: string;
+    status: string;
+  }];
 }
 
 export default function TrainingsHistoryPage() {
@@ -32,22 +38,47 @@ export default function TrainingsHistoryPage() {
   useEffect(() => {
     if (!traineeId) return;
 
-    const controller = new AbortController();
+    const isTrainingInPast = (training: TrainingSummary) => {
+      if (!training?.date || !training?.to) return false;
+
+      // parse date YYYY-MM-DD
+      const [yearStr, monthStr, dayStr] = training.date.split("-");
+      const year = Number(yearStr);
+      const month = Number(monthStr); // 1..12
+      const day = Number(dayStr);
+
+      // parse 'to' time HH:MM
+      const [hourStr, minStr] = training.to.split(":").map(Number);
+      const hour = Number(hourStr);
+      const minute = Number(minStr);
+
+      const trainingEnd = new Date(year, month - 1, day, hour, minute, 0, 0);
+      const now = new Date();
+
+      return trainingEnd < now; 
+    };
+
+
 
     async function loadHistory() {
       try {
         setIsLoading(true);
         setError(null);
 
-        const params = new URLSearchParams({ traineeId, status: "completed" });
-        const response = await fetch(`/api/training?${params.toString()}`, {
-          signal: controller.signal,
+        const response = await fetch(`/api/training`, {
         });
 
         if (!response.ok) throw new Error("Failed to load training history");
 
         const data = (await response.json()) as TrainingSummary[];
-        setHistory(data ?? []);
+        const filteredData = data.filter(training =>
+          training.trainees?.some(
+            t => t.id === traineeId
+              && t.status === "approved"
+          )
+        ).filter(isTrainingInPast);
+
+        setHistory(filteredData);
       } catch (err) {
         if ((err as Error).name !== "AbortError") {
           setError("אירעה שגיאה בעת טעינת האימונים");
@@ -58,7 +89,6 @@ export default function TrainingsHistoryPage() {
     }
 
     loadHistory();
-    return () => controller.abort();
   }, [traineeId]);
 
   return (
@@ -84,7 +114,7 @@ export default function TrainingsHistoryPage() {
                   date={training.date}
                   type={training.type}
                   onAddComment={(trainingId, trainerId) =>
-                   setSelectedTraining({ trainingId, trainerId })
+                    setSelectedTraining({ trainingId, trainerId })
                   }
                 />
               ))}
