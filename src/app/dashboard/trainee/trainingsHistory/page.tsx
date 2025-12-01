@@ -109,7 +109,6 @@ export default function TrainingsHistoryPage() {
               alignItems: "center",
               zIndex: 1000,
             }}
-            // ✅ סגירת המודאל בלחיצה על הרקע
             onClick={() => setSelectedTraining(null)}
           >
             <div
@@ -121,7 +120,6 @@ export default function TrainingsHistoryPage() {
                 width: "90%",
                 position: "relative",
               }}
-              // ✅ מונע סגירה בלחיצה על התוכן
               onClick={(e) => e.stopPropagation()}
             >
               <AddCommentForm

@@ -8,8 +8,10 @@ export async function POST(request: Request) {
     const db = client.db("FitFinder");
     const collection = db.collection("Trainee");
     const data = await request.json();
-    // הצפנת סיסמה
-    data.password = await bcrypt.hash(data.password, 10);
+    
+    if (data.password) {
+      data.password = await bcrypt.hash(data.password, 10);
+    }
 
     // שלב הולידציה
     const parsed = TraineeSchema.safeParse(data);
@@ -24,7 +26,10 @@ export async function POST(request: Request) {
     }
 
     const id = await collection.insertOne(parsed.data);
-    return NextResponse.json({ message: "Trainee added successfully", user: { id: id, email: parsed.data.email, name: parsed.data.name } });
+    return NextResponse.json({ 
+      message: "Trainee added successfully", 
+      user: { id: id, email: parsed.data.email, name: parsed.data.name } 
+    });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
