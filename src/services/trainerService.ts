@@ -1,9 +1,10 @@
+import { traineeStore } from "@/store/traineeStore";
 import { trainerStore } from "@/store/trainerStore";
 
 //מעבר לפרופיל מאמן
 export async function moveToTrainer(id: string, email: string, name: string) {
     const setTrainer = trainerStore.getState().setTrainer;
-
+    // const { id: userId } = traineeStore.getState();
     try {
         const res = await fetch(`http://localhost:3000/api/trainer`);
         const allTrainers = await res.json();
