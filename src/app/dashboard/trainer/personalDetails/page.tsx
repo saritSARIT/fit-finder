@@ -14,6 +14,7 @@ type Training = {
   trainerId: string;
   type: string;
   classType: string; // "personal" | "group"
+  date: string,
 };
 
 export default function PersonalDetailsPage() {
@@ -38,8 +39,8 @@ export default function PersonalDetailsPage() {
         setTrainerTypes(data.types || []);
 
         // אם יש לך אימונים שמורים
-        const existingTrainings = await getTrainerTrainings(trainer.id);
-        setTrainings(existingTrainings);
+        const existing = await getTrainerTrainings(trainer.id);
+        setTrainings(existing);
       } catch (err) {
         console.error("Error fetching trainer data:", err);
       }
@@ -55,6 +56,15 @@ export default function PersonalDetailsPage() {
 
   const addTrainingForDay = (dayIndex: number) => {
     if (!trainer) return;
+
+    const today = new Date();
+    const currentDayIndex = today.getDay(); // 0 = Sunday, 6 = Saturday
+    let diff = dayIndex - currentDayIndex;
+    if (diff < 0) diff += 7; // אם היום כבר עבר השבוע, נלך לשבוע הבא
+
+    const trainingDate = new Date(today);
+    trainingDate.setDate(today.getDate() + diff);
+
     setTrainings((prev) => [
       ...prev,
       {
@@ -64,6 +74,7 @@ export default function PersonalDetailsPage() {
         trainerId: trainer.id,
         type: trainerTypes[0],
         classType: "",
+        date: trainingDate.toISOString().split("T")[0], // YYYY-MM-DD
       },
     ]);
   };
@@ -103,7 +114,8 @@ export default function PersonalDetailsPage() {
           et.from === t.from &&
           et.to === t.to &&
           et.classType === t.classType &&
-          et.type === t.type
+          et.type === t.type &&
+          et.date === t.date
         );
 
         if (exists) {
@@ -138,7 +150,8 @@ export default function PersonalDetailsPage() {
           t.from === et.from &&
           t.to === et.to &&
           t.classType === et.classType &&
-          t.type === et.type
+          t.type === et.type &&
+          t.date === et.date
         );
         if (!stillExists) {
           const res = await fetch(`/api/training/${et._id}`, { method: "DELETE" });
@@ -244,7 +257,7 @@ export default function PersonalDetailsPage() {
                 {trainings
                   .filter((t) => t.day === dayIndex)
                   .map((t, i) => {
-                    const globalIndex = trainings.findIndex((tr) => tr === t);
+                    const index = trainings.findIndex((tr) => tr === t);
 
                     return (
                       <div key={i} className={styles.pdTrainingBox}>
@@ -252,12 +265,15 @@ export default function PersonalDetailsPage() {
                         <strong>אימון {i + 1}</strong>
                         <br />
 
+                        <small>{t.date}</small>
+                        <br />
+
                         <label>משעה:</label>
                         <input
                           type="time"
                           value={t.from}
                           onChange={(e) =>
-                            updateTraining(globalIndex, "from", e.target.value)
+                            updateTraining(index, "from", e.target.value)
                           }
                         />
                         <br />
@@ -266,7 +282,7 @@ export default function PersonalDetailsPage() {
                           type="time"
                           value={t.to}
                           onChange={(e) =>
-                            updateTraining(globalIndex, "to", e.target.value)
+                            updateTraining(index, "to", e.target.value)
                           }
                         />
                         <br />
@@ -275,11 +291,11 @@ export default function PersonalDetailsPage() {
                           <label>
                             <input
                               type="radio"
-                              name={`classType-${globalIndex}`}
+                              name={`classType-${index}`}
                               checked={t.classType === "personal"}
                               onChange={() => {
-                                updateTraining(globalIndex, "classType", "personal");
-                                updateTraining(globalIndex, "type", "");
+                                updateTraining(index, "classType", "personal");
+                                updateTraining(index, "type", "");
                               }
                               }
                             />
@@ -289,10 +305,10 @@ export default function PersonalDetailsPage() {
                           <label>
                             <input
                               type="radio"
-                              name={`classType-${globalIndex}`}
+                              name={`classType-${index}`}
                               checked={t.classType === "group"}
                               onChange={() =>
-                                updateTraining(globalIndex, "classType", "group")
+                                updateTraining(index, "classType", "group")
                               }
                             />
                             קבוצתי
@@ -304,7 +320,7 @@ export default function PersonalDetailsPage() {
                             <select
                               value={t.type}
                               onChange={(e) =>
-                                updateTraining(globalIndex, "type", e.target.value)
+                                updateTraining(index, "type", e.target.value)
                               }
                             >
                               {trainerTypes.map((option) => (
@@ -319,7 +335,7 @@ export default function PersonalDetailsPage() {
 
                         <button className={styles.deleteBtn}
                           type="button"
-                          onClick={() => deleteTraining(globalIndex)}
+                          onClick={() => deleteTraining(index)}
                         >
                           🗑️
                         </button>

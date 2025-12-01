@@ -1,10 +1,11 @@
 "use client";
 
 import UniversalHeader from "@/components/header/header";
-import TrainingCard from "@/components/training/TrainingCard";
-import AddCommentForm from "@/components/training/AddCommentForm";
+import TrainingCard from "@/components/trainingsHistory/TrainingCard";
+import AddCommentForm from "@/components/trainingsHistory/AddCommentForm";
 import { traineeStore } from "@/store/traineeStore";
 import { useEffect, useMemo, useState } from "react";
+import styles from "./trainingsHistory.module.css";
 
 interface TrainingSummary {
   _id: string;
@@ -20,7 +21,7 @@ export default function TrainingsHistoryPage() {
   const [history, setHistory] = useState<TrainingSummary[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const [selectedTraining, setSelectedTraining] = useState<{
     trainingId: string;
     trainerId: string;
@@ -32,6 +33,7 @@ export default function TrainingsHistoryPage() {
     if (!traineeId) return;
 
     const controller = new AbortController();
+
     async function loadHistory() {
       try {
         setIsLoading(true);
@@ -48,7 +50,6 @@ export default function TrainingsHistoryPage() {
         setHistory(data ?? []);
       } catch (err) {
         if ((err as Error).name !== "AbortError") {
-          console.error(err);
           setError("אירעה שגיאה בעת טעינת האימונים");
         }
       } finally {
@@ -61,76 +62,54 @@ export default function TrainingsHistoryPage() {
   }, [traineeId]);
 
   return (
-    <>
+    <div className={styles.container}>
+
       <UniversalHeader role="trainee" />
-      <div style={{ padding: "2rem" }}>
-        <h2>היסטוריית אימונים</h2>
 
-        {!traineeId && <p>נדרש להתחבר כדי לצפות בהיסטוריה.</p>}
-        {traineeId && isLoading && <p>טוען נתונים…</p>}
-        {traineeId && error && <p>{error}</p>}
+      {!traineeId && <p className={styles.text}>נדרש להתחבר כדי לצפות בהיסטוריה.</p>}
+      {traineeId && isLoading && <p className={styles.text}>טוען נתונים…</p>}
+      {traineeId && error && <p className={styles.text}>{error}</p>}
 
-        {traineeId && !isLoading && !error && (
-          <>
-            {history.length === 0 ? (
-              <p>אין אימונים להצגה</p>
-            ) : (
-              <div style={{ marginTop: "1rem" }}>
-                {history.map((training) => (
-                  <TrainingCard
-                    key={training._id}
-                    trainingId={training._id}
-                    trainerId={training.trainerId}
-                    date={training.date}
-                    type={training.type}
-                    status={training.status}
-                    onAddComment={(trainingId, trainerId) => 
-                      setSelectedTraining({ trainingId, trainerId })
-                    }
-                  />
-                ))}
-              </div>
-            )}
-          </>
-        )}
-
-        {/* Modal */}
-        {selectedTraining && (
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: "rgba(0,0,0,0.5)",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: 1000,
-            }}
-            onClick={() => setSelectedTraining(null)}
-          >
-            <div
-              style={{
-                background: "white",
-                padding: "2rem",
-                borderRadius: "12px",
-                maxWidth: 500,
-                width: "90%",
-                position: "relative",
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <AddCommentForm
-                trainingId={selectedTraining.trainingId}
-                trainerId={selectedTraining.trainerId}
-                onClose={() => setSelectedTraining(null)}
-              />
+      {traineeId && !isLoading && !error && (
+        <>
+          {history.length === 0 ? (
+            <p className={styles.text}>אין אימונים להצגה</p>
+          ) : (
+            <div className={styles.list}>
+              {history.map((training) => (
+                <TrainingCard
+                  key={training._id}
+                  trainingId={training._id}
+                  trainerId={training.trainerId}
+                  date={training.date}
+                  type={training.type}
+                  onAddComment={(trainingId, trainerId) =>
+                   setSelectedTraining({ trainingId, trainerId })
+                  }
+                />
+              ))}
             </div>
+          )}
+        </>
+      )}
+
+      {selectedTraining && (
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setSelectedTraining(null)}
+        >
+          <div
+            className={styles.modalBox}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <AddCommentForm
+              trainingId={selectedTraining.trainingId}
+              trainerId={selectedTraining.trainerId}
+              onClose={() => setSelectedTraining(null)}
+            />
           </div>
-        )}
-      </div>
-    </>
+        </div>
+      )}
+    </div>
   );
 }

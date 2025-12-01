@@ -1,9 +1,10 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { FaFilter } from "react-icons/fa";
 import { UniversalHeader } from "@/components/index";
 import { useRouter } from "next/navigation";
-import "./style.css";
+import styles from "./searchTraining.module.css";
 
 export default function SearchTrainingPage() {
   const [trainers, setTrainers] = useState<any[]>([]);
@@ -15,10 +16,7 @@ export default function SearchTrainingPage() {
   useEffect(() => {
     fetch("/api/trainer")
       .then((res) => res.json())
-      .then((data) => {
-        setTrainers(data);
-        return data;
-      })
+      .then((data) => setTrainers(data))
       .catch((err) => console.error("שגיאה בטעינת מאמנים:", err));
   }, []);
 
@@ -29,8 +27,7 @@ export default function SearchTrainingPage() {
   const goToTrainerSession = (trainer: any) => {
     localStorage.setItem("selectedTrainer", JSON.stringify(trainer));
     router.push("searchTraining/trainer-session");
-  }
-
+  };
 
   return (
     <div className="search-page">
@@ -38,17 +35,17 @@ export default function SearchTrainingPage() {
       <div className="search-container">
         <div className="trainer-dropdown">
           <button
-            className="dropdown-btn"
+            className={styles["dropdown-btn"]}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
             {selectedTrainer || "חיפוש שם מאמן"} ▼
           </button>
           {isDropdownOpen && (
-            <div className="dropdown-menu">
+            <div className={styles["dropdown-menu"]}>
               {trainers.map((t) => (
                 <div
                   key={t._id}
-                  className="dropdown-item"
+                  className={styles["dropdown-item"]}
                   onClick={() => {
                     setSelectedTrainer(t.name);
                     setIsDropdownOpen(false);
@@ -62,7 +59,7 @@ export default function SearchTrainingPage() {
         </div>
 
         <button
-          className="filter-button"
+          className={styles["filter-button"]}
           onClick={() => setIsFilterOpen(true)}
           title="פתח סינון"
         >
@@ -74,30 +71,30 @@ export default function SearchTrainingPage() {
         {filtered.map((t) => (
           <div
             key={t._id}
-            className="trainer-card"
+            className={styles["trainer-card"]}
             onClick={() => goToTrainerSession(t)}
           >
             <p>מאמנים של אותו יום מהשעה {t.time || "—"}</p>
             <p>שהוא נכנס ואילך</p>
-            <p className="trainer-name">מאמן: {t.name}</p>
-            <p className="trainer-location">מיקום: {t.address || "—"}</p>
+            <p>מאמן: {t.name}</p>
+            <p>מיקום: {t.address || "—"}</p>
           </div>
         ))}
       </div>
 
       {isFilterOpen && (
-        <div className="filter-popup">
-          <div className="filter-header">
+        <div className={styles["filter-popup"]}>
+          <div className={styles["filter-header"]}>
             <h3>סינון</h3>
             <button
-              className="close-filter"
+              className={styles["close-filter"]}
               onClick={() => setIsFilterOpen(false)}
             >
               ✖
             </button>
           </div>
 
-          <div className="filter-body">
+          <div className={styles["filter-body"]}>
             <label>
               סוג אימון:
               <select>
@@ -112,7 +109,7 @@ export default function SearchTrainingPage() {
               <input type="text" placeholder="הכנס מיקום..." />
             </label>
 
-            <button className="apply-filter">החל סינון</button>
+            <button className={styles["apply-filter"]}>החל סינון</button>
           </div>
         </div>
       )}

@@ -2,6 +2,7 @@
 
 import { traineeStore } from "@/store/traineeStore";
 import { FormEvent, useState } from "react";
+import styles from "./AddCommentForm.module.css";
 
 interface AddCommentFormProps {
   trainingId: string;
@@ -9,7 +10,11 @@ interface AddCommentFormProps {
   onClose?: () => void;
 }
 
-export default function AddCommentForm({ trainingId,trainerId, onClose }: AddCommentFormProps) {
+export default function AddCommentForm({
+  trainingId,
+  trainerId,
+  onClose,
+}: AddCommentFormProps) {
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,11 +30,11 @@ export default function AddCommentForm({ trainingId,trainerId, onClose }: AddCom
     }
 
     if (rating === 0) {
-      setError("בחר לפחות כוכב אחד.");
+      setError("בחר לפחות כוכב אחד!");
       return;
     }
 
-    if (!trainerId) { // בדיקה נוספת
+    if (!trainerId) {
       setError("חסר מזהה מאמן תקין.");
       return;
     }
@@ -43,7 +48,11 @@ export default function AddCommentForm({ trainingId,trainerId, onClose }: AddCom
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ rating, comment, traineeId: traineeStore.getState().trainee?.id }),
+        body: JSON.stringify({
+          rating,
+          comment,
+          traineeId: traineeStore.getState().trainee?.id,
+        }),
       });
 
       if (!response.ok) {
@@ -52,7 +61,7 @@ export default function AddCommentForm({ trainingId,trainerId, onClose }: AddCom
 
       setSuccess(true);
       setTimeout(() => {
-        onClose?.(); 
+        onClose?.();
       }, 1200);
     } catch (err) {
       console.error(err);
@@ -63,25 +72,29 @@ export default function AddCommentForm({ trainingId,trainerId, onClose }: AddCom
   };
 
   return (
-    <div>
-      <h2>השארת ביקורת על אימון</h2>
+    <div className={styles.container}>
 
-      <form onSubmit={handleSubmit} style={{ maxWidth: 500 }}>
-        <label style={{ display: "block", marginBottom: "1rem" }}>
+      <button
+        type="button"
+        onClick={onClose}
+        disabled={isSubmitting}
+        className={styles.closeBtn}
+        aria-label="סגור"
+      >
+        ✖
+      </button>
+
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <label className={styles.label}>
           דירוג האימון:
-          <div style={{ marginTop: "0.5rem" }}>
+          <div className={styles.stars}>
             {[1, 2, 3, 4, 5].map((star) => (
               <button
                 key={star}
                 type="button"
                 onClick={() => setRating(star)}
-                style={{
-                  fontSize: "1.75rem",
-                  color: star <= rating ? "#f5c518" : "#ccc",
-                  background: "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                }}
+                className={`${styles.star} ${star <= rating ? styles.starActive : ""
+                  }`}
                 aria-label={`דירוג ${star} כוכבים`}
               >
                 ★
@@ -90,34 +103,31 @@ export default function AddCommentForm({ trainingId,trainerId, onClose }: AddCom
           </div>
         </label>
 
-        <label style={{ display: "block", marginBottom: "1rem" }}>
+        <label className={styles.label}>
           הערה על האימון:
           <textarea
             value={comment}
             onChange={(event) => setComment(event.target.value)}
             rows={4}
-            style={{ width: "100%", marginTop: "0.5rem" }}
+            className={styles.textarea}
             placeholder="שתף אותנו בתחושותיך מהאימון"
           />
         </label>
 
-        {error && (
-          <p style={{ color: "red", marginBottom: "1rem" }}>{error}</p>
-        )}
-        {success && (
-          <p style={{ color: "green", marginBottom: "1rem" }}>
-            תודה! הביקורת נשמרה.
-          </p>
-        )}
+        {error && <p className={styles.error}>{error}</p>}
+        {success && <p className={styles.success}> הביקורת נשמרה תודה!</p>}
 
-        <div style={{ display: "flex", gap: "1rem" }}>
-          <button type="button" onClick={onClose} disabled={isSubmitting}>
-            סגור
-          </button>
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "שומר..." : "שלח ביקורת"}
-          </button>
-        </div>
+
+
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className={styles.submitBtn}
+        >
+          {isSubmitting ? "שומר..." : "שלח ביקורת"}
+        </button>
+
       </form>
     </div>
   );
