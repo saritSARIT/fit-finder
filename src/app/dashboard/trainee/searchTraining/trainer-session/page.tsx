@@ -72,7 +72,7 @@ export default function TrainerSessionPage() {
 
         <div className={styles.row}>
           <span >סוגי אימון:</span>
-          <span>{trainer.types.join(", ")}</span>
+          <span>{trainer.types?.join(", ")}</span>
         </div>
         {trainings.length === 0 ? <p>אין אימונים זמינים</p> :
           <table className={styles.table}>

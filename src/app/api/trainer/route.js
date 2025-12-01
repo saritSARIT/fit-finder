@@ -40,8 +40,10 @@ export async function POST(request) {
     parsed.data.address = "";
     parsed.data.comments = [];
 
-    await collection.insertOne(parsed.data);
-    return NextResponse.json({ message: "Trainer added successfully" }, { status: 201 });
+    const id = await collection.insertOne(parsed.data);
+
+    return NextResponse.json({ message: "Trainer added successfully", user: { id: id, email: parsed.data.email, name: parsed.data.name } },
+      { status: 201 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
