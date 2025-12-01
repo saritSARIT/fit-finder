@@ -189,6 +189,16 @@ export default function PersonalDetailsPage() {
 
   const days = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
 
+  const isTrainingInFuture = (training: Training) => {
+    const now = new Date();
+
+    const [hoursFrom, minutesFrom] = training.from.split(":").map(Number);
+    const trainingDateTime = new Date(training.date);
+    trainingDateTime.setHours(hoursFrom, minutesFrom, 0, 0);
+
+    return trainingDateTime >= now;
+  };
+
   if (loading) {
     return (
       <div className={styles.container}>
@@ -255,7 +265,10 @@ export default function PersonalDetailsPage() {
               <td key={dayIndex} className={styles.pdCell}>
 
                 {trainings
-                  .filter((t) => t.day === dayIndex)
+                  .filter((t) => {
+                    if (!t.from) return t.day === dayIndex; // עדיין לא מולא - תציג
+                    return t.day === dayIndex && isTrainingInFuture(t);
+                  })
                   .map((t, i) => {
                     const index = trainings.findIndex((tr) => tr === t);
 
