@@ -73,14 +73,33 @@ export async function getTrainerTrainings(trainerId: string) {
 
 
 // אישור / דחייה
-export async function approveOrReject(trainingId: string, status: "approved" | "rejected") {
+export async function approveOrReject(
+    trainingId: string,
+    traineeId: string,
+    status: "approved" | "rejected"
+) {
+    // קודם, שולפים את האימון הקיים
+    const getRes = await fetch(`http://localhost:3000/api/training/${trainingId}`);
+    if (!getRes.ok) throw new Error("Training not found");
+    const training = await getRes.json();
+
+    // יוצרים את מערך ה-trainees המעודכן
+    const updatedTrainees = training.trainees.map((t: any) =>
+        t.id === traineeId ? { ...t, status } : t
+    );
+
+    // שולחים עדכון
     const res = await fetch(`http://localhost:3000/api/training/${trainingId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ trainees: updatedTrainees }),
     });
+
+    if (!res.ok) throw new Error("Failed to update status");
+
     return await res.json();
 }
+
 
 
 // שליפת תגובות על מאמן
