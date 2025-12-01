@@ -30,6 +30,16 @@ export default function TrainerSessionPage() {
     loadData();
   }, []);
 
+  const isTrainingInFuture = (training: any) => {
+    const now = new Date();
+
+    const [hoursFrom, minutesFrom] = training.from.split(":").map(Number);
+    const trainingDateTime = new Date(training.date);
+    trainingDateTime.setHours(hoursFrom, minutesFrom, 0, 0);
+
+    return trainingDateTime >= now;
+  };
+
   const goToRequestTraining = (t: any) => {
     localStorage.setItem("selectedTraining", JSON.stringify(t))
     router.push(`trainer-session/request-training`);
@@ -62,7 +72,7 @@ export default function TrainerSessionPage() {
 
         <div className={styles.row}>
           <span >סוגי אימון:</span>
-          <span>{trainer.types.join(", ")}</span>
+          <span>{trainer.types?.join(", ")}</span>
         </div>
         {trainings.length === 0 ? <p>אין אימונים זמינים</p> :
           <table className={styles.table}>
@@ -78,7 +88,7 @@ export default function TrainerSessionPage() {
                 {days.map((_, dayIndex) => (
                   <td key={dayIndex}>
                     {trainings
-                      .filter((t) => t.day === dayIndex)
+                      .filter((t) => t.day === dayIndex && isTrainingInFuture(t))
                       .map((t, i) => (
                         <div key={i} className={styles.trainingCard}>
                           <p>{t.date}</p>

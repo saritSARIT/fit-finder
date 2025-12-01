@@ -8,21 +8,33 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          prompt: "consent", 
+          access_type: "offline",
+          response_type: "code"
+        },
+      },
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async signIn({ user }: any) {
+    async signIn({ user, account }: any) {
       try {
         const db = client.db("FitFinder");
-
-        // קביעת סוג המשתמש (לדוגמה: ברירת מחדל 'trainee')
         const type: UserType = "Trainee";
 
         const existing = await findUserByEmail(user.email, db, type);
         if (!existing) {
           await createUser(
-            { name: user.name, email: user.email, password: user.password },
+            {
+              name: user.name,
+              email: user.email,
+              password: account?.provider === "google" ? "" : user.password,
+              phone: user.phone,
+              isTrainer: false,
+              favorites: [],
+            },
             db,
             type
           );
@@ -39,15 +51,15 @@ export const authOptions = {
         const db = client.db("FitFinder");
         const type: UserType = "Trainee";
 
-        // נטען את המשתמש מה-DB כדי לקבל את השם המעודכן
         const email = token?.email || session.user?.email;
         if (email) {
           const dbUser = await findUserByEmail(email, db, type);
           if (dbUser) {
             session.user.id = dbUser._id.toString();
-            // ⭐ עדכון השם מה-DB כדי להבטיח שהוא תמיד מעודכן
+            session.user.password = dbUser.password;
             session.user.name = dbUser.name;
             session.user.email = dbUser.email;
+            session.user.phone = dbUser.phone;
           }
         }
       } catch (err) {
@@ -55,6 +67,9 @@ export const authOptions = {
       }
       return session;
     },
+    async redirect({ url, baseUrl }: any) {
+      return url.startsWith(baseUrl) ? url : baseUrl + "/dashboard/trainee/searchTraining";
+    }
   },
 };
 
