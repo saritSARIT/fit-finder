@@ -4,11 +4,8 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
-import { traineeStore } from "@/store/traineeStore";
 
 export default function Login({ onClose }: { onClose: () => void }) {
-
-  const setTrainee = traineeStore((state) => state.setTrainee);
 
   const router = useRouter();
   const [form, setForm] = useState({
@@ -22,29 +19,20 @@ export default function Login({ onClose }: { onClose: () => void }) {
 
   const handleSubmit = async () => {
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form)
+      const result = await signIn("credentials", {
+        email: form.email,
+        password: form.password,
+        redirect: false,
+        callbackUrl: "/dashboard/trainee/searchTraining",
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        const errors = Array.isArray(data.errors) ? data.errors.join("\n") : "";
-        alert(`${data.error || data.message || "Error"}${errors ? ":\n" + errors : ""}`);
+      if (result?.error) {
+        alert(result.error);
         return;
       }
 
-      setTrainee({
-        id: data.user.id,
-        name: data.user.name,
-        email: data.user.email,
-      })
-      router.push("/dashboard/trainee/searchTraining");
-
       onClose();
-
+      router.push(result?.url || "/dashboard/trainee/searchTraining");
     } catch (err) {
       console.error(err);
       alert("Server error");
