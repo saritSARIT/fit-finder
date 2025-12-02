@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 import { client } from "../../../../lib/mongo";
 import { findUserByEmail, createUser, UserType } from "../../../../services/userService";
 
@@ -16,6 +18,38 @@ export const authOptions = {
         },
       },
     }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Missing email or password");
+        }
+
+        const db = client.db("FitFinder");
+        const type: UserType = "Trainee";
+        const dbUser = await findUserByEmail(credentials.email, db, type);
+
+        if (!dbUser) {
+          throw new Error("User not found");
+        }
+
+        const isValid = await bcrypt.compare(credentials.password, dbUser.password);
+        if (!isValid) {
+          throw new Error("Invalid credentials");
+        }
+
+        return {
+          id: dbUser._id.toString(),
+          name: dbUser.name,
+          email: dbUser.email,
+          phone: dbUser.phone,
+        };
+      },
+    }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
@@ -26,6 +60,9 @@ export const authOptions = {
 
         const existing = await findUserByEmail(user.email, db, type);
         if (!existing) {
+          if (account?.provider !== "google") {
+            return false;
+          }
           await createUser(
             {
               name: user.name,
