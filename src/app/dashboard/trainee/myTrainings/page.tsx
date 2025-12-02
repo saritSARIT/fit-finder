@@ -4,6 +4,7 @@ import UniversalHeader from "@/components/header/header";
 import { traineeStore } from "@/store/traineeStore";
 import { useEffect, useMemo, useState } from "react";
 import styles from "./myTrainings.module.css";
+import { getTrainerById } from "@/services/trainerService";
 
 interface TrainingSummary {
   _id: string;
@@ -11,6 +12,7 @@ interface TrainingSummary {
   from: string;
   to: string;
   trainerId: string;
+  trainerName?: string;
   type: string;
   classType: string;
   trainees?: [
@@ -24,8 +26,8 @@ interface TrainingSummary {
 
 export default function TrainingsHistoryPage() {
   const user = traineeStore((state) => state.trainee);
-  const [notApproved, setNotApproved] = useState<TrainingSummary[]>([]);
-  const [futureTrainings, setFutureTrainings] = useState<TrainingSummary[]>([]);
+  const [notApproved, setNotApproved] = useState<TrainingSummary[]>([]);// אימונים שעדיין לא אושרו
+  const [futureTrainings, setFutureTrainings] = useState<TrainingSummary[]>([]);// אימונים שאושרו ועדיין לא התקיימו
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const traineeId = useMemo(() => user?.id ?? "", [user?.id]);
@@ -41,16 +43,23 @@ export default function TrainingsHistoryPage() {
         const response = await fetch(`/api/training`, {});
         if (!response.ok) throw new Error("Failed to load training history");
 
-        const data = (await response.json()) as TrainingSummary[];
+        const data: TrainingSummary[] = await response.json();
 
-        const notApproved = data.filter((training) =>
+        const dataWithTrainerNames = await Promise.all(
+          data.map(async (training) => {
+            const trainer = await getTrainerById(training.trainerId);
+            return { ...training, trainerName: trainer.name };
+          })
+        );
+
+        const notApproved = dataWithTrainerNames.filter((training) =>
           training.trainees?.some(
             (t) => t.id === traineeId && t.status !== "approved"
           )
         );
         setNotApproved(notApproved);
 
-        const futureTrainings = data.filter(
+        const futureTrainings = dataWithTrainerNames.filter(
           (training) =>
             !isTrainingInPast(training) &&
             training.trainees?.some(
@@ -94,7 +103,7 @@ export default function TrainingsHistoryPage() {
       <UniversalHeader role="trainee" />
 
       {!traineeId && (
-        <p className={styles.stateMsg}>נדרש להתחבר כדי לצפות בהיסטוריה.</p>
+        <p className={styles.stateMsg}>נדרש להתחבר כדי לצפות באימונים</p>
       )}
       {traineeId && isLoading && (
         <p className={styles.stateMsg}>טוען נתונים…</p>
@@ -126,7 +135,7 @@ export default function TrainingsHistoryPage() {
 
                   <p className={styles.row}>
                     <span className={styles.label}>מאמן:</span>
-                    <span className={styles.value}>{training.trainerId}</span>
+                    <span className={styles.value}>{training.trainerName}</span>
                   </p>
 
                   <p className={styles.row}>
@@ -149,7 +158,7 @@ export default function TrainingsHistoryPage() {
                     </span>
                   </p>
 
-      
+
                 </div>
               ))}
             </div>
@@ -178,7 +187,7 @@ export default function TrainingsHistoryPage() {
 
                   <p className={styles.row}>
                     <span className={styles.label}>מאמן:</span>
-                    <span className={styles.value}>{training.trainerId}</span>
+                    <span className={styles.value}>{training.trainerName}</span>
                   </p>
 
                   <p className={styles.row}>
