@@ -75,6 +75,8 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
           היסטוריית אימונים
         </Link>
 
+        
+        
       </nav>
       <span>הי,{trainee?.name}</span>
 

@@ -58,7 +58,7 @@ export default function Login({ onClose }: { onClose: () => void }) {
       initial={{ x: "100%" }}
       animate={{ x: 0 }}
       exit={{ x: "100%" }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.2 }}
     >
       <div className="modal-header">
         <button className="close-btn" onClick={onClose}>✕</button>

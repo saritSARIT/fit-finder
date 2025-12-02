@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import {UniversalHeader, Footer, Login, Signup } from "@/components/index";
-import { reviews,blocks } from "@/lib/lang";
+import { UniversalHeader, Footer, Login, Signup } from "@/components/index";
+import { reviews, blocks } from "@/lib/lang";
 
 
 export default function Home() {
@@ -17,11 +17,11 @@ export default function Home() {
   return (
     <div className="home-container">
       {/* --- HEADER --- */}
-     <UniversalHeader
-  role="guest"
-  onLogin={() => setShowLogin(true)}
-  onSignUp={() => setShowSignUp(true)}
-/>
+      <UniversalHeader
+        role="guest"
+        onLogin={() => setShowLogin(true)}
+        onSignUp={() => setShowSignUp(true)}
+      />
       {/* --- IMAGE SLIDER (fade effect) --- */}
       <div className="image-slider">
         {[
@@ -42,14 +42,14 @@ export default function Home() {
         {/* Move this object to lib */}
         {
           blocks.map((item, i) => (
-          <div key={i} className={`grid-item ${item.type}`}>
-            {item.type === "image" ? (
-              <Image src={item.src || ""} alt={`gym ${i + 1}`} width={400} height={300} className="grid-image" unoptimized />
-            ) : (
-              <p className="grid-text">{item.text}</p>
-            )}
-          </div>
-        ))}
+            <div key={i} className={`grid-item ${item.type}`}>
+              {item.type === "image" ? (
+                <Image src={item.src || ""} alt={`gym ${i + 1}`} width={400} height={300} className="grid-image" unoptimized />
+              ) : (
+                <p className="grid-text">{item.text}</p>
+              )}
+            </div>
+          ))}
       </main>
 
       {/* --- REVIEWS SECTION --- */}

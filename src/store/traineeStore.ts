@@ -21,7 +21,7 @@ export const traineeStore = create<TraineeState>()(
       logout: () => set({ trainee: null })
     }),
     {
-      name: "trainee-storage", // שם ה-key ב-localStorage
+      name: "trainee-storage", // Put the key in local storage
     }
   )
 );
