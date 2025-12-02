@@ -3,6 +3,7 @@ import UniversalHeader from "@/components/header/header";
 import { getTrainerTrainings, approveOrReject } from "@/services/trainerService";
 import { useState, useEffect } from "react";
 import { trainerStore } from "@/store/trainerStore";
+import styles from "./myTrainings.module.css";
 
 export default function MyTrainingsPage() {
   const trainer = trainerStore((state) => state.trainer);
@@ -11,19 +12,28 @@ export default function MyTrainingsPage() {
 
   useEffect(() => {
     const fetchTrainings = async () => {
-      const data = await getTrainerTrainings(trainer?.id || '');
+      const data = await getTrainerTrainings(trainer?.id || "");
       setTrainings(data);
       setIsLoading(false);
     };
     fetchTrainings();
   }, [trainer?.id]);
 
-  const handleStatusChange = async (trainingId: string, traineeId: string, status: "approved" | "rejected") => {
+  const handleStatusChange = async (
+    trainingId: string,
+    traineeId: string,
+    status: "approved" | "rejected"
+  ) => {
     await approveOrReject(trainingId, traineeId, status);
-    setTrainings(prev =>
-      prev.map(tr =>
+    setTrainings((prev) =>
+      prev.map((tr) =>
         tr._id === trainingId
-          ? { ...tr, trainees: tr.trainees.map((t: any) => t.id === traineeId ? { ...t, status } : t) }
+          ? {
+              ...tr,
+              trainees: tr.trainees.map((t: any) =>
+                t.id === traineeId ? { ...t, status } : t
+              ),
+            }
           : tr
       )
     );
@@ -39,51 +49,105 @@ export default function MyTrainingsPage() {
 
   if (isLoading) {
     return (
-      <div>
+      <div className={styles.pageWrapper}>
         <UniversalHeader role="trainer" />
-        <p>טוען...</p>
+        <p className={styles.stateMsg}>טוען...</p>
       </div>
-    )
+    );
   }
 
   return (
-    <div>
+    <div className={styles.pageWrapper}>
       <UniversalHeader role="trainer" />
+
       {trainings.length === 0 ? (
-        <p>אין אימונים זמינים</p>
+        <p className={styles.emptyMsg}>אין אימונים זמינים</p>
       ) : (
-        trainings.map((training: any, index: number) => (
-          <div key={index}>
-            <p>{training.date}</p>
-            <p>{training.from} - {training.to}</p>
-            <p>{training?.type}</p>
-            {training.classType === "personal" ? <p>אישי</p> : <p>קבוצתי</p>}
-            {training.trainees?.map((t: any, index: number) => (
-              <div key={index}>
-                <h3>{t.id}</h3>
-                {hasTrainingEnded(training) ? (<><p>האימון הסתיים</p>
-                  {t.status === "approved" ? <p>מאושר</p> : t.status === "rejected" ? <p>נדחה</p> : <p>נשלח</p>}
-                </>) :
-                  t.status === "sent" ?
-                    <>
-                      <button onClick={() => handleStatusChange(training._id, t.id, "approved")}>אישור</button>
-                      <button onClick={() => handleStatusChange(training._id, t.id, "rejected")}>דחיה</button>
-                    </>
-                    : t.status === "approved" ?
-                      <p>מאושר</p>
-                      : t.status === "rejected" ?
-                        <p>נדחה</p>
-                        :
-                        <p>לא זמין: {t.status}</p>
-                }
-                {t.notes?.map((note: any, index: number) => (
-                  <p key={index}>{note}</p>
+        <div className={styles.trainingsList}>
+          {trainings.map((training: any, index: number) => (
+            <div key={index} className={styles.trainingCard}>
+              <p className={styles.row}>
+                <span className={styles.label}>תאריך:</span>
+                <span className={styles.value}>{training.date}</span>
+              </p>
+
+              <p className={styles.row}>
+                <span className={styles.label}>שעה:</span>
+                <span className={styles.value}>
+                  {training.from} - {training.to}
+                </span>
+              </p>
+
+              <p className={styles.row}>
+                <span className={styles.label}>סוג אימון:</span>
+                <span className={styles.value}>{training.type}</span>
+              </p>
+
+              <p className={styles.row}>
+                <span className={styles.label}>אופי:</span>
+                <span className={styles.value}>
+                  {training.classType === "personal" ? "אישי" : "קבוצתי"}
+                </span>
+              </p>
+
+              <div className={styles.traineesBlock}>
+                {training.trainees?.map((t: any, idx: number) => (
+                  <div key={idx} className={styles.traineeCard}>
+                    <h4 className={styles.traineeName}>{t.id}</h4>
+
+                    {hasTrainingEnded(training) ? (
+                      <>
+                        <p className={styles.statusText}>האימון הסתיים</p>
+                        <p className={styles.statusText}>
+                          {t.status === "approved"
+                            ? "מאושר"
+                            : t.status === "rejected"
+                            ? "נדחה"
+                            : "נשלח"}
+                        </p>
+                      </>
+                    ) : t.status === "sent" ? (
+                      <div className={styles.btnRow}>
+                        <button
+                          className={styles.approveBtn}
+                          onClick={() =>
+                            handleStatusChange(training._id, t.id, "approved")
+                          }
+                        >
+                          אישור
+                        </button>
+                        <button
+                          className={styles.rejectBtn}
+                          onClick={() =>
+                            handleStatusChange(training._id, t.id, "rejected")
+                          }
+                        >
+                          דחיה
+                        </button>
+                      </div>
+                    ) : (
+                      <p className={styles.statusText}>
+                        {t.status === "approved"
+                          ? "מאושר"
+                          : t.status === "rejected"
+                          ? "נדחה"
+                          : `לא זמין: ${t.status}`}
+                      </p>
+                    )}
+
+                    {t.notes?.map((note: any, nIdx: number) => (
+                      <p key={nIdx} className={styles.noteText}>
+                        {note}
+                      </p>
+                    ))}
+                  </div>
                 ))}
               </div>
-            ))}
-            <hr></hr>
-          </div>
-        ))
+
+        
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
