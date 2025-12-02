@@ -7,6 +7,7 @@ import { moveToTrainer } from "@/services/trainerService";
 import { useRouter } from "next/navigation";
 import { traineeStore } from "@/store/traineeStore";
 import { usePathname } from "next/navigation";
+import Logout from "../Logout";
 
 interface Props {
   role: "guest" | "trainee" | "trainer";
@@ -73,10 +74,14 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
         >
           היסטוריית אימונים
         </Link>
+
         
         
       </nav>
       <span>הי,{trainee?.name}</span>
+
+      <Logout />
+
       <button className={styles.profileBtn}
         onClick={() => goToTrainer()}
       >
@@ -114,6 +119,9 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
         </Link>
       </nav>
       <span>הי,{trainee?.name}</span>
+
+      <Logout />
+
       <button
         className={styles.profileBtn}
         onClick={() => goToTrainee()}
