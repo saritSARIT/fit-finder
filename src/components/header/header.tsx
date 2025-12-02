@@ -74,12 +74,7 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
           היסטוריית אימונים
         </Link>
         <span>|</span>
-        <Link
-          href="/dashboard/trainee/favorites"
-          className={pathname.includes("favorites") ? styles.active : ""}
-        >
-          רשימת מועדפים
-        </Link>
+        
       </nav>
       <span>הי,{trainee?.name}</span>
       <button className={styles.profileBtn}

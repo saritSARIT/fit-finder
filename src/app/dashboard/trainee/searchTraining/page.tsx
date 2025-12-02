@@ -17,6 +17,7 @@ export default function SearchTrainingPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [draftFilters, setDraftFilters] = useState<TrainingFilters>(defaultTrainingFilters);
   const [appliedFilters, setAppliedFilters] = useState<TrainingFilters>(defaultTrainingFilters);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -24,6 +25,7 @@ export default function SearchTrainingPage() {
       .then((res) => res.json())
       .then((data) => setTrainers(data))
       .catch((err) => console.error("שגיאה בטעינת מאמנים:", err));
+    setIsLoading(false);
   }, []);
 
   const availableTypes = useMemo(() => {
@@ -71,9 +73,9 @@ export default function SearchTrainingPage() {
         trainer.rating ??
         (Array.isArray(trainer.comments) && trainer.comments.length > 0
           ? trainer.comments.reduce(
-              (sum: number, comment: any) => sum + (comment.rating ?? 0),
-              0
-            ) / trainer.comments.length
+            (sum: number, comment: any) => sum + (comment.rating ?? 0),
+            0
+          ) / trainer.comments.length
           : 0);
       const cost =
         trainer.price ??
@@ -126,6 +128,15 @@ export default function SearchTrainingPage() {
     router.push("searchTraining/trainer-session");
   };
 
+  if (isLoading) {
+    return (
+      <div>
+        <UniversalHeader role="trainee" />
+        <p>טוען נתונים…</p>
+      </div>
+    );
+  }
+
   return (
     <div className={styles["search-page"]}>
       <UniversalHeader role="trainee" />
@@ -134,7 +145,7 @@ export default function SearchTrainingPage() {
       <div className={styles["search-container"]}>
         {/* dropdown */}
         <div className={styles["trainer-dropdown"]}>
-    
+
           {isDropdownOpen && (
             <div className={styles["dropdown-menu"]}>
               {trainers.map((t) => (
