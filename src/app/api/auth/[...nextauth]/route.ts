@@ -33,7 +33,6 @@ export const authOptions = {
               password: account?.provider === "google" ? "" : user.password,
               phone: user.phone,
               isTrainer: false,
-              favorites: [],
             },
             db,
             type

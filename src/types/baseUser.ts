@@ -7,5 +7,4 @@ export interface BaseUser {
   password: string;
   phone: string;
   isTrainer: boolean;
-  favorites: string[];
 }
