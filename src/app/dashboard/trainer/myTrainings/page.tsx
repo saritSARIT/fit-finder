@@ -61,9 +61,9 @@ export default function MyTrainingsPage() {
             {training.trainees?.map((t: any, index: number) => (
               <div key={index}>
                 <h3>{t.id}</h3>
-                {hasTrainingEnded(training) ? (<p>האימון הסתיים
+                {hasTrainingEnded(training) ? (<><p>האימון הסתיים</p>
                   {t.status === "approved" ? <p>מאושר</p> : t.status === "rejected" ? <p>נדחה</p> : <p>נשלח</p>}
-                </p>) :
+                </>) :
                   t.status === "sent" ?
                     <>
                       <button onClick={() => handleStatusChange(training._id, t.id, "approved")}>אישור</button>
