@@ -5,24 +5,8 @@ import { traineeStore } from "@/store/traineeStore";
 import { useEffect, useMemo, useState } from "react";
 import styles from "./myTrainings.module.css";
 import { getTrainerById } from "@/services/trainerService";
-
-interface TrainingSummary {
-  _id: string;
-  date: string;
-  from: string;
-  to: string;
-  trainerId: string;
-  trainerName?: string;
-  type: string;
-  classType: string;
-  trainees?: [
-    {
-      id: string;
-      notes?: string;
-      status: string;
-    }
-  ];
-}
+import { TrainingSummary } from "@/types/trainingSummary";
+import { isTrainingInPast } from "@/lib/functions/isTrainingInPast";
 
 export default function TrainingsHistoryPage() {
   const user = traineeStore((state) => state.trainee);
@@ -79,24 +63,7 @@ export default function TrainingsHistoryPage() {
     loadHistory();
   }, [traineeId]);
 
-  const isTrainingInPast = (training: TrainingSummary) => {
-    if (!training?.date || !training?.to) return false;
-
-    const [yearStr, monthStr, dayStr] = training.date.split("-");
-    const year = Number(yearStr);
-    const month = Number(monthStr);
-    const day = Number(dayStr);
-
-    const [hourStr, minStr] = training.to.split(":").map(Number);
-    const hour = Number(hourStr);
-    const minute = Number(minStr);
-
-    const trainingEnd = new Date(year, month - 1, day, hour, minute, 0, 0);
-    const now = new Date();
-
-    return trainingEnd < now;
-  };
-
+  
   return (
     <div className={styles.pageWrapper}>
 
