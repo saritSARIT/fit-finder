@@ -31,11 +31,11 @@ export default function MyTrainingsPage() {
         })
       );
 
-      const futureTrainings = dataWithTraineesNames.filter(
-        (training) => !isTrainingInPast(training)
+      const trainings = dataWithTraineesNames.filter(
+        (training) => isTrainingInPast(training)
       );
 
-      setTrainings(futureTrainings);
+      setTrainings(trainings);
       setIsLoading(false);
     };
     fetchTrainings();

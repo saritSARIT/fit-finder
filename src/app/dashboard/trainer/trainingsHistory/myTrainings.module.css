@@ -1,0 +1,120 @@
+.pageWrapper {
+  direction: rtl;
+  font-family: "Assistant", sans-serif;
+  min-height: 100vh;
+  color: #0046a5;
+}
+
+
+/* גריד רשימת אימונים */
+.trainingsList {
+  margin: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* כרטיס אימון */
+.trainingCard {
+  background: white;
+  padding: 18px 20px;
+  border-radius: 12px;
+  border: 2px solid #0046a5;
+}
+
+/* שדות בכרטיס */
+.row {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.label {
+  font-weight: 600;
+  color: #facc15;
+}
+
+.value {
+  margin-right: 6px;
+}
+
+/* תתי־כרטיס של מתאמנים */
+.traineesBlock {
+  margin-top: 15px;
+}
+
+.traineeCard {
+  background: #facc15;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 2px solid #0046a5;
+}
+
+.traineeName {
+  font-size: 17px;
+  margin-bottom: 6px;
+  color: #0046a5;
+}
+
+/* כפתורים */
+.btnRow {
+  display: flex;
+  text-align: center;
+  gap: 10px;
+  margin: 8px 0;
+  margin-right: 21%;
+}
+
+.approveBtn {
+  background: #0046a5;
+  color: #facc15;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.rejectBtn {
+   background: #0046a5;
+  color: #facc15;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+/* טקסטי סטטוס */
+.statusText {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* הערות */
+.noteText {
+  font-size: 14px;
+  margin-top: 4px;
+  color: #0046a5;
+  border: 1px solid #0046a5;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+/* הודעות */
+.emptyMsg {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #0046a5;
+  text-align: center;
+}
+
+.stateMsg {
+  margin-top: 25px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #0046a5;
+  text-align: center;
+}
+
