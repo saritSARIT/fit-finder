@@ -80,8 +80,8 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
       </nav>
       <div className={styles.logoutSection}>
 
-        <span  className={styles.name}>הי,{trainee?.name}</span>
-       
+        <span className={styles.name}>הי,{trainee?.name}</span>
+
         <Logout />
       </div>
 
@@ -116,6 +116,13 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
         </Link>
         <span>|</span>
         <Link
+          href="/dashboard/trainer/trainingsHistory"
+          className={pathname.includes("trainingsHistory") ? styles.active : ""}
+        >
+          היסטוריית אימונים
+        </Link>
+        <span>|</span>
+        <Link
           href="/dashboard/trainer/comments"
           className={pathname.includes("comments") ? styles.active : ""}
         >
@@ -124,7 +131,7 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
       </nav>
       <div className={styles.logoutSection}>
         <span className={styles.name}>הי,{trainee?.name}</span>
-        
+
         <Logout />
       </div>
 
