@@ -2,7 +2,8 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { client } from "../../../../lib/mongo";
+import clientPromise from "@/lib/mongo";
+const client = await clientPromise;
 import { findUserByEmail, createUser, UserType } from "../../../../services/userService";
 
 export const authOptions = {
