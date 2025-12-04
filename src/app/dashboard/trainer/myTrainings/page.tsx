@@ -7,6 +7,7 @@ import { getTraineeById } from "@/services/traineeService";
 import styles from "./myTrainings.module.css";
 import { TrainingSummary } from "@/types/trainingSummary";
 import { isTrainingInPast } from "@/lib/functions/isTrainingInPast";
+import TrainingCard from "@/components/trainer/trainingCard";
 
 export default function MyTrainingsPage() {
   const trainer = trainerStore((state) => state.trainer);
@@ -78,6 +79,9 @@ export default function MyTrainingsPage() {
     );
   }
 
+  const personal = trainings.filter(t => t.classType === "personal");
+  const group = trainings.filter(t => t.classType === "group");
+
   return (
     <div className={styles.pageWrapper}>
       <UniversalHeader role="trainer" />
@@ -85,91 +89,38 @@ export default function MyTrainingsPage() {
       {trainings.length === 0 ? (
         <p className={styles.emptyMsg}>אין אימונים זמינים</p>
       ) : (
-        <div className={styles.trainingsList}>
-          {trainings.map((training: any, index: number) => (
-            <div key={index} className={styles.trainingCard}>
-              <p className={styles.row}>
-                <span className={styles.label}>תאריך:</span>
-                <span className={styles.value}>{training.date}</span>
-              </p>
-
-              <p className={styles.row}>
-                <span className={styles.label}>שעה:</span>
-                <span className={styles.value}>
-                  {training.from} - {training.to}
-                </span>
-              </p>
-
-              <p className={styles.row}>
-                <span className={styles.label}>סוג אימון:</span>
-                <span className={styles.value}>{training.type}</span>
-              </p>
-
-              <p className={styles.row}>
-                <span className={styles.label}>אופי:</span>
-                <span className={styles.value}>
-                  {training.classType === "personal" ? "אישי" : "קבוצתי"}
-                </span>
-              </p>
-
-              <div className={styles.traineesBlock}>
-                {training.trainees?.map((t: any, idx: number) => (
-                  <div key={idx} className={styles.traineeCard}>
-                    <h4 className={styles.traineeName}>{t.name}</h4>
-
-                    {hasTrainingEnded(training) ? (
-                      <>
-                        <p className={styles.statusText}>האימון הסתיים</p>
-                        <p className={styles.statusText}>
-                          {t.status === "approved"
-                            ? "מאושר"
-                            : t.status === "rejected"
-                              ? "נדחה"
-                              : "נשלח"}
-                        </p>
-                      </>
-                    ) : t.status === "sent" ? (
-                      <div className={styles.btnRow}>
-                        <button
-                          className={styles.approveBtn}
-                          onClick={() =>
-                            handleStatusChange(training._id, t.id, "approved")
-                          }
-                        >
-                          אישור
-                        </button>
-                        <button
-                          className={styles.rejectBtn}
-                          onClick={() =>
-                            handleStatusChange(training._id, t.id, "rejected")
-                          }
-                        >
-                          דחיה
-                        </button>
-                      </div>
-                    ) : (
-                      <p className={styles.statusText}>
-                        {t.status === "approved"
-                          ? "מאושר"
-                          : t.status === "rejected"
-                            ? "נדחה"
-                            : `לא זמין: ${t.status}`}
-                      </p>
-                    )}
-
-                    {t.notes?.map((note: any, nIdx: number) => (
-                      <p key={nIdx} className={styles.noteText}>
-                        {note}
-                      </p>
-                    ))}
-                  </div>
-                ))}
-              </div>
-
-
-            </div>
-          ))}
-        </div>
+        <>
+          <h2>אישי</h2>
+          <div className={styles.trainingsList}>
+            {personal.length > 0 ?
+              personal.map((training: any, index: number) => (
+                <TrainingCard
+                  key={index}
+                  training={training}
+                  handleStatusChange={handleStatusChange}
+                  hasTrainingEnded={hasTrainingEnded}
+                />
+              ))
+              :
+              <p>אין אימונים אישיים זמינים</p>
+            }
+          </div>
+          <h2>קבוצתי</h2>
+          <div className={styles.trainingsList}>
+            {group.length > 0 ?
+              group.map((training: any, index: number) => (
+                <TrainingCard
+                  key={index}
+                  training={training}
+                  handleStatusChange={handleStatusChange}
+                  hasTrainingEnded={hasTrainingEnded}
+                />
+              ))
+              :
+              <p>אין אימונים קבוצתיים זמינים</p>
+            }
+          </div>
+        </>
       )}
     </div>
   );
