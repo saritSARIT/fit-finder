@@ -85,10 +85,19 @@ export default function PersonalDetailsPage() {
 
         const data = await res.json();   
 
+        // const suggestions =
+        //   data?.features?.map((f: any) => {
+        //     return f.properties.formatted;
+        //   }) ?? [];
         const suggestions =
-          data?.features?.map((f: any) => {
-            return f.properties.formatted;
-          }) ?? [];
+  data?.features?.map((f: any) => {
+    const street = f.properties.street || "";
+    const number = f.properties.housenumber || "";
+    const city = f.properties.city || "";
+
+    return `${street} ${number}, ${city}`.trim();
+  }) ?? [];
+
 
         setAddressSuggestions(suggestions);
       } catch (err) {
