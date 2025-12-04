@@ -4,30 +4,45 @@ const password = process.env.MONGO_PASSWORD;
 
 if (!user || !password) throw new Error("Missing MongoDB credentials in .env");
 
-const uri = `mongodb+srv://${user}:${password}@fitfinder.mpjxiuc.mongodb.net/?appName=FitFinder`;
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-     serverSelectionTimeoutMS: 10000,
-    tls: true,
-  }
-});
+const uri = `mongodb+srv://${user}:${password}@fitfinder.mpjxiuc.mongodb.net/FitFinder?retryWrites=true&w=majority`;
 
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    //await client.close();
-  }
+
+// const client = new MongoClient(uri, {
+//   serverApi: {
+//     version: ServerApiVersion.v1,
+//     strict: true,
+//     deprecationErrors: true,
+//     serverSelectionTimeoutMS: 10000,
+//     tls: true,
+//   }
+// });
+
+// async function run() {
+//   try {
+//     // Connect the client to the server	(optional starting in v4.7)
+//     await client.connect();
+//     // Send a ping to confirm a successful connection
+//     await client.db("admin").command({ ping: 1 });
+//     console.log("Pinged your deployment. You successfully connected to MongoDB!");
+//   } finally {
+//     // Ensures that the client will close when you finish/error
+//     //await client.close();
+//   }
+// }
+// run().catch(console.dir);
+
+
+const options = {};
+
+let client;
+let clientPromise;
+
+if (!global._mongoClientPromise) {
+  client = new MongoClient(uri, options);
+  global._mongoClientPromise = client.connect();
 }
-run().catch(console.dir);
 
+clientPromise = global._mongoClientPromise;
+
+// export default clientPromise;
 module.exports = { client };
