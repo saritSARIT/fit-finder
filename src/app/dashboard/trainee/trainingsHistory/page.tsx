@@ -8,21 +8,8 @@ import AddCommentForm from "@/components/trainingsHistory/AddCommentForm";
 import { traineeStore } from "@/store/traineeStore";
 import { useEffect, useMemo, useState } from "react";
 import styles from "./trainingsHistory.module.css";
-
-interface TrainingSummary {
-  _id: string;
-  date: string;
-  from: string;
-  to: string;
-  trainerId: string;
-  type: string;
-  classType: string;
-  trainees?: [{
-    id: string;
-    notes?: string;
-    status: string;
-  }];
-}
+import { TrainingSummary } from "@/types/trainingSummary";
+import { isTrainingInPast } from "@/lib/functions/isTrainingInPast";
 
 export default function TrainingsHistoryPage() {
   const user = traineeStore((state) => state.trainee);
@@ -39,28 +26,6 @@ export default function TrainingsHistoryPage() {
 
   useEffect(() => {
     if (!traineeId) return;
-
-    const isTrainingInPast = (training: TrainingSummary) => {
-      if (!training?.date || !training?.to) return false;
-
-      // parse date YYYY-MM-DD
-      const [yearStr, monthStr, dayStr] = training.date.split("-");
-      const year = Number(yearStr);
-      const month = Number(monthStr); // 1..12
-      const day = Number(dayStr);
-
-      // parse 'to' time HH:MM
-      const [hourStr, minStr] = training.to.split(":").map(Number);
-      const hour = Number(hourStr);
-      const minute = Number(minStr);
-
-      const trainingEnd = new Date(year, month - 1, day, hour, minute, 0, 0);
-      const now = new Date();
-
-      return trainingEnd < now; 
-    };
-
-
 
     async function loadHistory() {
       try {

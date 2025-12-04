@@ -75,12 +75,16 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
           היסטוריית אימונים
         </Link>
 
-        
-        
-      </nav>
-      <span>הי,{trainee?.name}</span>
 
-      <Logout />
+
+      </nav>
+      <div className={styles.logoutSection}>
+
+        <span className={styles.name}>הי,{trainee?.name}</span>
+
+        <Logout />
+      </div>
+
 
       <button className={styles.profileBtn}
         onClick={() => goToTrainer()}
@@ -112,15 +116,25 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
         </Link>
         <span>|</span>
         <Link
+          href="/dashboard/trainer/trainingsHistory"
+          className={pathname.includes("trainingsHistory") ? styles.active : ""}
+        >
+          היסטוריית אימונים
+        </Link>
+        <span>|</span>
+        <Link
           href="/dashboard/trainer/comments"
           className={pathname.includes("comments") ? styles.active : ""}
         >
           ביקורות
         </Link>
       </nav>
-      <span>הי,{trainee?.name}</span>
+      <div className={styles.logoutSection}>
+        <span className={styles.name}>הי,{trainee?.name}</span>
 
-      <Logout />
+        <Logout />
+      </div>
+
 
       <button
         className={styles.profileBtn}
