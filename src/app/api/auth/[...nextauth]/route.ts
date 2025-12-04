@@ -70,7 +70,7 @@ export const authOptions = {
               email: user.email,
               password: account?.provider === "google" ? "" : user.password,
               phone: user.phone,
-              isTrainer: false,
+            
             },
             db,
             type
