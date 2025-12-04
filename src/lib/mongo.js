@@ -31,7 +31,6 @@ const uri = `mongodb+srv://${user}:${password}@fitfinder.mpjxiuc.mongodb.net/Fit
 // }
 // run().catch(console.dir);
 
-// module.exports = { client };
 
 const options = {};
 
@@ -45,4 +44,5 @@ if (!global._mongoClientPromise) {
 
 clientPromise = global._mongoClientPromise;
 
-export default clientPromise;
+// export default clientPromise;
+module.exports = { client };
