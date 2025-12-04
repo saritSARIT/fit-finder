@@ -77,26 +77,22 @@ export default function PersonalDetailsPage() {
         )}&lang=he&limit=5&types=street,locality,housenumber&apiKey=1ab0a67899de4c979ee070413cd49be2`;
 
         const res = await fetch(url, { signal: controller.signal });
-              console.log("Fetch response status:", res.status);
+        console.log("Fetch response status:", res.status);
 
         if (!res.ok) {
           throw new Error(`Failed to fetch, status: ${res.status}`);
         }
 
-        const data = await res.json();   
+        const data = await res.json();
 
-        // const suggestions =
-        //   data?.features?.map((f: any) => {
-        //     return f.properties.formatted;
-        //   }) ?? [];
         const suggestions =
-  data?.features?.map((f: any) => {
-    const street = f.properties.street || "";
-    const number = f.properties.housenumber || "";
-    const city = f.properties.city || "";
+          data?.features?.map((f: any) => {
+            const street = f.properties.street || "";
+            const number = f.properties.housenumber || "";
+            const city = f.properties.city || "";
 
-    return `${street} ${number}, ${city}`.trim();
-  }) ?? [];
+            return `${street} ${number}, ${city}`.trim();
+          }) ?? [];
 
 
         setAddressSuggestions(suggestions);
