@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
-import { client } from "../../../../../lib/mongo";
+// import { client } from "../../../../../lib/mongo";
+import clientPromise from "@/lib/mongo";
+const client = await clientPromise;
+
 
 export async function GET(request, { params }) {
   const { id } = params;
