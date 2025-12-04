@@ -8,11 +8,11 @@ export const reviews = [
 ];
 
  export const blocks=[{ type: "image", src: "/images/gym8.png" },
-          { type: "text", text: "הצלחה מתחילה בהחלטה." },
+          { type: "text", text: "התמדה באימונים יוצרת חוסן פנימי ומקדמת התפתחות אמיתית לאורך זמן" },
           { type: "image", src: "/images/gym2.png" },
-          { type: "text", text: "אין קיצורי דרך — יש התמדה." },
+          { type: "text", text: "כל צעד קטן באימון מקרב אותך ליעד גדול יותר בהמשך" },
           { type: "image", src: "/images/gym6.png" },
-          { type: "text", text: "כל יום טוב יותר מאתמול." },
+          { type: "text", text: "התמדה ויציבות הם הבסיס להצלחה בכל מסלול כושר" },
           { type: "image", src: "/images/gym2.png" },
-          { type: "text", text: "הגוף שלך שומע כל מחשבה שלך." },
+          { type: "text", text: "משמעת נכונה באימונים הופכת מטרות רחוקות למציאות מוחשית" },
           { type: "image", src: "/images/gym7.png" }]
