@@ -21,7 +21,6 @@ export async function moveToTrainer(id: string, email: string, name: string) {
             });
 
             const data = await createRes.json();
-            console.log(data);
 
             setTrainer({
                 id: data.user.id.insertedId,
