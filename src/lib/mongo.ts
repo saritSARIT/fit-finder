@@ -33,7 +33,8 @@ const uri = `mongodb+srv://${user}:${password}@fitfinder.mpjxiuc.mongodb.net/Fit
 
 
 const options = {
-  serverSelectionTimeoutMS: 5000,
+  serverSelectionTimeoutMS: 10000,
+  tls: true,
   socketTimeoutMS: 30000
 };
 
