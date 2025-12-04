@@ -30,7 +30,7 @@ export async function POST(request) {
     // שלב הולידציה
     const parsed = TrainingSchema.safeParse(data);
     if (!parsed.success) {
-      const errors = parsed.error.errors.map(e => e.message);
+      const errors = parsed.error?.errors?.map(e => e.message);
       return NextResponse.json({ message: "Validation failed", errors }, { status: 400 });
     }
 
