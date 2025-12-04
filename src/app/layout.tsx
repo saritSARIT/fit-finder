@@ -4,7 +4,7 @@ import "./globals.css";
 import { Footer } from "@/components/index";
 import { SessionProviderWrapper } from "./providers/SessionProviderWrapper";
 import AuthListener from "@/components/AuthListener";
-
+import type React from "react";
 
 export const metadata: Metadata = {
   title: "FitFinder",
