@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UniversalHeader from "@/components/header/header";
 import styles from "./personalDetails.module.css";
 import { trainerStore } from "@/store/trainerStore";
-import { useEffect } from "react";
 import { getTrainerTrainings } from "@/services/trainerService"
 
 type Training = {
@@ -21,6 +20,10 @@ export default function PersonalDetailsPage() {
   const trainer = trainerStore((state) => state.trainer);
   const [trainings, setTrainings] = useState<Training[]>([]);
   const [trainerAddress, setTrainerAddress] = useState("");
+  const [addressQuery, setAddressQuery] = useState("");
+  const [addressSuggestions, setAddressSuggestions] = useState<string[]>([]);
+  const [addressLoading, setAddressLoading] = useState(false);
+  const [addressError, setAddressError] = useState<string | null>(null);
   const [trainerTypes, setTrainerTypes] = useState<string[]>([]);
   const [showTypes, setShowTypes] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -31,15 +34,19 @@ export default function PersonalDetailsPage() {
     const fetchTrainerData = async () => {
       try {
         const res = await fetch(`/api/trainer/${trainer.id}`);
+
         if (!res.ok) throw new Error("Failed to fetch trainer data");
         const data = await res.json();
 
         // הגדרת הנתונים ב-state
-        setTrainerAddress(data.address || "");
+        const initialAddress = data.address || "";
+        setTrainerAddress(initialAddress);
+        setAddressQuery(initialAddress);
         setTrainerTypes(data.types || []);
 
         // אם יש לך אימונים שמורים
         const existing = await getTrainerTrainings(trainer.id);
+
         setTrainings(existing);
       } catch (err) {
         console.error("Error fetching trainer data:", err);
@@ -51,6 +58,61 @@ export default function PersonalDetailsPage() {
 
     fetchTrainerData();
   }, [trainer]);
+
+  useEffect(() => {
+    if (!addressQuery || addressQuery.trim().length < 3) {
+      setAddressSuggestions([]);
+      return;
+    }
+
+    const controller = new AbortController();
+    const debounce = setTimeout(async () => {
+      try {
+        setAddressLoading(true);
+        setAddressError(null);
+
+        // בניית כתובת ה-URL ל־Geoapify עם query וה־API key
+        const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(
+          addressQuery
+        )}&lang=he&limit=5&types=street,locality,housenumber&apiKey=1ab0a67899de4c979ee070413cd49be2`;
+
+        const res = await fetch(url, { signal: controller.signal });
+        console.log("Fetch response status:", res.status);
+
+        if (!res.ok) {
+          throw new Error(`Failed to fetch, status: ${res.status}`);
+        }
+
+        const data = await res.json();
+
+        const suggestions =
+          data?.features?.map((f: any) => {
+            const street = f.properties.street || "";
+            const number = f.properties.housenumber || "";
+            const city = f.properties.city || "";
+
+            return `${street} ${number}, ${city}`.trim();
+          }) ?? [];
+
+
+        setAddressSuggestions(suggestions);
+      } catch (err) {
+        if ((err as Error).name !== "AbortError") {
+          setAddressError("לא ניתן לטעון הצעות כתובות כרגע");
+          setAddressSuggestions([]);
+        }
+      } finally {
+        setAddressLoading(false);
+      }
+
+    }, 400);
+
+    return () => {
+      clearTimeout(debounce);
+      controller.abort();
+    };
+  }, [addressQuery]);
+
 
   const trainingOptions = ["יוגה", "HIIT", "אירובי", "פילאטיס", "קרוספיט", "אימון כוח", "אימון משקל גוף", "שחייה", "ריצה", "טבטה", "קיקבוקס", "איגרוף", " TRX", "מתיחות", "פילאטיס מכשירים", "Core", "אליפטיקל", "קפיצות בחבל", "אימון פונקציונלי", "זומבה"];
 
@@ -185,8 +247,6 @@ export default function PersonalDetailsPage() {
     }
   };
 
-
-
   const days = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
 
   const isTrainingInFuture = (training: Training) => {
@@ -219,8 +279,20 @@ export default function PersonalDetailsPage() {
           type="text"
           className={styles.inputCommon}
           value={trainerAddress}
-          onChange={(e) => setTrainerAddress(e.target.value)}
+          list="trainer-addresses"
+          onChange={(e) => {
+            setTrainerAddress(e.target.value);
+            setAddressQuery(e.target.value);
+          }}
+          placeholder="התחל להקליד כתובת"
         />
+        <datalist id="trainer-addresses">
+          {addressSuggestions.map((suggestion, idx) => (
+            <option key={`${suggestion}-${idx}`} value={suggestion} />
+          ))}
+        </datalist>
+        {addressLoading && <small>טוען הצעות...</small>}
+        {addressError && <small className={styles.errorText}>{addressError}</small>}
         <br />
 
         <label>סוגי אימון:</label>
