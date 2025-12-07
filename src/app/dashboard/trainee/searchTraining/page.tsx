@@ -9,7 +9,6 @@ import FilterPanel, {
   TrainingFilters,
   defaultTrainingFilters,
 } from "@/components/filter/filter";
-import { findUserByEmail } from "@/services/userService";
 import { traineeStore } from "@/store/traineeStore";
 
 export default function SearchTrainingPage() {
@@ -138,6 +137,14 @@ export default function SearchTrainingPage() {
     router.push("searchTraining/trainer-session");
   };
 
+  function renderStars(rating: number) {
+    const filled = Math.round(rating);       // כוכבים מלאים
+    const empty = 5 - filled;                // כוכבים ריקים
+
+    return "★".repeat(filled) + "☆".repeat(empty);
+  }
+
+
   if (isLoading) {
     return (
       <div>
@@ -197,9 +204,18 @@ export default function SearchTrainingPage() {
             >
               <p>מאמן: {t.name}</p>
               <p>מיקום: {t.address || "—"}</p>
-              {t.types?.map((type: string, index: number) => {
-                return <li key={index}>{type}</li>
-              })}
+              {/* מחשוב ממוצע דירוג */}
+              {(() => {
+                if (t.comments.length === 0) {
+                  return;
+                }
+                const rating =
+                  t.comments && t.comments.length > 0
+                    ? t.comments.reduce((sum: number, c: any) => sum + (c.rating ?? 0), 0) /
+                    t.comments.length
+                    : 0;
+                return <p>דירוג: {renderStars(rating)}</p>;
+              })()}
             </div>
           ))
         )}

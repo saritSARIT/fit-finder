@@ -1,4 +1,3 @@
-import { traineeStore } from "@/store/traineeStore";
 import { trainerStore } from "@/store/trainerStore";
 
 //מעבר לפרופיל מאמן
