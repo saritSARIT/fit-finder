@@ -5,27 +5,18 @@ import UniversalHeader from "@/components/header/header";
 import styles from "./personalDetails.module.css";
 import { trainerStore } from "@/store/trainerStore";
 import { getTrainerTrainings } from "@/services/trainerService"
-
-type Training = {
-  day: number;
-  from: string;
-  to: string;
-  trainerId: string;
-  type: string;
-  classType: string; // "personal" | "group"
-  date: string,
-};
+import { Training } from "@/types/training"
+import TrainingCard from "@/components/personalDetails/trainingCard";
+import TypesCard from "@/components/personalDetails/types";
+import AddressCard from "@/components/personalDetails/address";
+import { isTrainingInFuture } from "@/lib/functions/isTrainingInPast"
 
 export default function PersonalDetailsPage() {
   const trainer = trainerStore((state) => state.trainer);
   const [trainings, setTrainings] = useState<Training[]>([]);
   const [trainerAddress, setTrainerAddress] = useState("");
   const [addressQuery, setAddressQuery] = useState("");
-  const [addressSuggestions, setAddressSuggestions] = useState<string[]>([]);
-  const [addressLoading, setAddressLoading] = useState(false);
-  const [addressError, setAddressError] = useState<string | null>(null);
   const [trainerTypes, setTrainerTypes] = useState<string[]>([]);
-  const [showTypes, setShowTypes] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -59,63 +50,6 @@ export default function PersonalDetailsPage() {
     fetchTrainerData();
   }, [trainer]);
 
-  useEffect(() => {
-    if (!addressQuery || addressQuery.trim().length < 3) {
-      setAddressSuggestions([]);
-      return;
-    }
-
-    const controller = new AbortController();
-    const debounce = setTimeout(async () => {
-      try {
-        setAddressLoading(true);
-        setAddressError(null);
-
-        // בניית כתובת ה-URL ל־Geoapify עם query וה־API key
-        const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(
-          addressQuery
-        )}&lang=he&limit=5&types=street,locality,housenumber&apiKey=1ab0a67899de4c979ee070413cd49be2`;
-
-        const res = await fetch(url, { signal: controller.signal });
-        console.log("Fetch response status:", res.status);
-
-        if (!res.ok) {
-          throw new Error(`Failed to fetch, status: ${res.status}`);
-        }
-
-        const data = await res.json();
-
-        const suggestions =
-          data?.features?.map((f: any) => {
-            const street = f.properties.street || "";
-            const number = f.properties.housenumber || "";
-            const city = f.properties.city || "";
-
-            return `${street} ${number}, ${city}`.trim();
-          }) ?? [];
-
-
-        setAddressSuggestions(suggestions);
-      } catch (err) {
-        if ((err as Error).name !== "AbortError") {
-          setAddressError("לא ניתן לטעון הצעות כתובות כרגע");
-          setAddressSuggestions([]);
-        }
-      } finally {
-        setAddressLoading(false);
-      }
-
-    }, 400);
-
-    return () => {
-      clearTimeout(debounce);
-      controller.abort();
-    };
-  }, [addressQuery]);
-
-
-  const trainingOptions = ["יוגה", "HIIT", "אירובי", "פילאטיס", "קרוספיט", "אימון כוח", "אימון משקל גוף", "שחייה", "ריצה", "טבטה", "קיקבוקס", "איגרוף", " TRX", "מתיחות", "פילאטיס מכשירים", "Core", "אליפטיקל", "קפיצות בחבל", "אימון פונקציונלי", "זומבה"];
-
   const addTrainingForDay = (dayIndex: number) => {
     if (!trainer) return;
 
@@ -139,28 +73,6 @@ export default function PersonalDetailsPage() {
         date: trainingDate.toISOString().split("T")[0], // YYYY-MM-DD
       },
     ]);
-  };
-
-  const updateTraining = <K extends keyof Training>(
-    index: number,
-    field: K,
-    value: Training[K]
-  ) => {
-    const updated = [...trainings];
-    updated[index][field] = value;
-    setTrainings(updated);
-  };
-
-  const deleteTraining = (index: number) => {
-    setTrainings((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const toggleTrainerType = (type: string) => {
-    if (trainerTypes.includes(type)) {
-      setTrainerTypes(trainerTypes.filter((t) => t !== type));
-    } else {
-      setTrainerTypes([...trainerTypes, type]);
-    }
   };
 
   const saveAllChanges = async () => {
@@ -249,16 +161,6 @@ export default function PersonalDetailsPage() {
 
   const days = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
 
-  const isTrainingInFuture = (training: Training) => {
-    const now = new Date();
-
-    const [hoursFrom, minutesFrom] = training.from.split(":").map(Number);
-    const trainingDateTime = new Date(training.date);
-    trainingDateTime.setHours(hoursFrom, minutesFrom, 0, 0);
-
-    return trainingDateTime >= now;
-  };
-
   if (loading) {
     return (
       <div className={styles.container}>
@@ -272,55 +174,17 @@ export default function PersonalDetailsPage() {
     <div className={styles.container}>
       <UniversalHeader role="trainer" />
 
-      <div className={styles.trainerWrapper}>
-
-        <label>כתובת:</label>
-        <input
-          type="text"
-          className={styles.inputCommon}
-          value={trainerAddress}
-          list="trainer-addresses"
-          onChange={(e) => {
-            setTrainerAddress(e.target.value);
-            setAddressQuery(e.target.value);
-          }}
-          placeholder="התחל להקליד כתובת"
-        />
-        <datalist id="trainer-addresses">
-          {addressSuggestions.map((suggestion, idx) => (
-            <option key={`${suggestion}-${idx}`} value={suggestion} />
-          ))}
-        </datalist>
-        {addressLoading && <small>טוען הצעות...</small>}
-        {addressError && <small className={styles.errorText}>{addressError}</small>}
-        <br />
-
-        <label>סוגי אימון:</label>
-
-        <button
-          type="button"
-          className={styles.typesBtn}
-          onClick={() => setShowTypes(!showTypes)}
-        >
-          בחר סוגי אימון
-        </button>
-
-        {showTypes && (
-          <div className={styles.typesDropdown}>
-            {trainingOptions.map((option) => (
-              <label key={option} className={styles.typeCheckbox}>
-                <input
-                  type="checkbox"
-                  className={styles.checkInput}
-                  checked={trainerTypes.includes(option)}
-                  onChange={() => toggleTrainerType(option)}
-                />
-                <span>{option}</span>
-              </label>
-            ))}
-          </div>
-        )}
-      </div>
+      <AddressCard
+        addressQuery={addressQuery}
+        setAddressQuery={setAddressQuery}
+        trainerAddress={trainerAddress}
+        setTrainerAddress={setTrainerAddress}
+      />
+      <br />
+      <TypesCard
+        trainerTypes={trainerTypes}
+        setTrainerTypes={setTrainerTypes}
+      />
 
       <table className={styles.pdTable}>
         <thead>
@@ -345,88 +209,18 @@ export default function PersonalDetailsPage() {
                     const index = trainings.findIndex((tr) => tr === t);
 
                     return (
-                      <div key={i} className={styles.pdTrainingBox}>
-                        <hr />
-                        <strong>אימון {i + 1}</strong>
-                        <br />
-
-                        <small>{t.date}</small>
-                        <br />
-
-                        <label>משעה:</label>
-                        <input
-                          type="time"
-                          value={t.from}
-                          onChange={(e) =>
-                            updateTraining(index, "from", e.target.value)
-                          }
-                        />
-                        <br />
-                        <label>עד שעה:</label>
-                        <input
-                          type="time"
-                          value={t.to}
-                          onChange={(e) =>
-                            updateTraining(index, "to", e.target.value)
-                          }
-                        />
-                        <br />
-
-                        <div>
-                          <label>
-                            <input
-                              type="radio"
-                              name={`classType-${index}`}
-                              checked={t.classType === "personal"}
-                              onChange={() => {
-                                updateTraining(index, "classType", "personal");
-                                updateTraining(index, "type", "");
-                              }
-                              }
-                            />
-                            אישי
-                          </label>
-
-                          <label>
-                            <input
-                              type="radio"
-                              name={`classType-${index}`}
-                              checked={t.classType === "group"}
-                              onChange={() =>
-                                updateTraining(index, "classType", "group")
-                              }
-                            />
-                            קבוצתי
-                          </label>
-                        </div>
-                        {t.classType === "group" && (
-                          <>
-                            <label>סוג אימון:</label>
-                            <select
-                              value={t.type}
-                              onChange={(e) =>
-                                updateTraining(index, "type", e.target.value)
-                              }
-                            >
-                              {trainerTypes.map((option) => (
-                                <option key={option} value={option}>
-                                  {option}
-                                </option>
-                              ))}
-                            </select>
-                          </>
-                        )}
-                        <br />
-
-                        <button className={styles.deleteBtn}
-                          type="button"
-                          onClick={() => deleteTraining(index)}
-                        >
-                          🗑️
-                        </button>
-                      </div>
+                      <TrainingCard
+                        key={i}
+                        t={t}
+                        i={i}
+                        index={index}
+                        trainerTypes={trainerTypes}
+                        trainings={trainings}
+                        setTrainings={setTrainings}
+                      />
                     );
-                  })}
+                  })
+                }
                 <button
                   className={styles.pdAddBtnSmall}
                   onClick={() => addTrainingForDay(dayIndex)}
