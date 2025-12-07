@@ -57,26 +57,22 @@ export default function Home() {
         <h2 className="reviews-title">מה אנשים אומרים עלינו</h2>
 
         <div className="reviews-wrapper">
-          <button className="arrow-btn left" onClick={handlePrev}>
-            ❮
-          </button>
+          <button className="arrow-btn left" onClick={handlePrev}>❯</button>
 
           <div className="reviews-container">
-            {reviews
-              .slice(currentIndex, currentIndex + 3)
-              .map((review, index) => (
-                <div key={index} className="review-card">
-                  <p className="review-text">"{review.text}"</p>
-                  <p className="review-author">— {review.author}</p>
-                </div>
-              ))}
+            {reviews.slice(currentIndex, currentIndex + 3).map((review, i) => (
+              <div className="review-card">
+                <p className="review-author">{review.author}</p>
+                <p className="review-text">{review.text}</p>
+              </div>
+
+            ))}
           </div>
 
-          <button className="arrow-btn right" onClick={handleNext}>
-            ❯
-          </button>
+          <button className="arrow-btn right" onClick={handleNext}>❮</button>
         </div>
       </div>
+
 
 
 

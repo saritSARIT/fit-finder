@@ -15,13 +15,13 @@ h4,
 h5,
 h6,
 p {
-  font-family: "Varela Round", sans-serif;
+  font-family: "Assistant", sans-serif;
 }
 
 /* --- עיצוב כללי --- */
 .home-container {
   /* direction: ltr; */
-  font-family: "Varela Round", sans-serif;
+  font-family: "Assistant", sans-serif;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -129,7 +129,7 @@ p {
 /* טקסט */
 .grid-text {
   background-color: #facc15;
-  color: #4209ed;
+  color:#0046a5;
   font-weight: bold;
   text-align: center;
   font-size: 1.5rem;
@@ -145,70 +145,85 @@ p {
 
 /* glow גם לטקסט */
 .grid-text:hover {
-  box-shadow: 0 0 50px rgba(21, 48, 250, 0.8);
+  box-shadow: 0 0 50px #0046a5;
 }
 
 /* --- REVIEWS --- */
 .reviews-section {
-  background: #f0f4ff;
+  text-align: center; /* ממורכז */
   padding: 3rem 1rem;
-  text-align: center;
-  margin-bottom: 20px;
 }
 
 .reviews-title {
-  font-size: 2rem;
-  color: #2c3e50;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #facc15;
   margin-bottom: 2rem;
-  font-weight: bold;
+  text-align: center; /* מרכז */
 }
 
 .reviews-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+  gap: 1rem;
 }
 
+/* כפתורי חצים */
 .arrow-btn {
-  background: #4209ed;
-  color: white;
+  background:  #0046a5;
+  color: #facc15;
   border: none;
-  font-size: 2rem;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.left {
+  position: absolute;
+  left: 25px; /* בצד שמאל של הכרטיסים */
+}
+
+.right {
+  position: absolute;
+  right: 25px; /* בצד ימין של הכרטיסים */
+}
+
+/* כרטיסי ביקורות */
 .reviews-container {
   display: flex;
-  gap: 1.5rem;
+  flex-direction: row;
+  gap: 2rem;
   overflow: hidden;
   transition: transform 0.5s ease;
 }
 
 .review-card {
   background: white;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  flex: 0 0 300px;
-  transition: box-shadow 0.3s ease;
-}
-
-
-
-.review-text {
-  font-size: 1.1rem;
-  color: #333;
-  margin-bottom: 0.5rem;
+  border-radius: 1.2rem;
+  padding: 1.8rem;
+  width: 320px;
+  border: 1px solid #0046a5;
+  flex-shrink: 0;
 }
 
 .review-author {
-  font-weight: bold;
-  color: #4209ed;
+  font-weight: 700;
+  color: #0046a5;
+  font-size: 1.1rem;
+  margin-bottom: 0.6rem;
+}
+
+.review-text {
+  font-size: 1.1rem;
+  color: #facc15;
+  line-height: 1.6;
 }
 
 
@@ -244,7 +259,7 @@ p {
   background: none;
   border: none;
   font-size: 1.8rem;
-  color: #4209ed;
+  color: #0046a5;
   cursor: pointer;
 }
 
@@ -259,7 +274,7 @@ p {
 /* תוויות */
 .modal-form label {
   font-weight: bold;
-  color: #4209ed;
+  color: #0046a5;
   margin-bottom: 0.3rem;
   font-size: 1rem;
 }
@@ -267,7 +282,7 @@ p {
 /* שדות קלט */
 .modal-form input {
   padding: 0.6rem 1rem;
-  border: 2px solid #4209ed;
+  border: 2px solid #0046a5;
   border-radius: 12px;
   font-size: 1rem;
   outline: none;
@@ -294,21 +309,21 @@ p {
 /* כפתור הרשמה/התחברות */
 .btn-submit {
   margin-top: 2rem;
-  background-color: #4209ed;
+  background-color: #0046a5;
   color: #facc15;
 }
 
 /* כפתור Google */
 .btn-google {
   background-color: #ffffff;
-  color: #4209ed;
-  border: 2px solid #4209ed;
+  color: #0046a5;
+  border: 2px solid #0046a5;
 }
 
 /* קו מפריד */
 .modal-form hr {
   border: 0;
   height: 1px;
-  background-color: #4209ed;
+  background-color: #0046a5;
   margin: 1rem 0;
 }
