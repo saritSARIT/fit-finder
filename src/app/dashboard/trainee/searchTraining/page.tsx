@@ -105,19 +105,12 @@ export default function SearchTrainingPage() {
       const matchesLocation =
         !appliedFilters.location ||
         address.toLowerCase().includes(appliedFilters.location.toLowerCase());
-      const matchesRating = rating >= appliedFilters.minRating;
-      const matchesMinPrice =
-        !appliedFilters.minPrice || cost >= Number(appliedFilters.minPrice);
-      const matchesMaxPrice =
-        !appliedFilters.maxPrice || cost <= Number(appliedFilters.maxPrice);
+
 
       return (
         matchesType &&
         matchesTrainerName &&
-        matchesLocation &&
-        matchesRating &&
-        matchesMinPrice &&
-        matchesMaxPrice
+        matchesLocation
       );
     });
   }, [trainers, selectedTrainer, appliedFilters]);
