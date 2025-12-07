@@ -6,18 +6,12 @@ import { ChangeEvent } from "react";
 export type TrainingFilters = {
   types: string[];
   location: string;
-  minRating: number;
-  minPrice: string;
-  maxPrice: string;
   trainerName: string;
 };
 
 export const defaultTrainingFilters: TrainingFilters = {
   types: [],
   location: "",
-  minRating: 0,
-  minPrice: "",
-  maxPrice: "",
   trainerName: "",
 };
 
@@ -133,40 +127,6 @@ export default function FilterPanel({
             />
           </section>
 
-          <section className={styles.section}>
-            <label htmlFor="min-rating">דירוג מינימלי</label>
-            <input
-              id="min-rating"
-              type="number"
-              min={0}
-              max={5}
-              step={0.5}
-              value={values.minRating}
-              onChange={(event) =>
-                handleFieldChange({ minRating: Number(event.target.value) })
-              }
-            />
-          </section>
-
-          <section className={styles.section}>
-            <span>טווח מחיר (₪)</span>
-            <div className={styles.rangeInputs}>
-              <input
-                type="number"
-                min={0}
-                placeholder="מינימום"
-                value={values.minPrice}
-                onChange={handlePriceChange("minPrice")}
-              />
-              <input
-                type="number"
-                min={0}
-                placeholder="מקסימום"
-                value={values.maxPrice}
-                onChange={handlePriceChange("maxPrice")}
-              />
-            </div>
-          </section>
         </div>
 
         <div className={styles.actions}>
