@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { client } from "../../../../lib/mongo";
+// import { client } from "../../../../lib/mongo";
+import clientPromise from "@/lib/mongo";
+const client = await clientPromise;
 import { ObjectId } from "mongodb";
 import { TraineeSchema } from "../../../../lib/validation/Trainee";
 

@@ -76,10 +76,7 @@ export default function TrainingsHistoryPage() {
               {history.map((training) => (
                 <TrainingCard
                   key={training._id}
-                  trainingId={training._id}
-                  trainerId={training.trainerId}
-                  date={training.date}
-                  type={training.type}
+                  training={training}
                   onAddComment={(trainingId, trainerId) =>
                     setSelectedTraining({ trainingId, trainerId })
                   }

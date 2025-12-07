@@ -6,7 +6,7 @@ export async function moveToTrainer(id: string, email: string, name: string) {
     const setTrainer = trainerStore.getState().setTrainer;
     // const { id: userId } = traineeStore.getState();
     try {
-        const res = await fetch(`http://localhost:3000/api/trainer`);
+        const res = await fetch(`/api/trainer`);
         const allTrainers = await res.json();
 
         // מציאת מאמן לפי מייל
@@ -14,14 +14,13 @@ export async function moveToTrainer(id: string, email: string, name: string) {
 
         // אם המאמן לא קיים – צור אותו
         if (!trainer) {
-            const createRes = await fetch(`http://localhost:3000/api/trainer`, {
+            const createRes = await fetch(`/api/trainer`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, name }),
             });
 
             const data = await createRes.json();
-            console.log(data);
 
             setTrainer({
                 id: data.user.id.insertedId,
@@ -49,14 +48,14 @@ export async function moveToTrainer(id: string, email: string, name: string) {
 
 // שליפת מאמן לפי מזהה (_id)
 export async function getTrainerById(id: string) {
-    const res = await fetch(`http://localhost:3000/api/trainer/${id}`);
+    const res = await fetch(`/api/trainer/${id}`);
     return await res.json();
 }
 
 
 // עריכת פרטי מאמן
 export async function editTrainerDetails(id: string, updates: any) {
-    const res = await fetch(`http://localhost:3000/api/trainer/${id}`, {
+    const res = await fetch(`/api/trainer/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updates),
@@ -67,7 +66,7 @@ export async function editTrainerDetails(id: string, updates: any) {
 
 // שליפת כל האימונים של מאמן
 export async function getTrainerTrainings(trainerId: string) {
-    const res = await fetch(`http://localhost:3000/api/training`);
+    const res = await fetch(`/api/training`);
     const trainings = await res.json();
     return trainings.filter((t: any) => t.trainerId === trainerId);
 }
@@ -80,7 +79,7 @@ export async function approveOrReject(
     status: "approved" | "rejected"
 ) {
     // קודם, שולפים את האימון הקיים
-    const getRes = await fetch(`http://localhost:3000/api/training/${trainingId}`);
+    const getRes = await fetch(`/api/training/${trainingId}`);
     if (!getRes.ok) throw new Error("Training not found");
     const training = await getRes.json();
 
@@ -90,7 +89,7 @@ export async function approveOrReject(
     );
 
     // שולחים עדכון
-    const res = await fetch(`http://localhost:3000/api/training/${trainingId}`, {
+    const res = await fetch(`/api/training/${trainingId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ trainees: updatedTrainees }),
@@ -105,7 +104,7 @@ export async function approveOrReject(
 
 // שליפת תגובות על מאמן
 export async function getCommentsTrainer(trainerId: string) {
-    const res = await fetch(`http://localhost:3000/api/trainer/${trainerId}`);
+    const res = await fetch(`/api/trainer/${trainerId}`);
     const data = await res.json();
     return data.comments;
 }

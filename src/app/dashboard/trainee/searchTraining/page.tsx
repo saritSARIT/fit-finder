@@ -9,6 +9,8 @@ import FilterPanel, {
   TrainingFilters,
   defaultTrainingFilters,
 } from "@/components/filter/filter";
+import { findUserByEmail } from "@/services/userService";
+import { traineeStore } from "@/store/traineeStore";
 
 export default function SearchTrainingPage() {
   const [trainers, setTrainers] = useState<any[]>([]);
@@ -18,15 +20,23 @@ export default function SearchTrainingPage() {
   const [draftFilters, setDraftFilters] = useState<TrainingFilters>(defaultTrainingFilters);
   const [appliedFilters, setAppliedFilters] = useState<TrainingFilters>(defaultTrainingFilters);
   const [isLoading, setIsLoading] = useState(true);
+  const trainee = traineeStore((state) => state.trainee);
   const router = useRouter();
 
   useEffect(() => {
+    const fetchTrainers = (trainers: any, email: string) => {
+      return trainers.filter((trainer: any) => trainer.email !== email);
+    };
+
     fetch("/api/trainer")
       .then((res) => res.json())
-      .then((data) => setTrainers(data))
+      .then((data) => {
+        const filtered = fetchTrainers(data, trainee?.email || "")
+        setTrainers(filtered);
+      })
       .catch((err) => console.error("שגיאה בטעינת מאמנים:", err));
     setIsLoading(false);
-  }, []);
+  }, [trainee]);
 
   const availableTypes = useMemo(() => {
     const typeSet = new Set<string>();
@@ -185,10 +195,11 @@ export default function SearchTrainingPage() {
               className={styles["trainer-card"]}
               onClick={() => goToTrainerSession(t)}
             >
-              <p>מאמנים של אותו יום מהשעה {t.time || "—"}</p>
-              <p>שהוא נכנס ואילך</p>
               <p>מאמן: {t.name}</p>
               <p>מיקום: {t.address || "—"}</p>
+              {t.types?.map((type: string, index: number) => {
+                return <li key={index}>{type}</li>
+              })}
             </div>
           ))
         )}

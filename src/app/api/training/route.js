@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { client } from "../../../lib/mongo";
+// import { client } from "../../../lib/mongo";
+import clientPromise from "@/lib/mongo";
+const client = await clientPromise;
 import { TrainingSchema } from "../../../lib/validation/Training";
 
 
@@ -28,7 +30,7 @@ export async function POST(request) {
     // שלב הולידציה
     const parsed = TrainingSchema.safeParse(data);
     if (!parsed.success) {
-      const errors = parsed.error.errors.map(e => e.message);
+      const errors = parsed.error?.errors?.map(e => e.message);
       return NextResponse.json({ message: "Validation failed", errors }, { status: 400 });
     }
 

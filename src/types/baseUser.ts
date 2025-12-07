@@ -6,5 +6,4 @@ export interface BaseUser {
   email: string;
   password: string;
   phone: string;
-  isTrainer: boolean;
 }
