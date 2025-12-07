@@ -31,6 +31,7 @@ export default function CommentsPage() {
         {comments.map((c: any, i) => (
           <div key={i} className={styles.commentCard}>
             <p className={styles.commentName}>{c.traineeName}</p>
+            <p>{c.date}</p>
             <p className={styles.commentText}>{c.comment}</p>
             <p className={styles.commentRating}>
               {[1, 2, 3, 4, 5].map((star) => (
