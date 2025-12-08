@@ -3,7 +3,13 @@ import clientPromise from "@/lib/mongo";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(req: Request) {
+    const { searchParams } = new URL(req.url);
+    const secret = searchParams.get("secret");
+
+    if (secret !== process.env.CRON_SECRET) {
+        return NextResponse.json({ ok: false, error: "Invalid secret" }, { status: 400 });
+    }
     try {
         const client = await clientPromise;
         const db = client.db("FitFinder");
