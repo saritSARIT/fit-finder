@@ -2,10 +2,11 @@
     background-color: #0046a5;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding: 0rem 7rem;
     align-items: center;
     text-align: center;
     font-weight: bold;
-    color: #facc15;
-    height: 3rem;
+    color: #ffffffdd;
+    height: 7rem;
 }

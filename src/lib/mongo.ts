@@ -1,6 +1,5 @@
 import { MongoClient } from "mongodb";
 const uri = process.env.MONGO_URI;
-console.log("MONGO_URI: *****************************", uri);
 if (!uri) throw new Error("Missing MONGO_URI in environment variables");
 const options = { serverSelectionTimeoutMS: 10000 };
 
