@@ -95,8 +95,7 @@ export default function FilterPanel({
       controller.abort();
     };
   }, [addressQuery]);
-
-
+  
 
   const toggleType = (type: string) => {
     const nextTypes = values.types.includes(type)
@@ -163,26 +162,36 @@ export default function FilterPanel({
               id="location-input"
               type="text"
               value={addressQuery}
-              list="location-suggestions"
               onChange={(e) => {
                 setAddressQuery(e.target.value);
                 handleFieldChange({ location: e.target.value });
               }}
               placeholder="עיר, רחוב או כתובת מלאה"
             />
-
-            <datalist id="location-suggestions">
-              {addressSuggestions.map((s, idx) => (
-                <option key={`${s}-${idx}`} value={s} />
-              ))}
-            </datalist>
-
             {addressLoading && <small>טוען הצעות…</small>}
             {addressError && (
-              <small style={{ color: "red" }}>{addressError}</small>
+             
+             <small style={{ color: "red" }}>{addressError}</small>
+            )}
+
+            {addressSuggestions.length > 0 && (
+              <div className={styles.suggestionsBox}>
+                {addressSuggestions.map((s, idx) => (
+                  <div
+                    key={idx}
+                    className={styles.suggestionItem}
+                    onClick={() => {
+                      setAddressQuery(s);
+                      handleFieldChange({ location: s });
+                      setAddressSuggestions([]);
+                    }}
+                  >
+                    {s}
+                  </div>
+                ))}
+              </div>
             )}
           </section>
-
         </div>
 
         <div className={styles.actions}>

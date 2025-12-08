@@ -48,6 +48,11 @@
   gap: 1.25rem;
 }
 
+.section {
+  position: relative;
+}
+
+
 .section label,
 .section span {
   font-weight: 600;
@@ -113,4 +118,35 @@
   background: #0046a5;
   font-weight: 600;
 }
+
+.suggestionsBox {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-top: 4px;
+  z-index: 9999;
+  max-height: 180px;
+  overflow-y: auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.suggestionItem {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  transition: background 0.15s;
+}
+
+.suggestionItem:last-child {
+  border-bottom: none;
+}
+
+.suggestionItem:hover {
+  background: #f3f3f3;
+}
+
 

@@ -69,51 +69,48 @@ export default function SearchTrainingPage() {
 
     const normalizedName = appliedFilters.trainerName.trim().toLowerCase();
 
+    const normalizeToTokens = (s?: string) => {
+      if (!s) return [];
+
+      const cleaned = s
+        .toString()
+        .normalize("NFKC") 
+        .replace(/[\u0591-\u05BD\u05BF-\u05C7]/g, "") 
+        .replace(/[^\p{L}\p{N}]+/gu, " ") 
+        .trim()
+        .toLowerCase();
+      return cleaned ? cleaned.split(/\s+/) : [];
+    };
+
+    const filterTokens = normalizeToTokens(appliedFilters.location);
+
     return list.filter((trainer) => {
       const types: string[] =
-        trainer.types ??
-        trainer.trainigTypes ??
-        trainer.trainingTypes ??
-        [];
+        trainer.types ?? trainer.trainigTypes ?? trainer.trainingTypes ?? [];
 
-      const address = trainer.address ?? trainer.city ?? "";
-      const rating =
-        trainer.averageRating ??
-        trainer.rating ??
-        (Array.isArray(trainer.comments) && trainer.comments.length > 0
-          ? trainer.comments.reduce(
-            (sum: number, comment: any) => sum + (comment.rating ?? 0),
-            0
-          ) / trainer.comments.length
-          : 0);
-      const cost =
-        trainer.price ??
-        trainer.minPrice ??
-        trainer.rate ??
-        trainer.hourlyRate ??
-        0;
+      const rawAddress = (trainer.address ?? trainer.city ?? "").toString();
 
-      const name = trainer.name ?? "";
+      const addressTokens = normalizeToTokens(rawAddress);
+
+      const name = (trainer.name ?? "").toString();
 
       const matchesType =
         appliedFilters.types.length === 0 ||
         appliedFilters.types.some((type) =>
           types.map((t: string) => t?.toLowerCase()).includes(type.toLowerCase())
         );
+
       const matchesTrainerName =
         !normalizedName || name.toLowerCase().includes(normalizedName);
+
       const matchesLocation =
-        !appliedFilters.location ||
-        address.toLowerCase().includes(appliedFilters.location.toLowerCase());
+        filterTokens.length === 0 ||
+        filterTokens.every((tok) => addressTokens.includes(tok));
 
-
-      return (
-        matchesType &&
-        matchesTrainerName &&
-        matchesLocation
-      );
+      return matchesType && matchesTrainerName && matchesLocation;
     });
   }, [trainers, selectedTrainer, appliedFilters]);
+
 
   const handleApplyFilters = () => {
     setAppliedFilters(draftFilters);
