@@ -61,7 +61,7 @@ export default function Home() {
 
           <div className="reviews-container">
             {reviews.slice(currentIndex, currentIndex + 3).map((review, i) => (
-              <div className="review-card">
+              <div className="review-card" key={i}>
                 <p className="review-author">{review.author}</p>
                 <p className="review-text">{review.text}</p>
               </div>
