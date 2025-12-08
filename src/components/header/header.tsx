@@ -20,7 +20,6 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
   const router = useRouter();
   const pathname = usePathname();
 
-  // --- מודאל לאישור מעבר ---
   const [showModal, setShowModal] = useState(false);
   const [target, setTarget] = useState<"trainer" | "trainee" | null>(null);
 
