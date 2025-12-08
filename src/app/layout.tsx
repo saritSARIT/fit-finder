@@ -4,6 +4,8 @@ import "./globals.css";
 import { Footer } from "@/components/index";
 import { SessionProviderWrapper } from "./providers/SessionProviderWrapper";
 import AuthListener from "@/components/AuthListener";
+import { Toast } from "@/components/toast/Toast"; 
+
 import type React from "react";
 
 export const metadata: Metadata = {
@@ -14,14 +16,23 @@ export const metadata: Metadata = {
   description: "Find the perfect gym for you with FitFinder.",
 };
 
-export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="he" dir="rtl">
       <body className="layout">
         <SessionProviderWrapper>
           <AuthListener />
+
           {children}
+
+          {/* Toast גלובלי שמופיע רק כשלוחצים showToast */}
+          <Toast />
         </SessionProviderWrapper>
+
         <Footer />
       </body>
     </html>
