@@ -1,0 +1,23 @@
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #0046a5;
+  color: #facc15;
+  padding: 20px 36px;     /* ← יותר גדול */
+  border-radius: 14px;    /* ← פינות קצת יותר רכות */
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Assistant", sans-serif;
+  z-index: 99999;
+  text-align: center;
+  animation: fadeInOut 4s forwards;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, -60%); }
+  10% { opacity: 1; transform: translate(-50%, -50%); }
+  90% { opacity: 1; transform: translate(-50%, -50%); }
+  100% { opacity: 0; transform: translate(-50%, -40%); }
+}

@@ -10,6 +10,7 @@ import TrainingCard from "@/components/personalDetails/trainingCard";
 import TypesCard from "@/components/personalDetails/types";
 import AddressCard from "@/components/personalDetails/address";
 import { isTrainingInFuture } from "@/lib/functions/isTrainingInPast"
+import { showToast } from "@/components/toast/Toast";
 
 export default function PersonalDetailsPage() {
   const trainer = trainerStore((state) => state.trainer);
@@ -100,7 +101,7 @@ export default function PersonalDetailsPage() {
             body: JSON.stringify(t),
           });
           if (res.status !== 200 && res.status !== 201) {
-            alert("שגיאה");
+            showToast("שגיאה");
             return;
           }
         } else {
@@ -111,7 +112,7 @@ export default function PersonalDetailsPage() {
             body: JSON.stringify(t),
           });
           if (res.status !== 200 && res.status !== 201) {
-            alert("שגיאה");
+            showToast("שגיאה");
             return;
           }
         }
@@ -130,7 +131,7 @@ export default function PersonalDetailsPage() {
         if (!stillExists) {
           const res = await fetch(`/api/training/${et._id}`, { method: "DELETE" });
           if (res.status !== 200 && res.status !== 201) {
-            alert("שגיאה");
+            showToast("שגיאה");
             return;
           }
         }
@@ -147,15 +148,15 @@ export default function PersonalDetailsPage() {
       });
 
       if (res.status === 200 || res.status === 201) {
-        alert("הפרטים עודכנו בהצלחה");
+        showToast("הפרטים עודכנו בהצלחה");
       }
       else {
-        alert("שגיאה");
+        showToast("שגיאה");
       }
 
     } catch (err) {
       console.error("Save error:", err);
-      alert("שגיאה בשמירת הנתונים");
+      showToast("שגיאה בשמירת הנתונים");
     }
   };
 
