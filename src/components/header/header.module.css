@@ -93,3 +93,64 @@
   align-items: center;
   margin-left: 320px;
 }
+
+/* רקע כהה שקוף */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+/* קופסת מודאל */
+.modalBox {
+  background: white;
+  padding: 25px 35px;
+  border-radius: 14px;
+  text-align: center;
+  width: 320px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* טקסט */
+.modalText {
+  font-size: 18px;
+  color: #0046a5;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* כפתורים */
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.modalCancel {
+  flex: 1;
+  background: #0046a5;
+  color: #facc15;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.modalConfirm {
+  flex: 1;
+  background: #facc15;
+  color: #0046a5;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
