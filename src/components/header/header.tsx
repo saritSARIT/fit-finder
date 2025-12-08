@@ -4,9 +4,9 @@ import styles from "./header.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { moveToTrainer } from "@/services/trainerService";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { traineeStore } from "@/store/traineeStore";
-import { usePathname } from "next/navigation";
+import { useState } from "react";
 import Logout from "../Logout";
 
 interface Props {
@@ -15,24 +15,36 @@ interface Props {
   onSignUp?: () => void;
 }
 
-
 export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
-
   const trainee = traineeStore((state) => state.trainee);
   const router = useRouter();
   const pathname = usePathname();
 
-  const goToTrainer = () => {
-    moveToTrainer(
-      trainee?.id || "",
-      trainee?.email || "",
-      trainee?.name || "");
-    router.push("/dashboard/trainer/personalDetails");
+  // --- מודאל לאישור מעבר ---
+  const [showModal, setShowModal] = useState(false);
+  const [target, setTarget] = useState<"trainer" | "trainee" | null>(null);
+
+  const confirmMove = () => {
+    if (target === "trainer") {
+      moveToTrainer(
+        trainee?.id || "",
+        trainee?.email || "",
+        trainee?.name || ""
+      );
+      router.push("/dashboard/trainer/personalDetails");
+    }
+
+    if (target === "trainee") {
+      router.push("/dashboard/trainee/searchTraining");
+    }
+
+    setShowModal(false);
   };
 
-  const goToTrainee = () => {
-    router.push("/dashboard/trainee/searchTraining");
-  }
+  const openConfirm = (role: "trainer" | "trainee") => {
+    setTarget(role);
+    setShowModal(true);
+  };
 
   const renderGuest = () => (
     <header className={styles.header}>
@@ -54,40 +66,27 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
       </div>
 
       <nav className={styles.navLinks}>
-        <Link
-          href="/dashboard/trainee/searchTraining"
-          className={pathname.includes("searchTraining") ? styles.active : ""}
-        >
+        <Link href="/dashboard/trainee/searchTraining" className={pathname.includes("searchTraining") ? styles.active : ""}>
           חיפוש אימון
         </Link>
         <span>|</span>
-        <Link
-          href="/dashboard/trainee/myTrainings"
-          className={pathname.includes("myTrainings") ? styles.active : ""}
-        >
+        <Link href="/dashboard/trainee/myTrainings" className={pathname.includes("myTrainings") ? styles.active : ""}>
           האימונים שלי
         </Link>
         <span>|</span>
-        <Link
-          href="/dashboard/trainee/trainingsHistory"
-          className={pathname.includes("trainingsHistory") ? styles.active : ""}
-        >
+        <Link href="/dashboard/trainee/trainingsHistory" className={pathname.includes("trainingsHistory") ? styles.active : ""}>
           היסטוריית אימונים
         </Link>
-
-
-
       </nav>
+
       <div className={styles.logoutSection}>
-
         <span className={styles.name}>הי,{trainee?.name}</span>
-
         <Logout />
       </div>
 
-
-      <button className={styles.profileBtn}
-        onClick={() => goToTrainer()}
+      <button
+        className={styles.profileBtn}
+        onClick={() => openConfirm("trainer")}
       >
         מעבר לפרופיל מאמן
       </button>
@@ -101,51 +100,60 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
       </div>
 
       <nav className={styles.navLinks}>
-        <Link
-          href="/dashboard/trainer/personalDetails"
-          className={pathname.includes("personalDetails") ? styles.active : ""}
-        >
+        <Link href="/dashboard/trainer/personalDetails" className={pathname.includes("personalDetails") ? styles.active : ""}>
           פרטים אישיים
         </Link>
         <span>|</span>
-        <Link
-          href="/dashboard/trainer/myTrainings"
-          className={pathname.includes("myTrainings") ? styles.active : ""}
-        >
+        <Link href="/dashboard/trainer/myTrainings" className={pathname.includes("myTrainings") ? styles.active : ""}>
           האימונים שלי
         </Link>
         <span>|</span>
-        <Link
-          href="/dashboard/trainer/trainingsHistory"
-          className={pathname.includes("trainingsHistory") ? styles.active : ""}
-        >
+        <Link href="/dashboard/trainer/trainingsHistory" className={pathname.includes("trainingsHistory") ? styles.active : ""}>
           היסטוריית אימונים
         </Link>
         <span>|</span>
-        <Link
-          href="/dashboard/trainer/comments"
-          className={pathname.includes("comments") ? styles.active : ""}
-        >
+        <Link href="/dashboard/trainer/comments" className={pathname.includes("comments") ? styles.active : ""}>
           ביקורות
         </Link>
       </nav>
+
       <div className={styles.logoutSection}>
         <span className={styles.name}>הי,{trainee?.name}</span>
-
         <Logout />
       </div>
 
-
       <button
         className={styles.profileBtn}
-        onClick={() => goToTrainee()}
+        onClick={() => openConfirm("trainee")}
       >
         מעבר לפרופיל מתאמן
       </button>
     </header>
   );
 
-  if (role === "guest") return renderGuest();
-  if (role === "trainee") return renderTrainee();
-  if (role === "trainer") return renderTrainer();
+  return (
+    <>
+      {role === "guest" && renderGuest()}
+      {role === "trainee" && renderTrainee()}
+      {role === "trainer" && renderTrainer()}
+
+      {/* --- חלון מודאל של אישור --- */}
+      {showModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalBox}>
+            <p className={styles.modalText}>האם את בטוחה שברצונך לעבור?</p>
+
+            <div className={styles.modalButtons}>
+              <button className={styles.modalCancel} onClick={() => setShowModal(false)}>
+                ביטול
+              </button>
+              <button className={styles.modalConfirm} onClick={confirmMove}>
+                אישור
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
 }

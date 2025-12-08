@@ -109,7 +109,7 @@ export default function FilterPanel({
     <div className={styles.overlay} role="dialog" aria-modal="true">
       <div className={styles.panel}>
         <div className={styles.header}>
-          <h3 className={styles.title}>סינון חכם</h3>
+          <h3 className={styles.title}>סנן לפי:</h3>
           <button
             className={styles.closeBtn}
             onClick={onClose}

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import UniversalHeader from "@/components/header/header";
 import styles from "./requestTraining.module.css";
 import { traineeStore } from "@/store/traineeStore";
+import { showToast } from "@/components/toast/Toast";
 
 export default function RequestTrainingPage() {
   const router = useRouter();
@@ -73,7 +74,7 @@ export default function RequestTrainingPage() {
       }),
     });
 
-    alert("הבקשה נשלחה!");
+    showToast("הבקשה נשלחה!");
     router.push("/dashboard/trainee/myTrainings");
   };
 

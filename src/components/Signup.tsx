@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { traineeStore } from "@/store/traineeStore";
+import { showToast } from "./toast/Toast";
 
 export default function SignUp({ onClose }: { onClose: () => void }) {
 
@@ -34,7 +35,7 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
 
       if (!res.ok) {
         const errors = Array.isArray(data.errors) ? data.errors.join("\n") : "";
-        alert(`${data.message}${errors ? ":\n" + errors : ""}`);
+        showToast(`${data.message}${errors ? ":\n" + errors : ""}`);
         return;
       }
 
@@ -49,7 +50,7 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
 
     } catch (err) {
       console.error(err);
-      alert("Server error");
+      showToast("Server error");
     }
   };
 

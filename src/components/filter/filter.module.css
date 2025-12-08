@@ -10,7 +10,6 @@
 .panel {
   width: min(420px, 100%);
   background: #fff;
-  height: 100%;
   padding: 1.5rem;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.12);
   display: flex;
@@ -25,13 +24,18 @@
 }
 
 .title {
-  font-size: 1.4rem;
-  margin: 0;
+  font-size: 1.3rem;
+  margin : 0;
 }
 
 .closeBtn {
   background: transparent;
-  border: none;
+  border: 2px solid #0046a5;
+  color: #0046a5;
+  background-color: #facc15;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
   font-size: 1.7rem;
   cursor: pointer;
 }
@@ -54,23 +58,24 @@
 .checkboxGroup {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .chip {
-  border: 1px solid #ccc;
+  border: 1px solid #0046a5;
+  color: #0046a5;
   border-radius: 999px;
   padding: 0.35rem 0.9rem;
   cursor: pointer;
   font-size: 0.9rem;
-  background: #f9f9f9;
+  background: #facc15;
   transition: all 0.2s ease;
 }
 
 .chip.active {
-  background: #ffe082;
-  border-color: #f0b429;
-  color: #4a3200;
+   border: 1px solid #facc15;
+  color: #facc15;
+  background: #0046a5;
 }
 
 .rangeInputs {
@@ -92,18 +97,20 @@
   padding: 0.85rem;
   font-size: 1rem;
   border-radius: 6px;
-  border: none;
   cursor: pointer;
 }
 
 .applyBtn {
   background: #ffc107;
-  color: #2b1e00;
+  color: #0046a5;
+  border: 1px solid #0046a5;
   font-weight: 600;
 }
 
 .resetBtn {
-  background: transparent;
-  border: 1px solid #ccc;
+   border: 1px solid #facc15;
+  color: #facc15;
+  background: #0046a5;
+  font-weight: 600;
 }
 

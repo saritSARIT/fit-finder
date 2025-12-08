@@ -2,7 +2,6 @@ import { z } from "zod";
 
 export const TrainingSchema = z.object({
   day: z.number(),
-
   from: z.string().min(1, "Start time is required"),
   to: z.string().min(1, "End time is required"),
   trainerId: z.string().min(1, "Trainer ID is required"),

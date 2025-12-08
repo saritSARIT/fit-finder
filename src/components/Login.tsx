@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
+import { showToast } from "./toast/Toast";
 
 export default function Login({ onClose }: { onClose: () => void }) {
 
@@ -27,7 +28,7 @@ export default function Login({ onClose }: { onClose: () => void }) {
       });
 
       if (result?.error) {
-        alert(result.error);
+        showToast(result.error);
         return;
       }
 
@@ -35,7 +36,7 @@ export default function Login({ onClose }: { onClose: () => void }) {
       router.push(result?.url || "/dashboard/trainee/searchTraining");
     } catch (err) {
       console.error(err);
-      alert("Server error");
+      showToast("Server error");
     }
   };
 
