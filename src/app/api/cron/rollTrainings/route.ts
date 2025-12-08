@@ -16,14 +16,17 @@ export async function GET(req: Request) {
         const collection = db.collection("Training");
 
         // היום בתאריך "YYYY-MM-DD"
-        const todayStr = new Date().toISOString().split("T")[0];
+        // אתמול בתאריך "YYYY-MM-DD"
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayStr = yesterday.toISOString().split("T")[0];
 
         // שליפת כל האימונים של היום בלבד
-        const todayTrainings = await collection.find({
-            date: todayStr
+        const yesterdayTrainings  = await collection.find({
+            date: yesterdayStr
         }).toArray();
 
-        for (const t of todayTrainings) {
+        for (const t of yesterdayTrainings ) {
 
             // יצירת תאריך לשבוע הבא
             const oldDate = new Date(t.date);
@@ -45,15 +48,18 @@ export async function GET(req: Request) {
             // יצירה רק אם לא קיים
             if (!exists) {
                 await collection.insertOne({
-                    ...t,
-                    _id: undefined,
+                    day: t.day,
+                    from: t.from,
+                    to: t.to,
+                    trainerId: t.trainerId,
+                    type: t.type,
+                    classType: t.classType,
                     date: newDateStr,
-                    trainees: [],
                 });
             }
         }
 
-        return NextResponse.json({ ok: true, created: todayTrainings.length });
+        return NextResponse.json({ ok: true, created: yesterdayTrainings .length });
 
     } catch (err) {
         console.error(err);
