@@ -14,10 +14,11 @@ export default function AuthListener() {
         id: session.user.id || "",
         name: session.user.name || "",
         email: session.user.email,
+        image: session.user.image || "/images/UserProfile.png",
       });
     }
   }, [status, session, setTrainee]);
 
-  return null; // לא מציג כלום, רק מאזין
+  return null; 
 }
 
