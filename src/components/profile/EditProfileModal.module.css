@@ -1,0 +1,311 @@
+.inlineEditContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid #d7d6d6;
+}
+
+.inlineEditField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inlineEditField label {
+  color: #0046a5;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.profileImageDisplay {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #f0f0f0;
+  margin: 10px auto;
+  border: 3px solid #ddd;
+}
+
+.profileImageDisplay img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.inlineFieldDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.inlineFieldDisplay span {
+  color: #333;
+  font-size: 15px;
+  flex: 1;
+}
+
+.editPencil {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: transform 0.2s ease;
+}
+
+.editPencil:hover {
+  transform: scale(1.2);
+}
+
+.inlineInputGroup {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.inlineInputGroup input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 2px solid #e3e4e5;
+  border-radius: 6px;
+  font-size: 15px;
+  font-family: inherit;
+  direction: rtl;
+}
+
+.inlineInputGroup input:focus {
+  outline: none;
+}
+
+.inlineInputGroup button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inlineInputGroup button:first-of-type {
+  background: #facc15;
+  color: #0046a5;
+  font-weight: bold;
+}
+
+
+.inlineInputGroup button:last-of-type {
+  background: #0046a5;
+  color: #facc15;
+  font-weight: bold;
+}
+
+
+
+.inlineInputGroup button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.editModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  z-index: 100000;
+}
+
+.editModalContent {
+  background: white;
+  padding: 30px;
+  width: 420px;
+  max-width: 100%;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
+  height: 100vh;
+  overflow-y: auto;
+  animation: slideInFromRight 0.3s ease-out;
+  direction: rtl;
+  flex-shrink: 0;
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.editCloseBtn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #0046a5;
+  transition: transform 0.2s ease;
+}
+
+.editCloseBtn:hover:not(:disabled) {
+  transform: scale(1.2);
+}
+
+.editCloseBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.editTitle {
+  color: #0046a5;
+  font-size: 24px;
+  margin: 0 0 25px 0;
+  text-align: center;
+  font-weight: 700;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formLabel {
+  color: #0046a5;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: right;
+  font-weight: bold;
+}
+
+.formInput {
+  padding: 12px 14px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  direction: rtl;
+  transition: border-color 0.3s ease;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #0046a5;
+  box-shadow: 0 0 0 3px rgba(0, 70, 165, 0.1);
+}
+
+.formInput:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.imagePreview {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #f0f0f0;
+  margin: 0 auto;
+  border: 3px solid #ddd;
+}
+
+.imagePreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileLabel {
+  display: inline-block;
+  padding: 10px 16px;
+  background: #0046a5;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.fileLabel:hover {
+  background: #003885;
+}
+
+.editButtons {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.editCancel {
+  flex: 1;
+  background: #0046a5;
+  color: #facc15;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.editCancel:hover:not(:disabled) {
+  background: #003885;
+  transform: translateY(-2px);
+}
+
+.editCancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.editSave {
+  flex: 1;
+  background: linear-gradient(135deg, #facc15 0%, #f5c000 100%);
+  color: #0046a5;
+  font-weight: 700;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.editSave:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 192, 0, 0.3);
+}
+
+.editSave:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

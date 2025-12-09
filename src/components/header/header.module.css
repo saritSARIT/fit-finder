@@ -102,12 +102,12 @@
   inset: 0;
   background: rgba(0, 0, 0, 0.55);
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: stretch;
   z-index: 99999;
 }
 
-/* קופסת מודאל */
+
 .modalBox {
   background: white;
   padding: 25px 35px;
@@ -117,7 +117,7 @@
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-/* טקסט */
+
 .modalText {
   font-size: 18px;
   color: #0046a5;
@@ -125,7 +125,7 @@
   margin-bottom: 20px;
 }
 
-/* כפתורים */
+
 .modalButtons {
   display: flex;
   justify-content: space-between;
@@ -155,4 +155,147 @@
   cursor: pointer;
 }
 
+.profileImageBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
 
+.profileImageBtn:hover {
+  transform: scale(1.1);
+}
+
+.profileModal {
+  background: white;
+  width: 340px;
+  height: 100vh;
+  box-shadow: -4px 0 15px rgba(0,0,0,0.2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #0046a5;
+  transition: transform 0.2s ease;
+}
+
+.closeBtn:hover {
+  transform: scale(1.2);
+}
+
+.profileModalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 60px 20px 20px 20px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.profileHeader {
+  text-align: center;
+  padding: 20px;
+  border-bottom: 2px solid #f0f0f0;
+  margin-bottom: 10px;
+}
+
+.profileHeader h2 {
+  color: #0046a5;
+  font-size: 22px;
+  margin: 15px 0 8px 0;
+  font-weight: 700;
+}
+
+.profileHeader p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.modalOptionBtn {
+  background: #0046a5;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modalOptionBtn:hover {
+  background: #003885;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 70, 165, 0.3);
+}
+
+.toggleRoleBtn {
+  background: linear-gradient(135deg, #f5c000 0%, #facc15 100%);
+  color: #0046a5;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggleRoleBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 192, 0, 0.3);
+}
+
+.logoutButtonWrapper {
+  width: 100%;
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 2px solid #f0f0f0;
+}
+
+.logoutButtonWrapper button {
+  width: 100%;
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  color: white;
+  padding: 14px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.logoutButtonWrapper button:hover {
+  background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
