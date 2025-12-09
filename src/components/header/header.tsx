@@ -8,6 +8,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { traineeStore } from "@/store/traineeStore";
 import { useState } from "react";
 import Logout from "../Logout";
+import ProfileImage from "../ProfileImage";
 
 interface Props {
   role: "guest" | "trainee" | "trainer";
@@ -28,7 +29,8 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
       moveToTrainer(
         trainee?.id || "",
         trainee?.email || "",
-        trainee?.name || ""
+        trainee?.name || "",
+   
       );
       router.push("/dashboard/trainer/personalDetails");
     }
@@ -79,7 +81,8 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
       </nav>
 
       <div className={styles.logoutSection}>
-        <span className={styles.name}>הי,{trainee?.name}</span>
+        <ProfileImage />
+        <span className={styles.name}>{trainee?.name}</span>
         <Logout />
       </div>
 
@@ -117,6 +120,7 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
       </nav>
 
       <div className={styles.logoutSection}>
+        <ProfileImage />
         <span className={styles.name}>הי,{trainee?.name}</span>
         <Logout />
       </div>
@@ -136,7 +140,6 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
       {role === "trainee" && renderTrainee()}
       {role === "trainer" && renderTrainer()}
 
-      {/* --- חלון מודאל של אישור --- */}
       {showModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalBox}>

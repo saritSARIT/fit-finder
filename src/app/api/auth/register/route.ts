@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-// import { client } from "@/lib/mongo";
 import clientPromise from "@/lib/mongo";
-const client = await clientPromise;
 import bcrypt from "bcryptjs";
 import { TraineeSchema } from "../../../../lib/validation/Trainee";
+
+const client = await clientPromise;
 
 export async function POST(request: Request) {
   try {

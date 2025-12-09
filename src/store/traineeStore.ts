@@ -5,6 +5,7 @@ interface Trainee {
   id: string;
   name: string;
   email: string;
+  image: string;
 }
 
 interface TraineeState {
@@ -21,7 +22,7 @@ export const traineeStore = create<TraineeState>()(
       logout: () => set({ trainee: null })
     }),
     {
-      name: "trainee-storage", // Put the key in local storage
+      name: "trainee-storage", 
     }
   )
 );
