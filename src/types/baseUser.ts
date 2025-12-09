@@ -6,4 +6,5 @@ export interface BaseUser {
   email: string;
   password: string;
   phone: string;
+  image?: string;
 }

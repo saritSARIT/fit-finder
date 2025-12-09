@@ -5,6 +5,9 @@ import bcrypt from "bcryptjs";
 import clientPromise from "@/lib/mongo";
 const client = await clientPromise;
 import { findUserByEmail, createUser, UserType } from "../../../../services/userService";
+import { image } from "framer-motion/client";
+import Image from "next/image";
+
 
 export const authOptions = {
   providers: [
@@ -15,7 +18,8 @@ export const authOptions = {
         params: {
           prompt: "consent", 
           access_type: "offline",
-          response_type: "code"
+          response_type: "code",
+          scope: "openid email profile"
         },
       },
     }),
@@ -24,6 +28,7 @@ export const authOptions = {
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        image: { label: "Image", type: "text" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -48,12 +53,23 @@ export const authOptions = {
           name: dbUser.name,
           email: dbUser.email,
           phone: dbUser.phone,
+          image: dbUser.image || "/images/UserProfile.png",
         };
       },
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
+    async jwt({ token, user, account, profile }: any) {
+      try {
+        if (account?.provider === "google") {
+          token.picture = user?.image || profile?.picture || token.picture;
+        }
+      } catch (err) {
+        console.error("❌ jwt callback error:", err);
+      }
+      return token;
+    },
     async signIn({ user, account }: any) {
       try {
         const db = client.db("FitFinder");
@@ -69,8 +85,8 @@ export const authOptions = {
               name: user.name,
               email: user.email,
               password: account?.provider === "google" ? "" : user.password,
-              phone: user.phone,
-            
+              phone: user.phone || "",
+              image: user.image || "",
             },
             db,
             type
@@ -96,7 +112,8 @@ export const authOptions = {
             session.user.password = dbUser.password;
             session.user.name = dbUser.name;
             session.user.email = dbUser.email;
-            session.user.phone = dbUser.phone;
+              session.user.phone = dbUser.phone;
+              session.user.image = dbUser.image || token.picture || session.user.image;
           }
         }
       } catch (err) {
