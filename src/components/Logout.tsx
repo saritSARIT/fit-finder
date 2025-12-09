@@ -25,7 +25,7 @@ export default function Logout() {
             style={{
                 backgroundColor: "#f5c000", // רקע צהוב
                 border: "2px solid #0046a5", // מסגרת כחולה, אפשר להוריד אם לא רוצים מסגרת
-                borderRadius: "50%", // מעגלי למראה טוב
+                borderRadius: "50%", 
                 padding: "5px",
                 cursor: "pointer",
                 display: "inline-flex",

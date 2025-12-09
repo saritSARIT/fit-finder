@@ -9,6 +9,8 @@ import { traineeStore } from "@/store/traineeStore";
 import { useState } from "react";
 import Logout from "../Logout";
 import ProfileImage from "../ProfileImage";
+import ConfirmDialog from "../profile/ConfirmDialog";
+import EditProfileModal from "../profile/EditProfileModal";
 
 interface Props {
   role: "guest" | "trainee" | "trainer";
@@ -21,30 +23,31 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const [showModal, setShowModal] = useState(false);
-  const [target, setTarget] = useState<"trainer" | "trainee" | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [confirmRole, setConfirmRole] = useState<"trainer" | "trainee" | null>(null);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const confirmMove = () => {
-    if (target === "trainer") {
+    if (confirmRole === "trainer") {
       moveToTrainer(
         trainee?.id || "",
         trainee?.email || "",
         trainee?.name || "",
-   
       );
       router.push("/dashboard/trainer/personalDetails");
     }
 
-    if (target === "trainee") {
+    if (confirmRole === "trainee") {
       router.push("/dashboard/trainee/searchTraining");
     }
 
-    setShowModal(false);
+    setShowConfirm(false);
   };
 
-  const openConfirm = (role: "trainer" | "trainee") => {
-    setTarget(role);
-    setShowModal(true);
+  const openConfirmDialog = (roleTarget: "trainer" | "trainee") => {
+    setConfirmRole(roleTarget);
+    setShowConfirm(true);
   };
 
   const renderGuest = () => (
@@ -81,17 +84,21 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
       </nav>
 
       <div className={styles.logoutSection}>
-        <ProfileImage />
+        <button 
+          className={styles.profileImageBtn}
+          onClick={() => setShowProfileModal(true)}
+        >
+          <ProfileImage />
+        </button>
         <span className={styles.name}>{trainee?.name}</span>
-        <Logout />
       </div>
 
-      <button
+      {/* <button
         className={styles.profileBtn}
-        onClick={() => openConfirm("trainer")}
+        onClick={() => openConfirmDialog("trainer")}
       >
-        מעבר לפרופיל מאמן
-      </button>
+        מעבור לפרופיל מאמן
+      </button> */}
     </header>
   );
 
@@ -120,17 +127,21 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
       </nav>
 
       <div className={styles.logoutSection}>
-        <ProfileImage />
-        <span className={styles.name}>הי,{trainee?.name}</span>
-        <Logout />
+        <button 
+          className={styles.profileImageBtn}
+          onClick={() => setShowProfileModal(true)}
+        >
+          <ProfileImage />
+        </button>
+        <span className={styles.name}>{trainee?.name}</span>
       </div>
 
-      <button
+      {/* <button
         className={styles.profileBtn}
-        onClick={() => openConfirm("trainee")}
+        onClick={() => openConfirmDialog("trainee")}
       >
-        מעבר לפרופיל מתאמן
-      </button>
+        מעבור לפרופיל מתאמן
+      </button> */}
     </header>
   );
 
@@ -140,22 +151,54 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
       {role === "trainee" && renderTrainee()}
       {role === "trainer" && renderTrainer()}
 
-      {showModal && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modalBox}>
-            <p className={styles.modalText}>האם את בטוחה שברצונך לעבור?</p>
+      <ConfirmDialog
+        isOpen={showConfirm}
+        title="אישור"
+        message="האם את בטוחה שברצונך לעבור?"
+        cancelText="ביטול"
+        confirmText="אישור"
+        onCancel={() => setShowConfirm(false)}
+        onConfirm={confirmMove}
+      />
 
-            <div className={styles.modalButtons}>
-              <button className={styles.modalCancel} onClick={() => setShowModal(false)}>
-                ביטול
+      {showProfileModal && (
+        <div className={styles.modalOverlay} onClick={() => setShowProfileModal(false)}>
+          <div className={styles.profileModal} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.closeBtn} onClick={() => setShowProfileModal(false)}>✕</button>
+            <div className={styles.profileModalContent}>
+              <div className={styles.profileHeader}>
+                <ProfileImage />
+                <h2>{trainee?.name}</h2>
+              </div>
+              
+              <EditProfileModal 
+                isInline={true}
+                onSave={() => setShowProfileModal(false)}
+              />
+
+              <button 
+                className={styles.toggleRoleBtn}
+                onClick={() => {
+                  if (role === "trainee") {
+                    openConfirmDialog("trainer");
+                  } else {
+                    openConfirmDialog("trainee");
+                  }
+                  setShowProfileModal(false);
+                }}
+              >
+                {role === "trainee" ? " עבור לפרופיל מאמן" : " עבור לפרופיל מתאמן"}
               </button>
-              <button className={styles.modalConfirm} onClick={confirmMove}>
-                אישור
-              </button>
+
+              <div className={styles.logoutButtonWrapper}>
+                <Logout />
+              </div>
             </div>
           </div>
         </div>
       )}
+
+      <EditProfileModal isOpen={showEditModal} onClose={() => setShowEditModal(false)} />
     </>
   );
 }
