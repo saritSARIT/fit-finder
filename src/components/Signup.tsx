@@ -43,6 +43,7 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
         id: data.user.id.insertedId,
         name: data.user.name,
         email: data.user.email,
+        image: "/images/UserProfile.png",
       })
       router.push("/dashboard/trainee/searchTraining");
 
