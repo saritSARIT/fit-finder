@@ -107,11 +107,11 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: box-shadow 0.4s ease, transform 0.4s ease;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .grid-item:hover {
-  box-shadow: 0 0 25px rgba(21, 48, 250, 0.8);
+  box-shadow: 0 0 25px rgba(62, 62, 63, 0.8);
   /* glow צהוב */
 }
 
@@ -324,3 +324,41 @@ p {
   background-color: #0046a5;
   margin: 1rem 0;
 }
+
+
+
+/* MOTIVATION SECTION HIDDEN INITIALLY */
+.motivation-section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  text-align: center;
+  padding: 80px 20px;
+  background: #ffffff;
+}
+
+/* WHEN SCROLL TRIGGERED */
+.motivation-section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* COLORS */
+.motivation-title {
+  color: #0046a5; /* כחול יפה */
+  font-size: 4rem;
+  font-weight: 800;
+}
+
+.motivation-subtitle {
+  color: #facc15; /* צהוב */
+  font-size: 2.7rem;
+  font-weight: 600;
+}
+
+.motivation-coach {
+  color: #0046a5; /* כחול כהה */
+  font-size: 2.3rem;
+  margin-top: 10px;
+}
+
