@@ -23,8 +23,8 @@ export default function Logout() {
         <button
             onClick={handleLogout}
             style={{
-                backgroundColor: "#f5c000", // רקע צהוב
-                border: "2px solid #0046a5", // מסגרת כחולה, אפשר להוריד אם לא רוצים מסגרת
+                backgroundColor: "#f5c000", 
+                border: "2px solid #0046a5", 
                 borderRadius: "50%", 
                 padding: "5px",
                 cursor: "pointer",
@@ -39,7 +39,7 @@ export default function Logout() {
                 height="18"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#0046a5" // צבע קו כחול
+                stroke="#0046a5" 
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
