@@ -92,7 +92,6 @@ export default function Login({ onClose }: { onClose: () => void }) {
         >
           <FcGoogle className="text-xl" />
           log in with Google
-          try 1#
         </button>
       </form>
     </motion.div>
