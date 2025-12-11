@@ -128,8 +128,8 @@ export default function SearchTrainingPage() {
   };
 
   function renderStars(rating: number) {
-    const filled = Math.round(rating);       // כוכבים מלאים
-    const empty = 5 - filled;                // כוכבים ריקים
+    const filled = Math.round(rating);       
+    const empty = 5 - filled;                
 
     return "★".repeat(filled) + "☆".repeat(empty);
   }
@@ -148,9 +148,7 @@ export default function SearchTrainingPage() {
     <div className={styles["search-page"]}>
       <UniversalHeader role="trainee" />
 
-      {/* אזור חיפוש */}
       <div className={styles["search-container"]}>
-        {/* dropdown */}
         <div className={styles["trainer-dropdown"]}>
 
           {isDropdownOpen && (
@@ -171,7 +169,6 @@ export default function SearchTrainingPage() {
           )}
         </div>
 
-        {/* אייקון סינון */}
         <button
           className={styles["filter-button"]}
           onClick={() => setIsFilterOpen(true)}
@@ -181,7 +178,6 @@ export default function SearchTrainingPage() {
         </button>
       </div>
 
-      {/* רשימת מאמנים */}
       <div className={styles["trainers-grid"]}>
         {filtered.length === 0 ? (
           <p>אין אימונים להצגה</p>
@@ -194,16 +190,8 @@ export default function SearchTrainingPage() {
             >
               <p>מאמן: {t.name}</p>
               <p>מיקום: {t.address || "—"}</p>
-              {/* מחשוב ממוצע דירוג */}
-              {(() => {
-                if (t.comments.length === 0) {
-                  return;
-                }
-                const rating =
-                  t.comments && t.comments.length > 0
-                    ? t.comments.reduce((sum: number, c: any) => sum + (c.rating ?? 0), 0) /
-                    t.comments.length
-                    : 0;
+              {t.comments.length > 0 && (() => {
+                const rating = t.comments.reduce((sum: number, c: any) => sum + (c.rating ?? 0), 0) / t.comments.length;
                 return <p>דירוג: {renderStars(rating)}</p>;
               })()}
             </div>
