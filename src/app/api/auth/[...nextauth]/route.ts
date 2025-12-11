@@ -3,11 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import clientPromise from "@/lib/mongo";
-const client = await clientPromise;
 import { findUserByEmail, createUser, UserType } from "../../../../services/userService";
-import { image } from "framer-motion/client";
-import Image from "next/image";
-
 
 export const authOptions = {
   providers: [
@@ -35,18 +31,15 @@ export const authOptions = {
           throw new Error("Missing email or password");
         }
 
+        const client = await clientPromise; // <-- כאן
         const db = client.db("FitFinder");
         const type: UserType = "Trainee";
         const dbUser = await findUserByEmail(credentials.email, db, type);
 
-        if (!dbUser) {
-          throw new Error("User not found");
-        }
+        if (!dbUser) throw new Error("User not found");
 
         const isValid = await bcrypt.compare(credentials.password, dbUser.password);
-        if (!isValid) {
-          throw new Error("Invalid credentials");
-        }
+        if (!isValid) throw new Error("Invalid credentials");
 
         return {
           id: dbUser._id.toString(),
@@ -61,63 +54,45 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user, account, profile }: any) {
-      try {
-        if (account?.provider === "google") {
-          token.picture = user?.image || profile?.picture || token.picture;
-        }
-      } catch (err) {
-        console.error("❌ jwt callback error:", err);
+      if (account?.provider === "google") {
+        token.picture = user?.image || profile?.picture || token.picture;
       }
       return token;
     },
     async signIn({ user, account }: any) {
-      try {
-        const db = client.db("FitFinder");
-        const type: UserType = "Trainee";
+      const client = await clientPromise;
+      const db = client.db("FitFinder");
+      const type: UserType = "Trainee";
 
-        const existing = await findUserByEmail(user.email, db, type);
-        if (!existing) {
-          if (account?.provider !== "google") {
-            return false;
-          }
-          await createUser(
-            {
-              name: user.name,
-              email: user.email,
-              password: account?.provider === "google" ? "" : user.password,
-              phone: user.phone || "",
-              image: user.image || "",
-            },
-            db,
-            type
-          );
-        }
-        return true;
-      } catch (err) {
-        console.error("❌ signIn callback error:", err);
-        return false;
+      const existing = await findUserByEmail(user.email, db, type);
+      if (!existing) {
+        if (account?.provider !== "google") return false;
+        await createUser({
+          name: user.name,
+          email: user.email,
+          password: account?.provider === "google" ? "" : user.password,
+          phone: user.phone || "",
+          image: user.image || "",
+        }, db, type);
       }
+      return true;
     },
-
     async session({ session, token }: any) {
-      try {
-        const db = client.db("FitFinder");
-        const type: UserType = "Trainee";
+      const client = await clientPromise;
+      const db = client.db("FitFinder");
+      const type: UserType = "Trainee";
 
-        const email = token?.email || session.user?.email;
-        if (email) {
-          const dbUser = await findUserByEmail(email, db, type);
-          if (dbUser) {
-            session.user.id = dbUser._id.toString();
-            session.user.password = dbUser.password;
-            session.user.name = dbUser.name;
-            session.user.email = dbUser.email;
-              session.user.phone = dbUser.phone;
-              session.user.image = dbUser.image || token.picture || session.user.image;
-          }
+      const email = token?.email || session.user?.email;
+      if (email) {
+        const dbUser = await findUserByEmail(email, db, type);
+        if (dbUser) {
+          session.user.id = dbUser._id.toString();
+          session.user.password = dbUser.password;
+          session.user.name = dbUser.name;
+          session.user.email = dbUser.email;
+          session.user.phone = dbUser.phone;
+          session.user.image = dbUser.image || token.picture || session.user.image;
         }
-      } catch (err) {
-        console.error("❌ session callback error:", err);
       }
       return session;
     },
@@ -128,5 +103,4 @@ export const authOptions = {
 };
 
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };
