@@ -24,9 +24,6 @@ export default function TrainingCard({ t, i, index, trainerTypes, trainings, set
             <strong>אימון {i + 1}</strong>
             <br />
 
-            <small>{t.date}</small>
-            <br />
-
             <label>משעה:</label>
             <input
                 type="time"

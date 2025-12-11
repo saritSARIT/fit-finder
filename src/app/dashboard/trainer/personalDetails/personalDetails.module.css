@@ -74,6 +74,12 @@
   border-bottom: 2px solid #facc15;
 }
 
+.todayHeader {
+  background: #0046a5 !important;
+  border-bottom: 2px solid #0046a5 !important;
+  color: #facc15;
+}
+
 .pdTable td {
   border: 2px solid #0046a5;
   background: #fffef6;

@@ -6,7 +6,7 @@ import { trainerStore } from "@/store/trainerStore";
 import { getTraineeById } from "@/services/traineeService";
 import styles from "./myTrainings.module.css";
 import { TrainingSummary } from "@/types/trainingSummary";
-import { isTrainingInPast } from "@/lib/functions/isTrainingInPast";
+import { isTrainingInPast } from "@/lib/functions/trainingsDates";
 import TrainingCard from "@/components/trainer/trainingCard";
 
 export default function MyTrainingsPage() {

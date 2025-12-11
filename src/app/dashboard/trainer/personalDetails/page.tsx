@@ -9,8 +9,9 @@ import { Training } from "@/types/training"
 import TrainingCard from "@/components/personalDetails/trainingCard";
 import TypesCard from "@/components/personalDetails/types";
 import AddressCard from "@/components/personalDetails/address";
-import { isTrainingInFuture } from "@/lib/functions/isTrainingInPast"
+import { isTrainingInFuture } from "@/lib/functions/trainingsDates"
 import { showToast } from "@/components/toast/Toast";
+import { getNextDateForDay } from "@/lib/functions/trainingsDates";
 
 export default function PersonalDetailsPage() {
   const trainer = trainerStore((state) => state.trainer);
@@ -171,6 +172,8 @@ export default function PersonalDetailsPage() {
     );
   }
 
+  const currentDayIndex = new Date().getDay();
+
   return (
     <div className={styles.container}>
       <UniversalHeader role="trainer" />
@@ -190,9 +193,17 @@ export default function PersonalDetailsPage() {
       <table className={styles.pdTable}>
         <thead>
           <tr>
-            {days.map((d) => (
-              <th key={d}>{d}</th>
-            ))}
+            {days.map((d, dayIndex) => (
+              <th
+                key={d}
+                className={dayIndex === currentDayIndex ? styles.todayHeader : ""}
+              >
+                {d}
+                <br />
+                <span>
+                  {getNextDateForDay(dayIndex)}
+                </span>
+              </th>))}
           </tr>
         </thead>
 

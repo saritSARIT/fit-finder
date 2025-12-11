@@ -30,3 +30,17 @@ export const isTrainingInFuture = (training: Training) => {
 
     return trainingDateTime >= now;
 };
+
+// מקבל אינדקס יום (0=ראשון...6=שבת) ומחזיר תאריך YYYY-MM-DD
+export function getNextDateForDay(dayIndex: number) {
+    const today = new Date();
+    const currentDayIndex = today.getDay(); // 0 = Sunday ... 6 = Saturday
+
+    let diff = dayIndex - currentDayIndex;
+    if (diff < 0) diff += 7;
+
+    const d = new Date(today);
+    d.setDate(today.getDate() + diff);
+
+    return d.toISOString().split("T")[0];
+}
