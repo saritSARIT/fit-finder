@@ -6,6 +6,7 @@ import styles from "./trainerSession.module.css";
 import { useRouter } from "next/navigation";
 import { getTrainerTrainings } from "@/services/trainerService"
 import { traineeStore } from "@/store/traineeStore";
+import { getNextDateForDay } from "@/lib/functions/trainingsDates";
 
 export default function TrainerSessionPage() {
   const router = useRouter();
@@ -47,6 +48,7 @@ export default function TrainerSessionPage() {
 
   if (!trainer) return <p>טוען...</p>;
 
+  const currentDayIndex = new Date().getDay();
 
   return (
     <div className={styles.page}>
@@ -78,9 +80,17 @@ export default function TrainerSessionPage() {
           <table className={styles.table}>
             <thead>
               <tr>
-                {days.map((day) => (
-                  <th key={day}>{day}</th>
-                ))}
+                {days.map((d, dayIndex) => (
+                  <th
+                    key={d}
+                    className={dayIndex === currentDayIndex ? styles.todayHeader : ""}
+                  >
+                    {d}
+                    <br />
+                    <span>
+                      {getNextDateForDay(dayIndex)}
+                    </span>
+                  </th>))}
               </tr>
             </thead>
             <tbody>
@@ -91,7 +101,6 @@ export default function TrainerSessionPage() {
                       .filter((t) => t.day === dayIndex && isTrainingInFuture(t))
                       .map((t, i) => (
                         <div key={i} className={styles.trainingCard}>
-                          <p>{t.date}</p>
                           <p>{t.from} - {t.to}</p>
                           {t.classType === "personal" && t.trainees ?
                             (() => {

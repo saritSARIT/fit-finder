@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import styles from "./myTrainings.module.css";
 import { getTrainerById } from "@/services/trainerService";
 import { TrainingSummary } from "@/types/trainingSummary";
-import { isTrainingInPast } from "@/lib/functions/isTrainingInPast";
+import { isTrainingInPast } from "@/lib/functions/trainingsDates";
 
 export default function TrainingsHistoryPage() {
   const user = traineeStore((state) => state.trainee);
