@@ -1,9 +1,10 @@
 .inlineEditContainer {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 20px 0;
+  gap: 14px;
+  padding: 16px 0;
   border-bottom: 1px solid #d7d6d6;
+  direction: rtl;
 }
 
 .inlineEditField {
@@ -18,6 +19,8 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  text-align: right;
+  direction: rtl;
 }
 
 .profileImageDisplay {
@@ -133,12 +136,14 @@
 
 .editModalContent {
   background: white;
-  padding: 30px;
-  width: 420px;
+  padding: 20px 25px;
+  width: 340px;
   max-width: 100%;
   box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
   height: 100vh;
-  overflow-y: auto;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
   animation: slideInFromRight 0.3s ease-out;
   direction: rtl;
   flex-shrink: 0;
@@ -185,10 +190,10 @@
 }
 
 .formGroup {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .formLabel {
@@ -200,13 +205,17 @@
 }
 
 .formInput {
-  padding: 12px 14px;
+  padding: 10px 12px 10px 40px;
   border: 2px solid #ddd;
   border-radius: 8px;
   font-size: 14px;
   font-family: inherit;
   direction: rtl;
   transition: border-color 0.3s ease;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%230046a5" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  background-size: 16px 16px;
 }
 
 .formInput:focus {
@@ -221,8 +230,8 @@
 }
 
 .imagePreview {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   overflow: hidden;
   background: #f0f0f0;
@@ -261,7 +270,8 @@
 .editButtons {
   display: flex;
   gap: 12px;
-  margin-top: 30px;
+  margin-top: auto;
+  padding-top: 20px;
 }
 
 .editCancel {
