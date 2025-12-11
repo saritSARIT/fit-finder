@@ -1,7 +1,6 @@
 "use client";
 
 import styles from "./filter.module.css";
-import { ChangeEvent } from "react";
 import React, { useState, useEffect } from "react";
 
 export type TrainingFilters = {
@@ -38,7 +37,9 @@ export default function FilterPanel({
   onReset,
   onClose,
 }: FilterPanelProps) {
-  if (!isOpen) return null;
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const handleFieldChange = (partial: Partial<TrainingFilters>) => {
     onChange({ ...values, ...partial });
@@ -95,7 +96,7 @@ export default function FilterPanel({
       controller.abort();
     };
   }, [addressQuery]);
-  
+
 
   const toggleType = (type: string) => {
     const nextTypes = values.types.includes(type)
@@ -103,6 +104,10 @@ export default function FilterPanel({
       : [...values.types, type];
     handleFieldChange({ types: nextTypes });
   };
+
+  if (!mounted || !isOpen) {
+    return <div />; 
+  }
 
   return (
     <div className={styles.overlay} role="dialog" aria-modal="true">
@@ -170,15 +175,15 @@ export default function FilterPanel({
             />
             {addressLoading && <small>טוען הצעות…</small>}
             {addressError && (
-             
-             <small style={{ color: "red" }}>{addressError}</small>
+
+              <small style={{ color: "red" }}>{addressError}</small>
             )}
 
             {addressSuggestions.length > 0 && (
               <div className={styles.suggestionsBox}>
-                {addressSuggestions.map((s, idx) => (
+                {addressSuggestions.map((s) => (
                   <div
-                    key={idx}
+                    key={s}
                     className={styles.suggestionItem}
                     onClick={() => {
                       setAddressQuery(s);
