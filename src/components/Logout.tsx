@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { traineeStore } from "@/store/traineeStore";
 import { trainerStore } from "@/store/trainerStore";
 
-export default function Logout() {
+export default function Logout({ className }: { className?: string }) {
     const router = useRouter();
     const { logout: logoutTrainee } = traineeStore();
     const { logout: logoutTrainer } = trainerStore();
@@ -22,16 +22,8 @@ export default function Logout() {
     return (
         <button
             onClick={handleLogout}
-            style={{
-                backgroundColor: "#f5c000", 
-                border: "2px solid #0046a5", 
-                borderRadius: "50%", 
-                padding: "5px",
-                cursor: "pointer",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-            }}
+            className={className}
+            aria-label="התנתק"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"

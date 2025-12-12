@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { FiEdit2 } from "react-icons/fi";
 import { useSession } from "next-auth/react";
 import styles from "./EditProfileModal.module.css";
 import { showToast } from "../toast/Toast";
@@ -131,8 +132,9 @@ export default function EditProfileModal({
                 className={styles.editPencil}
                 onClick={() => setEditField("name")}
                 title="עריכה"
+                aria-label="ערוך שם"
               >
-                🖊
+                <FiEdit2 />
               </button>
             </div>
           )}
@@ -159,8 +161,9 @@ export default function EditProfileModal({
                 className={styles.editPencil}
                 onClick={() => setEditField("email")}
                 title="עריכה"
+                aria-label="ערוך אימייל"
               >
-                🖊
+                <FiEdit2 />
               </button>
             </div>
           )}
@@ -187,8 +190,9 @@ export default function EditProfileModal({
                 className={styles.editPencil}
                 onClick={() => setEditField("phone")}
                 title="עריכה"
+                aria-label="ערוך טלפון"
               >
-                🖊
+                <FiEdit2 />
               </button>
             </div>
           )}
