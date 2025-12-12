@@ -142,5 +142,11 @@
 }
 
 .trainer-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-2px);
+}
+
+.name-in-card{
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
 }
