@@ -188,8 +188,8 @@ export default function SearchTrainingPage() {
               className={styles["trainer-card"]}
               onClick={() => goToTrainerSession(t)}
             >
-              <p>מאמן: {t.name}</p>
-              <p>מיקום: {t.address || "—"}</p>
+              <p className={styles["name-in-card"]}>מאמן: {t.name}</p>
+              <p>מיקום: {t.address || " "}</p>
               {t.comments.length > 0 && (() => {
                 const rating = t.comments.reduce((sum: number, c: any) => sum + (c.rating ?? 0), 0) / t.comments.length;
                 return <p>דירוג: {renderStars(rating)}</p>;
