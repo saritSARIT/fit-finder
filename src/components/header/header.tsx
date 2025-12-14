@@ -139,13 +139,7 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
         </button>
         <span className={styles.name}>{trainee?.name}</span>
       </div>
-
-      {/* <button
-        className={styles.profileBtn}
-        onClick={() => openConfirmDialog("trainee")}
-      >
-        מעבור לפרופיל מתאמן
-      </button> */}
+      
     </header>
   );
 
