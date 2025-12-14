@@ -43,15 +43,12 @@
   gap: 10px;
   font-size: 18px; 
   text-align: center;
-  margin-left: 28%;
 }
 
 .navLinks a {
   text-decoration: none;
   color: #0046a5;
   font-weight: 600;
-  transition: color 0.3s ease;
- 
 }
 
 .navLinks a.active {
@@ -85,15 +82,13 @@
 
 .name {
   font-size: 16px;
-    font-weight: 300;
-  margin-bottom: 6px;
+  font-weight: 300;
 }
 
 .logoutSection {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 320px;
 }
 
 /* רקע כהה שקוף */
@@ -123,7 +118,6 @@
   font-size: 18px;
   color: #0046a5;
   font-weight: 600;
-  margin-bottom: 20px;
 }
 
 
@@ -223,7 +217,6 @@
   text-align: center;
   padding: 20px;
   border-bottom: 2px solid #f0f0f0;
-  margin-bottom: 10px;
 }
 
 /* remove grey ellipse background for profile image inside profile modal */
@@ -235,14 +228,12 @@
 .profileHeader h2 {
   color: #0046a5;
   font-size: 22px;
-  margin: 15px 0 8px 0;
   font-weight: 700;
 }
 
 .profileHeader p {
   color: #666;
   font-size: 14px;
-  margin: 0;
 }
 
 .modalOptionBtn {
@@ -282,7 +273,6 @@
 
 .logoutButtonWrapper {
   width: 100%;
-  margin-top: auto;
   padding-top: 20px;
   border-top: 2px solid #f0f0f0;
 }

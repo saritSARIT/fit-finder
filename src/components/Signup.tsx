@@ -51,7 +51,7 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
 
     } catch (err) {
       console.error(err);
-      showToast("Server error");
+      showToast("שגיאת שרת");
     }
   };
 

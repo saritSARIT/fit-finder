@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     const { email, password } = await req.json();
 
     if (!email || !password) {
-      return NextResponse.json({ error: "Missing email or password" }, { status: 400 });
+      return NextResponse.json({ error: "חסר מייל או סיסמא" }, { status: 400 });
     }
 
     const db = client.db("FitFinder");
@@ -18,13 +18,13 @@ export async function POST(req: Request) {
     // חיפוש המשתמש לפי אימייל
     const user = await users.findOne({ email });
     if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+      return NextResponse.json({ error: "משתמש לא קיים" }, { status: 404 });
     }
 
     // בדיקת סיסמה
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return NextResponse.json({ error: "Invalid password" }, { status: 401 });
+      return NextResponse.json({ error: "סיסמא שגויה" }, { status: 401 });
     }
 
     // התחברות מוצלחת

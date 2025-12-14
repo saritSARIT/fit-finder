@@ -66,7 +66,9 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
   const renderTrainee = () => (
     <header className={styles.header}>
       <div className={styles.logoSection}>
+        <Link href="/dashboard/trainee/searchTraining">
         <img src="/images/logo.png" alt="FitFinder Logo" width={100} height={100} />
+        </Link>
       </div>
 
       <nav className={styles.navLinks}>
@@ -105,7 +107,9 @@ export default function UniversalHeader({ role, onLogin, onSignUp }: Props) {
   const renderTrainer = () => (
     <header className={styles.header}>
       <div className={styles.logoSection}>
+        <Link href="/dashboard/trainer/personalDetails">
         <img src="/images/logo.png" alt="FitFinder Logo" width={100} height={100} />
+        </Link>
       </div>
 
       <nav className={styles.navLinks}>

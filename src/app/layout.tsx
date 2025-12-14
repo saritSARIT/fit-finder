@@ -29,7 +29,7 @@ export default function RootLayout({
 
           {children}
 
-          {/* Toast גלובלי שמופיע רק כשלוחצים showToast */}
+          
           <Toast />
         </SessionProviderWrapper>
 

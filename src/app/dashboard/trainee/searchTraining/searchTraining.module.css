@@ -138,7 +138,9 @@
   font-weight: 600;
   font-size: 16px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
   transition: transform 0.2s ease;
+  user-select: none;
 }
 
 .trainer-card:hover {

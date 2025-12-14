@@ -70,7 +70,7 @@ export default function TrainingsHistoryPage() {
       {traineeId && !isLoading && !error && (
         <>
           {history.length === 0 ? (
-            <p className={styles.text}>אין אימונים להצגה</p>
+            <p className={styles.text}>אין כרגע אימונים להצגה</p>
           ) : (
             <div className={styles.list}>
               {history.map((training) => (

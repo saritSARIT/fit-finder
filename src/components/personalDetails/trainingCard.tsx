@@ -1,5 +1,6 @@
 import { Training } from "@/types/training"
 import styles from '@/app/dashboard/trainer/personalDetails/personalDetails.module.css';
+import { FaTrash } from "react-icons/fa";
 
 export default function TrainingCard({ t, i, index, trainerTypes, trainings, setTrainings }:
     { t: Training; i: any; index: number, trainerTypes: string[], trainings: Training[], setTrainings: any }) {
@@ -93,7 +94,8 @@ export default function TrainingCard({ t, i, index, trainerTypes, trainings, set
                 type="button"
                 onClick={() => deleteTraining(index)}
             >
-                🗑️
+                <FaTrash />
+
             </button>
         </div>
     )

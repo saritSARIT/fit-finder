@@ -36,7 +36,7 @@ export default function Login({ onClose }: { onClose: () => void }) {
       router.push(result?.url || "/dashboard/trainee/searchTraining");
     } catch (err) {
       console.error(err);
-      showToast("Server error");
+      showToast("שגיאת שרת");
     }
   };
 

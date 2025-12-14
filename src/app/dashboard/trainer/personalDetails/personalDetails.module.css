@@ -5,8 +5,9 @@
 }
 
 .trainerWrapper {
-  margin-top: 15px;
-  padding: 10px;
+  padding-left: 70px;
+  padding-right: 70px;
+  padding-top: 20px;
 }
 
 .inputCommon {
@@ -85,11 +86,12 @@
   background: #fffef6;
   text-align: center;
   padding: 15px;
+  vertical-align: top;
 }
 
 .pdTrainingBox {
-  background: #facc15;
-  border: 2px solid #0046a5;
+  background:#e1e7f7;
+  border:none;
   padding: 12px;
   margin-top: 12px;
   margin-bottom: 12px;
@@ -122,7 +124,7 @@
   border-radius: 6px;
   cursor: pointer;
   margin-bottom: 10px;
-  background-color: #facc15;
+  background-color: #e1e7f7;
   width: fit-content;
   font-size: 18px;
   position: absolute;

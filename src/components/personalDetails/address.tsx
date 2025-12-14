@@ -63,7 +63,7 @@ export default function AddressCard({ addressQuery, setAddressQuery, trainerAddr
     }, [addressQuery]);
 
     return (
-        <div className={styles.trainerWrapper}>
+        <div >
 
             <label>כתובת:</label>
             <input

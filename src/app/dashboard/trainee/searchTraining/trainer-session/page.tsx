@@ -54,9 +54,9 @@ export default function TrainerSessionPage() {
     <div className={styles.page}>
       <UniversalHeader role="trainee" />
 
-      <div >
+      <div className={styles.container}>
         <h2 className={styles.title}>פרטי המאמן</h2>
-
+     <div>
         <div className={styles.row}>
           <span>שם המאמן:</span>
           <span>{trainer.name}</span>
@@ -76,7 +76,9 @@ export default function TrainerSessionPage() {
           <span >סוגי אימון:</span>
           <span>{trainer.types?.join(", ")}</span>
         </div>
-        {trainings.length === 0 ? <p>אין אימונים זמינים</p> :
+
+        </div>
+        {trainings.length === 0 ? <p>אין כרגע אימונים זמינים</p> :
           <table className={styles.table}>
             <thead>
               <tr>
