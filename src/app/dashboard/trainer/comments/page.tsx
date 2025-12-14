@@ -23,11 +23,11 @@ export default function CommentsPage() {
     <div className={styles.container}>
       <UniversalHeader role="trainer" />
 
-      <div className={styles.commentsList}>
-        {comments.length === 0 && (
-          <p className={styles.noComments}>אין כרגע עדיין ביקורות</p>
-        )}
+      {comments.length === 0 && (
+        <p className={styles.noComments}>אין כרגע עדיין ביקורות</p>
+      )}
 
+      <div className={styles.commentsList}>
         {comments.map((c: any, i) => (
           <div key={i} className={styles.commentCard}>
             <p className={styles.commentName}>{c.traineeName}</p>
