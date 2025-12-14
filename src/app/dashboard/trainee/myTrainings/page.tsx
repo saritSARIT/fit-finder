@@ -82,7 +82,7 @@ export default function TrainingsHistoryPage() {
           <h3 className={styles.sectionTitle}>אימונים שאושרו:</h3>
 
           {futureTrainings.length === 0 ? (
-            <p className={styles.emptyMsg}>אין אימונים להצגה</p>
+            <p className={styles.emptyMsg}>אין כרגע אימונם זמינים</p>
           ) : (
             <div className={styles.trainingsList}>
               {futureTrainings.map((training, index) => (
@@ -134,7 +134,7 @@ export default function TrainingsHistoryPage() {
           <h3 className={styles.sectionTitle}>אימונים שלא אושרו:</h3>
 
           {notApproved.length === 0 ? (
-            <p className={styles.emptyMsg}>אין אימונים להצגה</p>
+            <p className={styles.emptyMsg}>אין כרגע אימונים להצגה </p>
           ) : (
             <div className={styles.trainingsList}>
               {notApproved.map((training, index) => (

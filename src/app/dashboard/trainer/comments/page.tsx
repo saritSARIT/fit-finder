@@ -25,7 +25,7 @@ export default function CommentsPage() {
 
       <div className={styles.commentsList}>
         {comments.length === 0 && (
-          <p className={styles.noComments}>אין עדיין ביקורות</p>
+          <p className={styles.noComments}>אין כרגע עדיין ביקורות</p>
         )}
 
         {comments.map((c: any, i) => (

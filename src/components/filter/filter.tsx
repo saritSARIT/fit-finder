@@ -145,7 +145,7 @@ export default function FilterPanel({
           <section className={styles.section}>
             <label>סוג אימון</label>
             <div className={styles.checkboxGroup}>
-              {availableTypes.length === 0 && <span>אין סוגים זמינים</span>}
+              {availableTypes.length === 0 && <span>אין כרגע סוגים זמינים</span>}
               {availableTypes.map((type) => (
                 <button
                   key={type}

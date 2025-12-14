@@ -13,6 +13,7 @@ import { isTrainingInFuture } from "@/lib/functions/trainingsDates"
 import { showToast } from "@/components/toast/Toast";
 import { getNextDateForDay } from "@/lib/functions/trainingsDates";
 
+
 export default function PersonalDetailsPage() {
   const trainer = trainerStore((state) => state.trainer);
   const [trainings, setTrainings] = useState<Training[]>([]);
@@ -177,7 +178,7 @@ export default function PersonalDetailsPage() {
   return (
     <div className={styles.container}>
       <UniversalHeader role="trainer" />
-
+      <div className={styles.trainerWrapper}>
       <AddressCard
         addressQuery={addressQuery}
         setAddressQuery={setAddressQuery}
@@ -244,7 +245,7 @@ export default function PersonalDetailsPage() {
           </tr>
         </tbody>
       </table>
-
+</div>
       <div className={styles.pdSaveWrapper}>
         <button className={styles.pdSaveBtn} onClick={saveAllChanges}>
           שמירת שינויים

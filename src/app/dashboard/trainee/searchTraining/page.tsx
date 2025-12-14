@@ -180,7 +180,7 @@ export default function SearchTrainingPage() {
 
       <div className={styles["trainers-grid"]}>
         {filtered.length === 0 ? (
-          <p>אין אימונים להצגה</p>
+          <p>אין כרגע אימונים להצגה</p>
         ) : (
           filtered.map((t) => (
             <div
@@ -189,7 +189,7 @@ export default function SearchTrainingPage() {
               onClick={() => goToTrainerSession(t)}
             >
               <p className={styles["name-in-card"]}>מאמן: {t.name}</p>
-              <p>מיקום: {t.address || " "}</p>
+              {t.address && <p>מיקום: {t.address}</p>}
               {t.comments.length > 0 && (() => {
                 const rating = t.comments.reduce((sum: number, c: any) => sum + (c.rating ?? 0), 0) / t.comments.length;
                 return <p>דירוג: {renderStars(rating)}</p>;

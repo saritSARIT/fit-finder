@@ -13,12 +13,18 @@
   color: #facc15;
 }
 
+.container {
+  padding-left: 70px;
+    padding-right: 70px;
+}
+
 .row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 1px solid #facc15;
+
 }
 
 
@@ -57,11 +63,11 @@
 
 
 .trainingCard {
-  background: #ffffff;
+  background: #e1e7f7;
   border-radius: 12px;
   padding: 12px;
   margin-bottom: 12px;
-  border: 1px solid #0046a5;
+  border:none;
 }
 
 /* כפתור */
@@ -74,5 +80,5 @@
   cursor: pointer;
   font-size: 14px;
   margin-top: 8px;
-  border: 1px solid #0046a5;
+  border: none;
 }

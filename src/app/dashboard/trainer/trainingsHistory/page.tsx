@@ -87,7 +87,7 @@ export default function MyTrainingsPage() {
       <UniversalHeader role="trainer" />
 
       {trainings.length === 0 ? (
-        <p className={styles.emptyMsg}>אין אימונים זמינים</p>
+        <p className={styles.emptyMsg}>אין כרגע אימונים זמינים</p>
       ) : (
         <>
           <h2>אישי</h2>
@@ -102,7 +102,7 @@ export default function MyTrainingsPage() {
                 />
               ))
               :
-              <p>אין אימונים אישיים זמינים</p>
+              <p>אין כרגע אימונים אישיים זמינים</p>
             }
           </div>
           <h2>קבוצתי</h2>
@@ -117,7 +117,7 @@ export default function MyTrainingsPage() {
                 />
               ))
               :
-              <p>אין אימונים קבוצתיים זמינים</p>
+              <p>אין כרגע אימונים קבוצתיים זמינים</p>
             }
           </div>
         </>

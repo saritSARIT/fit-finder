@@ -28,7 +28,7 @@ export const authOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Missing email or password");
+          throw new Error("חסר מייל או סיסמא");
         }
 
         const client = await clientPromise; // <-- כאן
@@ -36,10 +36,10 @@ export const authOptions = {
         const type: UserType = "Trainee";
         const dbUser = await findUserByEmail(credentials.email, db, type);
 
-        if (!dbUser) throw new Error("User not found");
+        if (!dbUser) throw new Error("משתמש לא קיים");
 
         const isValid = await bcrypt.compare(credentials.password, dbUser.password);
-        if (!isValid) throw new Error("Invalid credentials");
+        if (!isValid) throw new Error("סיסמא שגויה");
 
         return {
           id: dbUser._id.toString(),

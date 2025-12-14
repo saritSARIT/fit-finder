@@ -20,8 +20,8 @@ export async function POST(
     const { rating, comment, traineeId } = body;
 
     if (!id) {
-      console.error("trainerId is missing!");
-      return NextResponse.json({ error: "Missing trainerId" }, { status: 400 });
+      console.error("חסר מזהה מאמן!");
+      return NextResponse.json({ error: "חסר מזהה מאמן" }, { status: 400 });
     }
 
     if (!rating || !comment || !traineeId) {
