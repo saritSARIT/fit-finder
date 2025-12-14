@@ -150,3 +150,11 @@
   transition: 0.2s ease;
   font-weight: bold;
 }
+
+.loading {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #0046a5;
+  text-align: center;
+}

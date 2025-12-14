@@ -168,7 +168,7 @@ export default function PersonalDetailsPage() {
     return (
       <div className={styles.container}>
         <UniversalHeader role="trainer" />
-        <h2>טוען...</h2>
+        <h2 className={styles.loading}>טוען...</h2>
       </div>
     );
   }

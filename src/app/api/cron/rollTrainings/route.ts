@@ -15,7 +15,6 @@ export async function GET(req: Request) {
         const db = client.db("FitFinder");
         const collection = db.collection("Training");
 
-        // היום בתאריך "YYYY-MM-DD"
         // אתמול בתאריך "YYYY-MM-DD"
         const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
