@@ -23,12 +23,14 @@ export const isTrainingInPast = (training: TrainingSummary) => {
 
 export const isTrainingInFuture = (training: Training) => {
     const now = new Date();
-
-    const [hoursFrom, minutesFrom] = training.from.split(":").map(Number);
-    const trainingDateTime = new Date(training.date);
-    trainingDateTime.setHours(hoursFrom, minutesFrom, 0, 0);
-
-    return trainingDateTime >= now;
+    const trainingDate = new Date(training.date);
+    return (
+        trainingDate.getFullYear() > now.getFullYear() ||
+        (trainingDate.getFullYear() === now.getFullYear() &&
+            (trainingDate.getMonth() > now.getMonth() ||
+                (trainingDate.getMonth() === now.getMonth() &&
+                    trainingDate.getDate() >= now.getDate())))
+    );
 };
 
 // מקבל אינדקס יום (0=ראשון...6=שבת) ומחזיר תאריך YYYY-MM-DD
