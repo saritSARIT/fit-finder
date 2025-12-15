@@ -56,26 +56,26 @@ export default function TrainerSessionPage() {
 
       <div className={styles.container}>
         <h2 className={styles.title}>פרטי המאמן</h2>
-     <div className={styles.trainerInfo}>
-        <div className={styles.row}>
-          <span>שם המאמן:</span>
-          <span>{trainer.name}</span>
-        </div>
+        <div className={styles.trainerInfo}>
+          <div className={styles.row}>
+            <span className={styles.label}>שם המאמן:</span>
+            <span>{trainer.name}</span>
+          </div>
 
-        <div className={styles.row}>
-          <span >אימייל:</span>
-          <span>{trainer.email}</span>
-        </div>
+          <div className={styles.row}>
+            <span className={styles.label}>אימייל:</span>
+            <span>{trainer.email}</span>
+          </div>
 
-        <div className={styles.row}>
-          <span >מיקום אימון:</span>
-          <span>{trainer.address}</span>
-        </div>
+          <div className={styles.row}>
+            <span className={styles.label}>מיקום אימון:</span>
+            <span>{trainer.address}</span>
+          </div>
 
-        <div className={styles.row}>
-          <span >סוגי אימון:</span>
-          <span>{trainer.types?.join(", ")}</span>
-        </div>
+          <div className={styles.row}>
+            <span className={styles.label}>סוגי אימון:</span>
+            <span>{trainer.types?.join(", ")}</span>
+          </div>
 
         </div>
         {trainings.length === 0 ? <p>אין כרגע אימונים זמינים</p> :
