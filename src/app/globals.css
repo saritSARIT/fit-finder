@@ -153,7 +153,6 @@ p {
 
 .reviews-title {
   font-size: 2.2rem;
-  font-weight: 800;
   color: #facc15;
   margin-bottom: 2rem;
   text-align: center; /* מרכז */
@@ -341,7 +340,6 @@ p {
 .motivation-title {
   color: #0046a5; /* כחול יפה */
   font-size: 4rem;
-  font-weight: 800;
 }
 
 .motivation-subtitle {
