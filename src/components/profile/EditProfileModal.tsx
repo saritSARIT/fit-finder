@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useEffect } from "react";
 import { FiEdit2 } from "react-icons/fi";
 import { useSession } from "next-auth/react";
 import styles from "./EditProfileModal.module.css";
@@ -21,16 +22,30 @@ export default function EditProfileModal({
   onSave 
 }: EditProfileModalProps) {
   const { data: session } = useSession();
+  const trainee = traineeStore((s) => s.trainee);
   const [isLoading, setIsLoading] = useState(false);
   const [editField, setEditField] = useState<string | null>(null);
   const [formData, setFormData] = useState({
-    name: session?.user?.name || "",
-    email: session?.user?.email || "",
-    phone: (session?.user as any)?.phone || "",
-    image: session?.user?.image || "/images/UserProfile.png",
+    name: trainee?.name || session?.user?.name || "",
+    email: trainee?.email || session?.user?.email || "",
+    phone: (trainee as any)?.phone || (session?.user as any)?.phone || "",
+    image: trainee?.image || session?.user?.image || "/images/UserProfile.png",
   });
 
   const [previewImage, setPreviewImage] = useState(formData.image);
+
+  useEffect(() => {
+    // Sync form when the modal opens or when trainee/session changes
+    const newData = {
+      name: trainee?.name || session?.user?.name || "",
+      email: trainee?.email || session?.user?.email || "",
+      phone: (trainee as any)?.phone || (session?.user as any)?.phone || "",
+      image: trainee?.image || session?.user?.image || "/images/UserProfile.png",
+    };
+    console.debug("EditProfileModal init", { trainee, session, isOpen, isInline });
+    setFormData(newData);
+    setPreviewImage(newData.image);
+  }, [trainee, session, isOpen, isInline]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -87,6 +102,7 @@ export default function EditProfileModal({
           id: (session as any)?.user?.id || traineeStore.getState().trainee?.id || "",
           name: formData.name,
           email: formData.email,
+          phone: formData.phone,
           image: formData.image || "/images/UserProfile.png",
         });
       } catch (err) {

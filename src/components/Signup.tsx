@@ -44,6 +44,7 @@ export default function SignUp({ onClose }: { onClose: () => void }) {
         name: data.user.name,
         email: data.user.email,
         image: "/images/UserProfile.png",
+        phone: form.phone,
       })
       router.push("/dashboard/trainee/searchTraining");
 
