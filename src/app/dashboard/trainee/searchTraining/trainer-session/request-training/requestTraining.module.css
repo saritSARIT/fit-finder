@@ -50,7 +50,7 @@
   min-height: 80px;
   padding: 10px;
   border-radius: 6px;
-  border: 1px solid #facc15;
+  border: 2px solid #e1e7f7;
   transition: all 0.2s ease;
 }
 
@@ -88,7 +88,6 @@
 
 .select:focus {
   outline: none;
-  border-color: #facc15;
 }
 
 .select option {
