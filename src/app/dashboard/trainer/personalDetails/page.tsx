@@ -12,7 +12,7 @@ import AddressCard from "@/components/personalDetails/address";
 import { isTrainingInFuture } from "@/lib/functions/trainingsDates"
 import { showToast } from "@/components/toast/Toast";
 import { getNextDateForDay } from "@/lib/functions/trainingsDates";
-
+import Loader from "@/components/loader/Loader";
 
 export default function PersonalDetailsPage() {
   const trainer = trainerStore((state) => state.trainer);
@@ -168,7 +168,7 @@ export default function PersonalDetailsPage() {
     return (
       <div className={styles.container}>
         <UniversalHeader role="trainer" />
-        <h2 className={styles.loading}>טוען...</h2>
+        <Loader />
       </div>
     );
   }

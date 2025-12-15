@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 import styles from "./trainingsHistory.module.css";
 import { TrainingSummary } from "@/types/trainingSummary";
 import { isTrainingInPast } from "@/lib/functions/trainingsDates";
+import Loader from "@/components/loader/Loader";
 
 export default function TrainingsHistoryPage() {
   const user = traineeStore((state) => state.trainee);
@@ -63,9 +64,9 @@ export default function TrainingsHistoryPage() {
 
       <UniversalHeader role="trainee" />
 
-      {!traineeId && <p className={styles.text}>נדרש להתחבר כדי לצפות בהיסטוריה.</p>}
-      {traineeId && isLoading && <p className={styles.text}>טוען נתונים…</p>}
-      {traineeId && error && <p className={styles.text}>{error}</p>}
+      {traineeId && isLoading && <Loader />}
+      {traineeId && error && <Loader />}
+      {!traineeId && <p className={styles.text}>נדרש להתחבר כדי לצפות בהיסטוריה</p>}
 
       {traineeId && !isLoading && !error && (
         <>

@@ -8,6 +8,7 @@ import styles from "./myTrainings.module.css";
 import { TrainingSummary } from "@/types/trainingSummary";
 import { isTrainingInPast } from "@/lib/functions/trainingsDates";
 import TrainingCard from "@/components/trainer/trainingCard";
+import Loader from "@/components/loader/Loader";
 
 export default function MyTrainingsPage() {
   const trainer = trainerStore((state) => state.trainer);
@@ -74,7 +75,7 @@ export default function MyTrainingsPage() {
     return (
       <div className={styles.pageWrapper}>
         <UniversalHeader role="trainer" />
-        <p className={styles.stateMsg}>טוען...</p>
+        <Loader />
       </div>
     );
   }
