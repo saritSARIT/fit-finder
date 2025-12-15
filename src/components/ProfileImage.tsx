@@ -4,12 +4,11 @@ import styles from "./ProfileImage.module.css";
 import { traineeStore } from "@/store/traineeStore";
 
 export default function ProfileImage() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const trainee = traineeStore((s) => s.trainee);
 
-  if (status === "loading") return null;
-
-  const profileImageSrc = session?.user?.image || trainee?.image || "/images/UserProfile.png";
+  // Prefer persisted trainee store data (immediate after register), fall back to session
+  const profileImageSrc = trainee?.image || session?.user?.image || "/images/UserProfile.png";
 
   return (
     <div className={styles.profileImageWrapper}>

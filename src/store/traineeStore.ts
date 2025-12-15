@@ -6,6 +6,7 @@ interface Trainee {
   name: string;
   email: string;
   image: string;
+  phone?: string;
 }
 
 interface TraineeState {
