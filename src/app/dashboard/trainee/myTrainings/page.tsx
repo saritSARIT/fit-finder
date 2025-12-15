@@ -7,6 +7,7 @@ import styles from "./myTrainings.module.css";
 import { getTrainerById } from "@/services/trainerService";
 import { TrainingSummary } from "@/types/trainingSummary";
 import { isTrainingInPast } from "@/lib/functions/trainingsDates";
+import Loader from "@/components/loader/Loader";
 
 export default function TrainingsHistoryPage() {
   const user = traineeStore((state) => state.trainee);
@@ -63,7 +64,7 @@ export default function TrainingsHistoryPage() {
     loadHistory();
   }, [traineeId]);
 
-  
+
   return (
     <div className={styles.pageWrapper}>
 
@@ -72,10 +73,8 @@ export default function TrainingsHistoryPage() {
       {!traineeId && (
         <p className={styles.stateMsg}>נדרש להתחבר כדי לצפות באימונים</p>
       )}
-      {traineeId && isLoading && (
-        <p className={styles.stateMsg}>טוען נתונים…</p>
-      )}
-      {traineeId && error && <p className={styles.stateMsg}>{error}</p>}
+      {traineeId && isLoading && <Loader />}
+      {traineeId && error && <Loader />}
 
       {traineeId && !isLoading && !error && (
         <>

@@ -4,20 +4,31 @@ import { getCommentsTrainer } from "@/services/trainerService";
 import { trainerStore } from "@/store/trainerStore";
 import { useState, useEffect } from "react";
 import styles from "./comments.module.css";
+import Loader from "@/components/loader/Loader";
 
 export default function CommentsPage() {
   const trainer = trainerStore(state => state.trainer);
   const [comments, setComments] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchComments = async () => {
       if (!trainer?.id) return;
       const comments = await getCommentsTrainer(trainer.id);
       setComments(comments);
-
+      setIsLoading(false);
     };
     fetchComments();
   }, [])
+
+  if (isLoading) {
+    return (
+      <div className={styles.pageWrapper}>
+        <UniversalHeader role="trainer" />
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>

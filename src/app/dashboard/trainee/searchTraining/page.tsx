@@ -11,6 +11,7 @@ import FilterPanel, {
 import { traineeStore } from "@/store/traineeStore";
 import { IoFilter } from "react-icons/io5";
 import { SiGooglemaps } from "react-icons/si";
+import Loader from "@/components/loader/Loader";
 
 export default function SearchTrainingPage() {
   const [trainers, setTrainers] = useState<any[]>([]);
@@ -75,9 +76,9 @@ export default function SearchTrainingPage() {
 
       const cleaned = s
         .toString()
-        .normalize("NFKC") 
-        .replace(/[\u0591-\u05BD\u05BF-\u05C7]/g, "") 
-        .replace(/[^\p{L}\p{N}]+/gu, " ") 
+        .normalize("NFKC")
+        .replace(/[\u0591-\u05BD\u05BF-\u05C7]/g, "")
+        .replace(/[^\p{L}\p{N}]+/gu, " ")
         .trim()
         .toLowerCase();
       return cleaned ? cleaned.split(/\s+/) : [];
@@ -129,8 +130,8 @@ export default function SearchTrainingPage() {
   };
 
   function renderStars(rating: number) {
-    const filled = Math.round(rating);       
-    const empty = 5 - filled;                
+    const filled = Math.round(rating);
+    const empty = 5 - filled;
 
     return "★".repeat(filled) + "☆".repeat(empty);
   }
@@ -140,7 +141,7 @@ export default function SearchTrainingPage() {
     return (
       <div>
         <UniversalHeader role="trainee" />
-        <p>טוען נתונים…</p>
+        <Loader />
       </div>
     );
   }
