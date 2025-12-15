@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import { FaFilter } from "react-icons/fa";
 import { UniversalHeader } from "@/components/index";
 import { useRouter } from "next/navigation";
 import styles from "./searchTraining.module.css";
@@ -10,6 +9,8 @@ import FilterPanel, {
   defaultTrainingFilters,
 } from "@/components/filter/filter";
 import { traineeStore } from "@/store/traineeStore";
+import { IoFilter } from "react-icons/io5";
+import { SiGooglemaps } from "react-icons/si";
 
 export default function SearchTrainingPage() {
   const [trainers, setTrainers] = useState<any[]>([]);
@@ -174,7 +175,7 @@ export default function SearchTrainingPage() {
           onClick={() => setIsFilterOpen(true)}
           title="פתח סינון"
         >
-          <FaFilter size={22} />
+          <IoFilter />
         </button>
       </div>
 
@@ -189,7 +190,7 @@ export default function SearchTrainingPage() {
               onClick={() => goToTrainerSession(t)}
             >
               <p className={styles["name-in-card"]}>מאמן: {t.name}</p>
-              {t.address && <p>מיקום: {t.address}</p>}
+              {t.address && <p><SiGooglemaps />{t.address}</p>}
               {t.comments.length > 0 && (() => {
                 const rating = t.comments.reduce((sum: number, c: any) => sum + (c.rating ?? 0), 0) / t.comments.length;
                 return <p>דירוג: {renderStars(rating)}</p>;
