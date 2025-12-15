@@ -56,7 +56,7 @@ export default function TrainerSessionPage() {
 
       <div className={styles.container}>
         <h2 className={styles.title}>פרטי המאמן</h2>
-     <div>
+     <div className={styles.trainerInfo}>
         <div className={styles.row}>
           <span>שם המאמן:</span>
           <span>{trainer.name}</span>
