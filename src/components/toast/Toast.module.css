@@ -3,10 +3,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #0046a5;
-  color: #facc15;
-  padding: 20px 36px;     /* ← יותר גדול */
-  border-radius: 14px;    /* ← פינות קצת יותר רכות */
+  background-color: #f9fbff;
+  color: #0046a5;
+  border: 2px solid #0046a5;
+  padding: 40px 56px;  
+  border-radius: 3px;    
   font-size: 20px;
   font-weight: bold;
   font-family: "Assistant", sans-serif;
