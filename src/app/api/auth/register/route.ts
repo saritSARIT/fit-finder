@@ -15,7 +15,6 @@ export async function POST(request: Request) {
       data.password = await bcrypt.hash(data.password, 10);
     }
 
-    // שלב הולידציה
     const parsed = TraineeSchema.safeParse(data);
     if (!parsed.success) {
       const errors = parsed.error.issues.map(e => e.message);

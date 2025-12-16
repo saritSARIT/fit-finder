@@ -1,11 +1,8 @@
 import { NextResponse } from "next/server";
-// import { client } from "../../../lib/mongo";
 import clientPromise from "@/lib/mongo";
 const client = await clientPromise;
 import { TraineeSchema } from "../../../lib/validation/Trainee";
 
-
-// שליפת כל המתאמנים
 export async function GET() {
   try {
     const db = client.db("FitFinder");
@@ -19,15 +16,12 @@ export async function GET() {
   }
 }
 
-
-// יצירת מתאמן חדש
 export async function POST(request) {
   try {
     const db = client.db("FitFinder");
     const collection = db.collection("Trainee");
     const data = await request.json();
 
-    // שלב הולידציה
     const parsed = TraineeSchema.safeParse(data);
     if (!parsed.success) {
       const errors = parsed.error.issues.map(e => e.message);

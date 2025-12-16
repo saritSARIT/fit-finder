@@ -81,7 +81,7 @@ export default function TrainingsHistoryPage() {
           <h3 className={styles.sectionTitle}>אימונים שאושרו:</h3>
 
           {futureTrainings.length === 0 ? (
-            <p className={styles.emptyMsg}>אין כרגע אימונם זמינים</p>
+            <p className={styles.emptyMsg}>אין כרגע אימונים זמינים</p>
           ) : (
             <div className={styles.trainingsList}>
               {futureTrainings.map((training, index) => (
@@ -168,14 +168,6 @@ export default function TrainingsHistoryPage() {
                         ?.status === "rejectes"
                         ? "נדחה"
                         : "נשלח"}
-                    </span>
-                  </p>
-
-                  <p className={styles.row}>
-                    <span className={styles.label}>הערות:</span>
-                    <span className={styles.value}>
-                      {training.trainees?.find((t) => t.id === traineeId)
-                        ?.notes || ""}
                     </span>
                   </p>
 

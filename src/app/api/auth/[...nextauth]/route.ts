@@ -31,7 +31,7 @@ export const authOptions = {
           throw new Error("חסר מייל או סיסמא");
         }
 
-        const client = await clientPromise; // <-- כאן
+        const client = await clientPromise; 
         const db = client.db("FitFinder");
         const type: UserType = "Trainee";
         const dbUser = await findUserByEmail(credentials.email, db, type);

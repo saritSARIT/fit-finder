@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-// import { client } from "@/lib/mongo";
 import clientPromise from "@/lib/mongo";
 const client = await clientPromise;
 import { ObjectId } from "mongodb";
