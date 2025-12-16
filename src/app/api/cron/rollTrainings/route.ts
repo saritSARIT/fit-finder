@@ -15,26 +15,22 @@ export async function GET(req: Request) {
         const db = client.db("FitFinder");
         const collection = db.collection("Training");
 
-        // אתמול בתאריך "YYYY-MM-DD"
         const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
         const yesterdayStr = yesterday.toISOString().split("T")[0];
 
-        // שליפת כל האימונים של היום בלבד
         const yesterdayTrainings  = await collection.find({
             date: yesterdayStr
         }).toArray();
 
         for (const t of yesterdayTrainings ) {
 
-            // יצירת תאריך לשבוע הבא
             const oldDate = new Date(t.date);
             const newDate = new Date(oldDate);
             newDate.setDate(oldDate.getDate() + 7);
 
             const newDateStr = newDate.toISOString().split("T")[0];
 
-            // בדיקה כדי שלא יהיו כפילויות
             const exists = await collection.findOne({
                 date: newDateStr,
                 from: t.from,
@@ -44,7 +40,6 @@ export async function GET(req: Request) {
                 classType: t.classType,
             });
 
-            // יצירה רק אם לא קיים
             if (!exists) {
                 await collection.insertOne({
                     day: t.day,

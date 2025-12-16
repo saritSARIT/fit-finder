@@ -15,19 +15,16 @@ export async function POST(req: Request) {
     const db = client.db("FitFinder");
     const users = db.collection("Trainee");
 
-    // חיפוש המשתמש לפי אימייל
     const user = await users.findOne({ email });
     if (!user) {
       return NextResponse.json({ error: "משתמש לא קיים" }, { status: 404 });
     }
 
-    // בדיקת סיסמה
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return NextResponse.json({ error: "סיסמא שגויה" }, { status: 401 });
     }
 
-    // התחברות מוצלחת
     return NextResponse.json({
       message: "Login successful!",
       user: { id: user._id, name: user.name, email: user.email },

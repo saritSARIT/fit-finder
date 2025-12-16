@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
-// import { client } from "../../../../lib/mongo";
 import clientPromise from "@/lib/mongo";
 const client = await clientPromise;
 import { ObjectId } from "mongodb";
 import { TrainingSchema } from "../../../../lib/validation/Training";
 
 
-//שליפת אימון לפי מזהה (_id)
 export async function GET(request, { params }) {
     const { id } = await params;
 
@@ -26,8 +24,6 @@ export async function GET(request, { params }) {
     }
 }
 
-
-// עדכון אימון לפי מזהה (_id)
 export async function PUT(request, { params }) {
     const { id } = await params;
 
@@ -37,14 +33,12 @@ export async function PUT(request, { params }) {
 
         const updates = await request.json();
 
-        // ולידציה עם Zod
         const parsed = TrainingSchema.partial().safeParse(updates);
         if (!parsed.success) {
             const errors = parsed.error.issues.map(e => e.message);
             return NextResponse.json({ message: "Validation failed", errors }, { status: 400 });
         }
 
-        // בדיקה שהאימייל ייחודי
         if (parsed.data.email) {
             const existing = await collection.findOne({
                 email: parsed.data.email,
@@ -72,7 +66,6 @@ export async function PUT(request, { params }) {
     }
 }
 
-// מחיקת אימון לפי ID
 export async function DELETE(request, { params }) {
     const { id } = await params;
 
