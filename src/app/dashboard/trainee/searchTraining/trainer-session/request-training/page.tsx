@@ -32,16 +32,15 @@ export default function RequestTrainingPage() {
   if (!training) return <div>טוען…</div>;
 
   const sendRequest = async () => {
-    // המערך הקיים ממונגו
+
     const traineeArray = training.trainees || [];
 
-    // למצוא אם המתאמן כבר נמצא ברשימה
     const exist = traineeArray.find((x: any) => x.id === trainee?.id);
 
     let updatedTraineeArray;
 
     if (exist) {
-      // אם קיים - נוסיף הערה
+
       const updated = traineeArray.map((item: any) => {
         if (item.id === trainee?.id) {
           return {
@@ -54,7 +53,7 @@ export default function RequestTrainingPage() {
 
       updatedTraineeArray = updated;
     } else {
-      // אם לא קיים - מוסיפים אובייקט חדש
+
       updatedTraineeArray = [
         ...traineeArray,
         {

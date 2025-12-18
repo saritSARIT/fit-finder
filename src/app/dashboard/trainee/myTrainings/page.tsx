@@ -11,8 +11,8 @@ import Loader from "@/components/loader/Loader";
 
 export default function TrainingsHistoryPage() {
   const user = traineeStore((state) => state.trainee);
-  const [notApproved, setNotApproved] = useState<TrainingSummary[]>([]);// אימונים שעדיין לא אושרו
-  const [futureTrainings, setFutureTrainings] = useState<TrainingSummary[]>([]);// אימונים שאושרו ועדיין לא התקיימו
+  const [notApproved, setNotApproved] = useState<TrainingSummary[]>([]);
+  const [futureTrainings, setFutureTrainings] = useState<TrainingSummary[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const traineeId = useMemo(() => user?.id ?? "", [user?.id]);

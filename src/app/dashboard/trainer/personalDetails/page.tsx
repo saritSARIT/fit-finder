@@ -32,13 +32,11 @@ export default function PersonalDetailsPage() {
         if (!res.ok) throw new Error("Failed to fetch trainer data");
         const data = await res.json();
 
-        // הגדרת הנתונים ב-state
         const initialAddress = data.address || "";
         setTrainerAddress(initialAddress);
         setAddressQuery(initialAddress);
         setTrainerTypes(data.types || []);
 
-        // אם יש לך אימונים שמורים
         const existing = await getTrainerTrainings(trainer.id);
 
         setTrainings(existing);
@@ -57,9 +55,9 @@ export default function PersonalDetailsPage() {
     if (!trainer) return;
 
     const today = new Date();
-    const currentDayIndex = today.getDay(); // 0 = Sunday, 6 = Saturday
+    const currentDayIndex = today.getDay(); 
     let diff = dayIndex - currentDayIndex;
-    if (diff < 0) diff += 7; // אם היום כבר עבר השבוע, נלך לשבוע הבא
+    if (diff < 0) diff += 7; 
 
     const trainingDate = new Date(today);
     trainingDate.setDate(today.getDate() + diff);
@@ -73,7 +71,7 @@ export default function PersonalDetailsPage() {
         trainerId: trainer.id,
         type: trainerTypes[0],
         classType: "",
-        date: trainingDate.toISOString().split("T")[0], // YYYY-MM-DD
+        date: trainingDate.toISOString().split("T")[0],
       },
     ]);
   };
@@ -85,7 +83,7 @@ export default function PersonalDetailsPage() {
       const existingTrainings = await getTrainerTrainings(trainer.id);
 
       for (const t of trainings) {
-        // לבדוק אם האימון כבר קיים במונגו
+        
         const exists = existingTrainings.find((et: any) =>
           et.day === t.day &&
           et.from === t.from &&
@@ -96,7 +94,7 @@ export default function PersonalDetailsPage() {
         );
 
         if (exists) {
-          // עדכון האימון הקיים לפי מה ששונה
+         
           const res = await fetch(`/api/training/${exists._id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -107,7 +105,7 @@ export default function PersonalDetailsPage() {
             return;
           }
         } else {
-          // הוספת אימון חדש
+          
           const res = await fetch("/api/training", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -120,7 +118,7 @@ export default function PersonalDetailsPage() {
         }
       }
 
-      // מחיקת אימונים שנמחקו מה-state אבל קיימים במונגו
+     
       for (const et of existingTrainings) {
         const stillExists = trainings.find(t =>
           t.day === et.day &&
@@ -139,7 +137,7 @@ export default function PersonalDetailsPage() {
         }
       }
 
-      // שמירה בפרטי המאמן ב-Trainer
+      
       const res = await fetch(`/api/trainer/${trainer.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -215,7 +213,7 @@ export default function PersonalDetailsPage() {
 
                 {trainings
                   .filter((t) => {
-                    if (!t.from) return t.day === dayIndex; // עדיין לא מולא - תציג
+                    if (!t.from) return t.day === dayIndex; 
                     return t.day === dayIndex && isTrainingInFuture(t);
                   })
                   .map((t, i) => {
