@@ -1,5 +1,3 @@
-//מציג את האימונים שאושרו והסתיימו
-
 "use client";
 
 import UniversalHeader from "@/components/header/header";

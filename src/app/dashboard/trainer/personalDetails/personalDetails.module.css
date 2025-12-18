@@ -17,7 +17,7 @@
   background: #facc15;
 }
 
-/* === כפתור סוגי אימון === */
+
 .typesBtn {
   background: #facc15;
   border: none;
@@ -31,7 +31,6 @@
   width: 163px;
 }
 
-/* === תפריט סוגי אימון === */
 .typesDropdown {
   margin-top: 10px;
   background: #facc15;
@@ -45,7 +44,6 @@
   gap: 10px;
 }
 
-/* === כל Row של צ'קבוקס === */
 .typeCheckbox {
   display: flex;
   align-items: center;
@@ -59,7 +57,7 @@
   transform: scale(1.1);
 }
 
-/* === הטבלה === */
+
 .pdTable {
   width: 100%;
   border-collapse: collapse;
@@ -103,8 +101,6 @@
 }
 
 
-
-/* === כפתורים === */
 .pdAddBtnSmall {
   background: #facc15;
   border: none;
